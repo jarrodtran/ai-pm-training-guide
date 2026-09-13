@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FDE-PM Reference — Module 3</title>
+<title>FDE-PM Reference — Module 3 (Textbook)</title>
 <style>
   :root {
     --bg: #f7f5f0;
@@ -19,11 +19,11 @@
   html { scroll-behavior: smooth; }
   body {
     margin: 0;
-    font: 17px/1.65 "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    font: 17.5px/1.68 "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
     color: var(--ink);
     background: var(--bg);
   }
-  .wrap { max-width: 46rem; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+  .wrap { max-width: 48rem; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
   .banner {
     font: 0.88rem/1.45 system-ui, -apple-system, sans-serif;
     background: var(--banner);
@@ -34,7 +34,7 @@
   }
   .banner strong { font-weight: 700; }
   header h1 {
-    font-size: 1.7rem;
+    font-size: 1.75rem;
     letter-spacing: -0.03em;
     margin: 0 0 0.4rem;
     line-height: 1.2;
@@ -43,6 +43,13 @@
     margin: 0 0 1.25rem;
     color: var(--muted);
     font: 0.95rem/1.45 system-ui, -apple-system, sans-serif;
+  }
+  .edition {
+    font: 0.75rem/1 system-ui, -apple-system, sans-serif;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 0.5rem;
   }
   nav.toc {
     background: var(--card);
@@ -66,34 +73,40 @@
     background: var(--card);
     border: 1px solid var(--line);
     border-radius: 12px;
-    padding: 1.4rem 1.45rem 1.55rem;
-    margin-bottom: 1.25rem;
+    padding: 1.5rem 1.5rem 1.65rem;
+    margin-bottom: 1.35rem;
   }
   section h2 {
-    margin: 0 0 0.85rem;
-    font-size: 1.2rem;
+    margin: 0 0 0.9rem;
+    font-size: 1.22rem;
     color: var(--accent);
     letter-spacing: -0.02em;
     line-height: 1.3;
   }
   section h3 {
-    margin: 1.35rem 0 0.55rem;
-    font-size: 1.02rem;
+    margin: 1.4rem 0 0.55rem;
+    font-size: 1.05rem;
     letter-spacing: -0.01em;
   }
-  p { margin: 0 0 0.85rem; }
-  ul, ol { margin: 0 0 0.95rem; padding-left: 1.25rem; }
-  li { margin-bottom: 0.35rem; }
+  p { margin: 0 0 0.9rem; }
+  ul, ol { margin: 0 0 1rem; padding-left: 1.25rem; }
+  li { margin-bottom: 0.4rem; }
   strong { font-weight: 700; }
+  code {
+    font: 0.86em/1.3 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    background: #f0ebe3;
+    padding: 0.1em 0.35em;
+    border-radius: 4px;
+  }
   table {
     width: 100%;
     border-collapse: collapse;
-    margin: 0.75rem 0 1.1rem;
-    font: 0.86rem/1.4 system-ui, -apple-system, sans-serif;
+    margin: 0.85rem 0 1.15rem;
+    font: 0.86rem/1.45 system-ui, -apple-system, sans-serif;
   }
   th, td {
     border: 1px solid var(--line);
-    padding: 0.55rem 0.65rem;
+    padding: 0.6rem 0.7rem;
     text-align: left;
     vertical-align: top;
   }
@@ -101,7 +114,7 @@
   .sources {
     font: 0.8rem/1.45 system-ui, -apple-system, sans-serif;
     color: var(--muted);
-    margin-top: 0.75rem;
+    margin-top: 0.85rem;
   }
   .sources summary { cursor: pointer; list-style: none; }
   .sources summary::-webkit-details-marker { display: none; }
@@ -113,27 +126,24 @@
     font: 0.8rem/1.4 system-ui, -apple-system, sans-serif;
     color: var(--muted);
   }
-  @media print {
-    body { background: #fff; }
-    section { break-inside: avoid; }
-  }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="banner" role="note"><strong>Audience:</strong> Non-SWE Product Manager who runs FDEs. You decide, price, and shield — FDEs build. Dense reference — no quizzes, no code tutorials.</div>
+  <div class="banner" role="note"><strong>Audience:</strong> Non-SWE Product Manager who runs FDEs. You decide, price, and shield — FDEs build. Textbook edition — dense reference, no quizzes, no code tutorials.</div>
   <header>
+    <p class="edition">Textbook edition · v2</p>
     <h1>Module 3 — The Forward Deployed Engineering Operating Model</h1>
-    <p class="sub">FDE roles · dual mandate · field→core · anti-patterns</p>
+    <p class="sub">FDE roles · dual mandate · field→core · Foundry buyer bar · anti-patterns</p>
   </header>
-  <nav class="toc" aria-label="Contents"><h2>In this chapter</h2><ol><li><a href="#s3-1">3.1 Role definition</a></li><li><a href="#s3-2">3.2 Dual mandate: speed vs defensibility</a></li><li><a href="#s3-3">3.3 Field → core feedback loop</a></li><li><a href="#s3-4">3.4 Field realities &amp; anti-patterns</a></li></ol></nav>
+  <nav class="toc" aria-label="Contents"><h2>In this chapter</h2><ol><li><a href="#s3-1">3.1 Role definition</a></li><li><a href="#s3-2">3.2 Dual mandate: field speed vs platform defensibility</a></li><li><a href="#s3-3">3.3 Field → core feedback loop</a></li><li><a href="#s3-4">3.4 Field realities &amp; anti-patterns</a></li></ol></nav>
   
   <section id="s3-1"><h2>3.1 Role definition</h2>
 <table>
 <thead><tr>
 <th>Role</th>
 <th>Primary job</th>
-<th>Success looks like</th>
+<th>Success</th>
 <th>Failure mode</th>
 </tr></thead><tbody>
 <tr>
@@ -144,76 +154,78 @@
 </tr>
 <tr>
 <td><strong>Core SWE (Dev)</strong></td>
-<td>Build the product/platform</td>
+<td>Build product/platform</td>
 <td>Reuse, SLOs, paved road</td>
 <td>Blind to field constraints</td>
 </tr>
 <tr>
 <td><strong>Solutions Architect</strong></td>
-<td>Design fit; often pre-sales heavy</td>
+<td>Design fit (often pre-sales heavy)</td>
 <td>Credible design the team can build</td>
-<td>Paper architecture, no ownership of run</td>
+<td>Paper architecture; no run ownership</td>
 </tr>
 <tr>
 <td><strong>Sales Engineer</strong></td>
 <td>Prove feasibility to win</td>
 <td>Demo that closes</td>
-<td>Overpromise that FDE inherits</td>
+<td>Overpromise FDE inherits</td>
 </tr>
 <tr>
 <td><strong>You (PM of FDEs)</strong></td>
 <td>Outcomes, constraints, acceptance, shield, harvest</td>
 <td>Measured outcomes + rising reuse</td>
-<td>PM-theater / project coordination only</td>
+<td>PM-theater / project-only</td>
 </tr>
 </tbody></table>
-<p>Palantir day-in-the-life: hours with users, in data, negotiating scope — <strong>which of those hours are product work, and who owns them?</strong></p>
-<details class="sources"><summary>3 citations</summary><ul>
-<li>** blog.palantir.com day-in-the-life</li>
-<li>dev-versus-delta</li>
+<p><strong>Palantir day-in-the-life:</strong> time with users, in data, negotiating scope — which hours are *product* work, and who owns them? (<strong>Dev vs Delta:</strong> deployment context defines the role.)</p>
+<p><strong>Vendor platform vocabulary:</strong> <strong>Palantir Foundry docs</strong> show how a serious platform describes tenancy, access, deployment, and auditability to enterprise buyers — use as a quality bar for what your security questionnaire answers should eventually look like.</p>
+<details class="sources"><summary>4 citations</summary><ul>
+<li>** Palantir day-in-life</li>
+<li>Dev vs Delta</li>
+<li>Foundry docs</li>
 <li>local <code>fde-hiring-scorecard.md</code></li>
 </ul></details>
 <p>---</p>
-</section><section id="s3-2"><h2>3.2 Dual mandate: speed vs defensibility</h2>
-<p>FDE engagements produce high revenue/head and mediocre margin if everything stays bespoke. What compounds is the <strong>repeated pattern</strong>.</p>
+</section><section id="s3-2"><h2>3.2 Dual mandate: field speed vs platform defensibility</h2>
 <table>
 <thead><tr>
 <th>Mandate</th>
 <th>Optimize for</th>
-<th>Starve if ignored</th>
+<th>If ignored</th>
 </tr></thead><tbody>
 <tr>
 <td>Field speed</td>
-<td>Client trust, time-to-value</td>
-<td>Becomes a body shop</td>
+<td>Trust, time-to-value</td>
+<td>Body shop</td>
 </tr>
 <tr>
 <td>Platform defensibility</td>
-<td>Reuse, config-over-fork, ontology</td>
+<td>Reuse, config-over-fork, shared entities (<strong>ontology</strong> thesis)</td>
 <td>Margin and velocity collapse</td>
 </tr>
 </tbody></table>
-<p><strong>Utilization is a trap as north star.</strong> Publish deliberate allocation: deployed work / harvesting / core building.</p>
-<p><strong>Multi-environment</strong> (Baseline team lesson): supporting many clouds/on-prem/gov networks is a <strong>product cost with a team attached</strong> — not a sales checkbox.</p>
-<details class="sources"><summary>5 citations</summary><ul>
-<li>** ontology-oriented post</li>
-<li>Baseline team</li>
-<li>SEC S-1 risk factors on bespoke (primary; bots may 403)</li>
-<li>Uber Michelangelo</li>
+<p><strong>Utilization as north star</strong> starves harvest. Publish deliberate allocation: deployed / harvesting / core.</p>
+<p><strong>Multi-environment</strong> (<strong>Baseline team</strong>): multi-cloud / on-prem / gov networks is a <strong>product cost with a team attached</strong>, not a sales checkbox.</p>
+<p><strong>S-1 risk framing</strong> (Palantir S-1 primary; bots may 403): bespoke work pressures margins — harvest is the structural antidote.</p>
+<p><strong>Paved road:</strong> Uber <strong>Michelangelo</strong> — platform as shared train/deploy/monitor path, not a library per engagement. <strong>Stripe API versioning:</strong> client interfaces are decade-scale promises.</p>
+<details class="sources"><summary>6 citations</summary><ul>
+<li>** ontology post</li>
+<li>Baseline</li>
+<li>S-1</li>
+<li>Michelangelo</li>
+<li>Uber microservices</li>
 <li>Stripe API versioning</li>
 </ul></details>
 <p>---</p>
 </section><section id="s3-3"><h2>3.3 Field → core feedback loop</h2>
-<p><strong>Three-client rule:</strong> Third same request = market signal; first two = learning.</p>
-<p><strong>Loop:</strong></p>
+<p><strong>Three-client rule:</strong> third same request = market signal; first two = learning.</p>
 <ol>
-<li>Log pattern in <strong>pattern ledger</strong> (axes of variation, cost of bespoke).</li>
-<li>Open <strong>productization memo</strong> (or honest-no with reasoning).</li>
-<li>Define config axes + core interface; <strong>deprecate</strong> bespoke versions (the skipped step).</li>
-<li>Design partner framing: what client gets / keeps / must consent to.</li>
+<li>1. Log in <strong>pattern ledger</strong> (variation axes, cost of bespoke)</li>
+<li>2. Open <strong>productization memo</strong> (or honest-no with reasoning)</li>
+<li>3. Define config axes + core interface; <strong>deprecate</strong> bespoke versions (the skipped step)</li>
+<li>4. Design-partner framing: what client gets / keeps / must consent to</li>
 </ol>
-<p><strong>Team topology:</strong> Engagement (stream) / platform / enabling — deliberate (Team Topologies). <strong>Conway’s law:</strong> org shape becomes architecture.</p>
-<p><strong>DORA</strong> metrics: vocabulary for delivery performance conversations with eng leadership — not a vanity dashboard.</p>
+<p><strong>Team Topologies:</strong> engagement (stream) / platform / enabling — deliberate. <strong>Conway’s law:</strong> org shape becomes architecture. <strong>DORA:</strong> delivery performance vocabulary with eng leadership — not vanity dashboards.</p>
 <details class="sources"><summary>7 citations</summary><ul>
 <li>** local pattern-ledger</li>
 <li>productization-memo</li>
@@ -228,7 +240,7 @@
 <table>
 <thead><tr>
 <th>Anti-pattern</th>
-<th>What it looks like</th>
+<th>Looks like</th>
 <th>PM move</th>
 </tr></thead><tbody>
 <tr>
@@ -243,32 +255,32 @@
 </tr>
 <tr>
 <td>Dirty data surprise</td>
-<td>“We’ll clean later”</td>
-<td>Data readiness gate before build (Gate 3)</td>
+<td>“Clean later”</td>
+<td>Data readiness gate before build</td>
 </tr>
 <tr>
 <td>On-prem friction ignored</td>
-<td>Sales promised; no Baseline-like capacity</td>
-<td>Price multi-env support explicitly</td>
+<td>Sales promised; no capacity</td>
+<td>Price multi-env explicitly</td>
 </tr>
 <tr>
 <td>Agent theater</td>
 <td>Open autonomy for a form submit</td>
-<td>Prefer RAG + confirmed action (M3)</td>
+<td>Prefer RAG + confirmed action</td>
 </tr>
 <tr>
 <td>Eval after demo</td>
-<td>Taste test acceptance</td>
-<td>Done-before-build (M4)</td>
+<td>Taste-test acceptance</td>
+<td>Done-before-build</td>
 </tr>
 </tbody></table>
 <details class="sources"><summary>2 citations</summary><ul>
-<li>** prior M3–M8, M9–M11</li>
-<li>Palantir + Uber + Stripe set</li>
+<li>** prior M3–M11</li>
+<li>Palantir / Uber / Stripe set</li>
 </ul></details>
 <p>---</p>
 </section>
-  <footer>FDE-PM Reference Study Guide · Module 3 of 4 · Sources from Topic Scout · Prior M0–M11 spine folded in</footer>
+  <footer>FDE-PM Reference Study Guide · Textbook Module 3 of 4 · Topic Scout sources · M0–M11 spine folded in</footer>
 </div>
 </body>
 </html>
