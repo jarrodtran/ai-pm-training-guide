@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>PROD 260 — AI PRODUCT MANAGEMENT · AI-PM Training Guide</title>
+<style>
+/* ─────────────────────────────────────────────────────────────
+   AI-PM Training Guide — design system
+   Single source of truth. Inlined into every page at build time so
+   each output remains a self-contained, dependency-free HTML file.
+   ───────────────────────────────────────────────────────────── */
+:root{
+  --bg:#ffffff; --bg-2:#f5f5f7; --bg-3:#fbfbfd;
+  --text:#1d1d1f; --text-2:#6e6e73; --text-3:#86868b;
+  --sep:rgba(0,0,0,.10); --sep-2:rgba(0,0,0,.06);
+  --accent:#0071e3; --accent-soft:rgba(0,113,227,.09);
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --r:18px; --r-sm:12px; --bar:52px; --maxw:820px;
+  --shadow:0 1px 3px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.04);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#000000; --bg-2:#1d1d1f; --bg-3:#161617;
+  --text:#f5f5f7; --text-2:#a1a1a6; --text-3:#86868b;
+  --sep:rgba(255,255,255,.14); --sep-2:rgba(255,255,255,.08);
+  --accent:#2997ff; --accent-soft:rgba(41,151,255,.14);
+  --shadow:0 1px 3px rgba(0,0,0,.5),0 8px 24px rgba(0,0,0,.4);
+}}
+html[data-theme="dark"]{
+  --bg:#000000; --bg-2:#1d1d1f; --bg-3:#161617;
+  --text:#f5f5f7; --text-2:#a1a1a6; --text-3:#86868b;
+  --sep:rgba(255,255,255,.14); --sep-2:rgba(255,255,255,.08);
+  --accent:#2997ff; --accent-soft:rgba(41,151,255,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{
+  font-family:var(--sans);background:var(--bg);color:var(--text);
+  font-size:17px;line-height:1.6;letter-spacing:-.011em;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:4px solid var(--accent-soft);outline-offset:2px;border-radius:6px}
+
+/* ── top bar ───────────────────────────────────────────────── */
+.topbar{
+  position:fixed;top:0;left:0;right:0;height:var(--bar);z-index:60;
+  display:flex;align-items:center;gap:14px;padding:0 22px;
+  background:color-mix(in srgb,var(--bg) 72%,transparent);
+  -webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);
+  border-bottom:1px solid var(--sep);
+}
+.topbar .mark{font-size:14px;font-weight:600;letter-spacing:-.01em;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topbar .spacer{flex:1}
+.iconbtn{
+  font:500 13px var(--sans);color:var(--text-2);background:transparent;border:1px solid var(--sep);
+  border-radius:980px;padding:6px 13px;cursor:pointer;white-space:nowrap;transition:background .2s,color .2s,border-color .2s;
+  text-decoration:none;display:inline-flex;align-items:center;
+}
+.iconbtn:hover{background:var(--bg-2);color:var(--text);border-color:var(--sep-2);text-decoration:none}
+.nowrap{white-space:nowrap}
+#navtoggle{display:none}
+.backlink{color:var(--text-2);font-size:13px;text-decoration:none;white-space:nowrap}
+.backlink:hover{color:var(--accent);text-decoration:none}
+
+/* ── shell ─────────────────────────────────────────────────── */
+.shell{display:grid;grid-template-columns:286px minmax(0,1fr);max-width:1440px;margin:0 auto;padding-top:var(--bar)}
+.shell.nonav{grid-template-columns:minmax(0,1fr)}
+.sidebar{
+  position:sticky;top:var(--bar);height:calc(100vh - var(--bar));overflow-y:auto;
+  padding:26px 18px 80px 22px;border-right:1px solid var(--sep);overscroll-behavior:contain;
+}
+.sidebar::-webkit-scrollbar{width:8px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--sep);border-radius:4px}
+.navsearch{
+  width:100%;padding:8px 12px;margin-bottom:20px;border:1px solid var(--sep);border-radius:10px;
+  background:var(--bg-2);color:var(--text);font:500 13.5px var(--sans);letter-spacing:-.01em;
+}
+.navsearch::placeholder{color:var(--text-3)}
+.navsearch:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft);background:var(--bg)}
+.navgroup{margin-bottom:20px}
+.glabel{
+  display:block;font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--text-3);margin:0 0 7px 10px;text-decoration:none;
+}
+a.glabel:hover{color:var(--accent);text-decoration:none}
+.nava{
+  display:block;font-size:13.5px;line-height:1.34;letter-spacing:-.01em;
+  padding:5px 10px;border-radius:8px;color:var(--text-2);text-decoration:none;
+  transition:background .15s,color .15s;
+}
+.nava:hover{background:var(--bg-2);color:var(--text);text-decoration:none}
+.nava.lvl3{padding-left:22px;font-size:12.5px;color:var(--text-3)}
+.nava.active{background:var(--accent-soft);color:var(--accent);font-weight:600}
+
+/* ── article ───────────────────────────────────────────────── */
+.main{padding:0 56px 140px;max-width:calc(var(--maxw) + 112px)}
+.hero{padding:76px 0 44px;border-bottom:1px solid var(--sep);margin-bottom:46px}
+.kicker{font-size:12px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.hero h1{font-size:clamp(36px,5.2vw,58px);line-height:1.05;letter-spacing:-.028em;font-weight:700}
+.hero .sub{font-size:clamp(19px,2.2vw,24px);line-height:1.32;letter-spacing:-.017em;color:var(--text-2);margin-top:16px;max-width:30ch;font-weight:400}
+.hero .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.hero .meta span{
+  font-size:12.5px;color:var(--text-2);background:var(--bg-2);
+  border-radius:980px;padding:5px 13px;letter-spacing:-.01em;white-space:nowrap;
+}
+.main h1{
+  font-size:clamp(30px,3.6vw,42px);line-height:1.08;letter-spacing:-.024em;font-weight:700;
+  margin:70px 0 10px;scroll-margin-top:calc(var(--bar) + 20px);
+}
+.main h1:first-of-type{margin-top:10px}
+.main h2{
+  font-size:clamp(22px,2.5vw,29px);line-height:1.16;letter-spacing:-.019em;font-weight:700;
+  margin:46px 0 14px;scroll-margin-top:calc(var(--bar) + 20px);
+}
+.main h3{
+  font-size:19px;line-height:1.28;letter-spacing:-.013em;font-weight:600;
+  margin:32px 0 10px;scroll-margin-top:calc(var(--bar) + 20px);
+}
+.main h4{font-size:17px;font-weight:600;margin:24px 0 8px;scroll-margin-top:calc(var(--bar) + 20px)}
+.main p{font-size:17px;line-height:1.62;margin:0 0 15px;max-width:74ch}
+.main ul,.main ol{margin:0 0 17px 23px;font-size:17px;line-height:1.6}
+.main li{margin-bottom:7px}
+.main li>ul,.main li>ol{margin-top:7px}
+.main strong{font-weight:600}
+.main em{font-style:italic}
+.main hr{border:none;border-top:1px solid var(--sep);margin:60px 0}
+
+/* tables — hairline, no vertical rules */
+.tablewrap{overflow-x:auto;margin:20px 0 26px;border:1px solid var(--sep);border-radius:var(--r-sm);-webkit-overflow-scrolling:touch}
+.main table{width:100%;border-collapse:collapse;font-size:14.5px;letter-spacing:-.006em;min-width:540px;background:var(--bg)}
+.main th{
+  text-align:left;font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--text-2);background:var(--bg-2);padding:12px 15px;white-space:nowrap;
+  position:sticky;top:0;z-index:1;border-bottom:1px solid var(--sep);
+}
+.main td{padding:12px 15px;border-top:1px solid var(--sep-2);vertical-align:top;line-height:1.5}
+.main tbody tr:first-child td{border-top:none}
+.main td strong{font-weight:600;color:var(--text)}
+
+/* code + diagram blocks */
+.main pre{
+  background:var(--bg-2);border-radius:var(--r-sm);padding:20px 22px;margin:20px 0 26px;
+  overflow-x:auto;font-family:var(--mono);font-size:12.5px;line-height:1.52;letter-spacing:0;
+  color:var(--text);-webkit-overflow-scrolling:touch;
+}
+.main pre code{background:none;padding:0;font-size:inherit}
+.main code{font-family:var(--mono);font-size:.88em;background:var(--bg-2);padding:2px 6px;border-radius:6px;letter-spacing:0}
+
+/* callouts */
+.main blockquote{background:var(--bg-2);border-radius:var(--r);padding:20px 24px;margin:22px 0 28px;max-width:74ch}
+.main blockquote p{font-size:16px;line-height:1.58;margin:0;color:var(--text-2)}
+.main blockquote p+p{margin-top:10px}
+.main blockquote strong{color:var(--text);font-weight:600}
+
+/* footer */
+.pagefoot{margin-top:72px;padding-top:26px;border-top:1px solid var(--sep);font-size:13px;color:var(--text-3);display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center}
+.pagefoot a{color:var(--text-2)}
+.pagefoot a:hover{color:var(--accent)}
+
+@media (max-width:980px){
+  .shell{grid-template-columns:1fr}
+  #navtoggle{display:inline-flex;align-items:center}
+  .sidebar{
+    position:fixed;top:var(--bar);left:0;right:0;bottom:0;height:auto;width:100%;max-width:none;
+    background:var(--bg);border-right:none;z-index:55;padding:20px 22px 80px;
+    transform:translateX(-100%);transition:transform .34s cubic-bezier(.32,.72,0,1);
+  }
+  .sidebar.open{transform:none}
+  .main{padding:0 22px 110px;max-width:none}
+  .hero{padding:44px 0 32px;margin-bottom:34px}
+  .main h1{margin-top:52px}
+}
+@media print{
+  .topbar,.sidebar,.navsearch,.pagefoot{display:none!important}
+  .shell{display:block;padding-top:0;max-width:none}
+  .main{max-width:none;padding:0}
+  body{font-size:10.5pt;background:#fff;color:#000}
+  .hero{padding-top:0;border-color:#ccc}
+  .main h1{page-break-before:always;page-break-after:avoid;font-size:20pt}
+  .main h1:first-of-type{page-break-before:avoid}
+  .main h2,.main h3{page-break-after:avoid}
+  .main pre,.tablewrap,.main blockquote{page-break-inside:avoid}
+  .main pre,.main blockquote,.main th{background:#f2f2f2}
+  a{color:#000;text-decoration:none}
+  .hero .meta span{border:1px solid #ddd;background:none}
+}
+
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <button class="iconbtn" id="navtoggle" aria-label="Contents">Contents</button>
+  <a class="backlink" href="index.html">← AI-PM Training Guide</a>
+  <span class="spacer"></span>
+  <button class="iconbtn nowrap" id="themebtn" aria-label="Toggle appearance">Appearance</button>
+  <button class="iconbtn nowrap" id="printbtn">Print</button>
+</div>
+
+<div class="shell">
+  <nav class="sidebar" id="sidebar" aria-label="Contents">
+    <input class="navsearch" id="navsearch" type="search" placeholder="Filter sections" autocomplete="off" aria-label="Filter sections">
+    <div class="navgroup"><span class="glabel">Contents</span>
+<a class="nava" href="#from-first-principles-to-production-judgment" data-nav="from-first-principles-to-production-judgment">From First Principles to Production Judgment</a>
+<a class="nava" href="#catalog-description" data-nav="catalog-description">Catalog description</a>
+<a class="nava" href="#how-this-course-works" data-nav="how-this-course-works">How this course works</a>
+<a class="nava" href="#learning-objectives" data-nav="learning-objectives">Learning objectives</a>
+<a class="nava" href="#assessment-grading" data-nav="assessment-grading">Assessment &amp; grading</a>
+<a class="nava" href="#course-calendar" data-nav="course-calendar">Course calendar</a>
+</div>
+<div class="navgroup"><a class="glabel" href="#modules">MODULES</a>
+<a class="nava" href="#module-1-orientation-the-product-managers-instrument" data-nav="module-1-orientation-the-product-managers-instrument">Module 1 — Orientation: The Product Manager's Instrument</a>
+<a class="nava" href="#module-2-the-transformer-how-llms-work" data-nav="module-2-the-transformer-how-llms-work">Module 2 — The Transformer: How LLMs Work</a>
+<a class="nava" href="#module-3-prompting-as-an-interface" data-nav="module-3-prompting-as-an-interface">Module 3 — Prompting as an Interface</a>
+<a class="nava" href="#module-4-retrieval-no-code-building-rag" data-nav="module-4-retrieval-no-code-building-rag">Module 4 — Retrieval &amp; No-Code Building (RAG)</a>
+<a class="nava" href="#module-5-python-the-api-layer" data-nav="module-5-python-the-api-layer">Module 5 — Python &amp; the API Layer</a>
+<a class="nava" href="#module-6-measurement-evals-metrics" data-nav="module-6-measurement-evals-metrics">Module 6 — Measurement: Evals &amp; Metrics</a>
+<a class="nava" href="#module-7-discovery-the-double-diamond" data-nav="module-7-discovery-the-double-diamond">Module 7 — Discovery: The Double Diamond</a>
+<a class="nava" href="#module-8-the-prd-spec-writing" data-nav="module-8-the-prd-spec-writing">Module 8 — The PRD &amp; Spec Writing</a>
+<a class="nava" href="#module-9-prioritization-roadmaps" data-nav="module-9-prioritization-roadmaps">Module 9 — Prioritization &amp; Roadmaps</a>
+<a class="nava" href="#module-10-metrics-funnels-instrumentation" data-nav="module-10-metrics-funnels-instrumentation">Module 10 — Metrics, Funnels &amp; Instrumentation</a>
+<a class="nava lvl3" href="#midterm-examination-take-home-3-hrs" data-nav="midterm-examination-take-home-3-hrs">MIDTERM EXAMINATION (take-home, ~3 hrs)</a>
+<a class="nava" href="#module-11-delivery-working-with-engineers" data-nav="module-11-delivery-working-with-engineers">Module 11 — Delivery: Working with Engineers</a>
+<a class="nava" href="#module-12-feasibility-system-design" data-nav="module-12-feasibility-system-design">Module 12 — Feasibility &amp; System Design</a>
+<a class="nava" href="#module-13-data-the-fuel" data-nav="module-13-data-the-fuel">Module 13 — Data: The Fuel</a>
+<a class="nava" href="#module-14-evals-in-production" data-nav="module-14-evals-in-production">Module 14 — Evals in Production</a>
+<a class="nava" href="#module-15-cost-latency-model-selection" data-nav="module-15-cost-latency-model-selection">Module 15 — Cost, Latency &amp; Model Selection</a>
+<a class="nava" href="#module-16-risk-safety-go-to-market" data-nav="module-16-risk-safety-go-to-market">Module 16 — Risk, Safety &amp; Go-to-Market</a>
+<a class="nava" href="#module-17-capstone-proposal" data-nav="module-17-capstone-proposal">Module 17 — Capstone: Proposal</a>
+<a class="nava" href="#module-18-capstone-build-measure" data-nav="module-18-capstone-build-measure">Module 18 — Capstone: Build &amp; Measure</a>
+<a class="nava" href="#module-19-portfolio-packaging" data-nav="module-19-portfolio-packaging">Module 19 — Portfolio &amp; Packaging</a>
+<a class="nava" href="#module-20-the-defense-transition" data-nav="module-20-the-defense-transition">Module 20 — The Defense &amp; Transition</a>
+</div>
+<div class="navgroup"><a class="glabel" href="#appendix-a-reading-packet">APPENDIX A — Reading packet</a>
+</div>
+<div class="navgroup"><a class="glabel" href="#appendix-b-examined-deliverable-checklist">APPENDIX B — Examined deliverable checklist</a>
+</div>
+<div class="navgroup"><a class="glabel" href="#appendix-c-key-terms-examinable">APPENDIX C — Key terms (examinable)</a>
+</div>
+<div class="navgroup"><a class="glabel" href="#appendix-d-the-book-budget-50">APPENDIX D — The book budget (&lt;$50)</a>
+<a class="nava" href="#closing-note" data-nav="closing-note">Closing note</a>
+</div>
+  </nav>
+
+  <main class="main">
+    <header class="hero">
+      <div class="kicker">Master syllabus</div>
+      <h1>PROD 260 — AI PRODUCT MANAGEMENT</h1>
+      <p class="sub">Twenty modules</p>
+    </header>
+<h2 id="from-first-principles-to-production-judgment">From First Principles to Production Judgment</h2>
+<blockquote>
+<p><strong>Program note:</strong> This file is the core syllabus of the <strong>AI-PM Graduate Program</strong> (Graduate Certificate in AI Product Management) — 10 courses, 23–27 credits, four terms. Its 20 modules map to the program's courses as follows:</p>
+<table>
+<thead>
+<tr>
+<th>Course</th>
+<th>Modules (this file)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AI 510 — AI &amp; LLM Literacy</td>
+<td>2–6</td>
+</tr>
+<tr>
+<td>PM 501 — Product Management Fundamentals</td>
+<td>1, 7–11</td>
+</tr>
+<tr>
+<td>AIPM 520 — AI Product Craft</td>
+<td>12–16</td>
+</tr>
+<tr>
+<td>DATA 530 — Data, Metrics &amp; Experimentation</td>
+<td>10, 13, 14 deepened</td>
+</tr>
+<tr>
+<td>STRAT 540 — AI Strategy, Economics &amp; GTM</td>
+<td>15–16 deepened</td>
+</tr>
+<tr>
+<td>RSK 550 — Responsible AI, Safety &amp; Governance</td>
+<td>16 deepened</td>
+</tr>
+<tr>
+<td>CAP 600 — Capstone Studio</td>
+<td>17–20</td>
+</tr>
+<tr>
+<td>FDE 560 / AI 570 / GTH 580 (electives)</td>
+<td>new content in the HTML syllabi</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Program site:</strong> <code>index.html</code> · schedule generator: <code>schedule.html</code> · progress tracker: <code>tracker.html</code> · glossary: <code>glossary.html</code> · case packet: <code>case-packets.md</code> · exam book: <code>exams.md</code>. Each course's full syllabus (lectures, problem sets, seminars, self-checks, course final, rubric, key terms) lives in <code>courses/</code>. This file remains the authoritative deep syllabus; the HTML is the navigation and operating layer.</p>
+</blockquote>
+<p><strong>Course format:</strong> Self-paced graduate-style seminar · 20 modules · 5–10 hrs/week · ~150–180 total hours (~2.5 credit-hours equivalent)
+<strong>Designed in the tradition of:</strong> the Harvard Business School case method and the Stanford graduate seminar — a reading-intensive, artifact-producing, case-driven course. Not affiliated with either institution.
+<strong>Instructor:</strong> You. This course is taught by the student to the student; every module ends with a graded self-assessment, and the portfolio you build is the grade the world will see.
+<strong>Prerequisites:</strong> None technical. Significant professional experience recommended (strategy, operations, client delivery — the transferable half of the PM job).
+<strong>Materials cost:</strong> Under $50 (three used paperbacks; everything else free — full packet in Appendix A).
+<strong>All readings, papers, and case facts verified against primary sources, August 2026.</strong></p>
+<hr />
+<h2 id="catalog-description">Catalog description</h2>
+<p>This course builds a product manager from zero technical and PM background, with working fluency in modern AI systems. Students develop, in order: (1) a first-principles mental model of how large language models work and fail; (2) the core craft of product management — discovery, specification, prioritization, metrics, and delivery; and (3) the judgment that defines an AI PM — feasibility, evaluation, cost/latency trade-offs, and risk. The course is case-driven (GitHub Copilot, Intercom Fin, Duolingo Max, Klarna), paper-grounded (Vaswani et al. 2017; Brown et al. 2020; Lewis et al. 2020; Liu et al. 2023; Chen et al. 2021), and practice-first: every module produces a portfolio artifact, culminating in a capstone product with a full evaluation suite and a written thesis defended orally. By the end, students can walk into an AI PM role — or lead AI product work in their current organization — and operate on day one.</p>
+<p><strong>Why this course exists for you:</strong> You are a strategist/operator launching a Forward Deployed Engineering team, moving toward AI product management. You are not starting from nothing — you are adding product craft and AI literacy to an existing operating core. The course is built to that profile: your FDE launch is your live lab ("FDE twist" callouts throughout), and the capstone can be a prototype your team could genuinely show a client.</p>
+<hr />
+<h2 id="how-this-course-works">How this course works</h2>
+<p><strong>The contract.</strong> You are the student and the grader. The course is honest about this: no one will check your work, so the course is designed so that <em>skipping the work is self-evidently worse</em> — every deliverable is a real artifact you will want (a prompt library, an eval suite, a cost model, a case study). The grade matters only insofar as it calibrates you.</p>
+<p><strong>The weekly rhythm (5–10 hrs):</strong>
+- <strong>Pre-class preparation</strong> (~2.5 hrs) — the required readings and videos, in order
+- <strong>Problem set</strong> (~2 hrs) — the hands-on exercise
+- <strong>Deliverable</strong> (~2 hrs) — the portfolio artifact (every one is examinable; see Appendix B)
+- <strong>Self-assessment</strong> (~0.5–1 hr) — the module's "you can now" checklist, graded honestly</p>
+<p><strong>The case method.</strong> Four cases (Appendix: <em>case-packets.md</em>) are taught HBS-style: you read the case packet, form a view, then write a one-page decision memo <em>before</em> reading the teaching note at the end of each packet. The memo is the point — it forces a position. Discussion questions are provided for study-group or written reflection.</p>
+<p><strong>Examinations.</strong> A take-home midterm after Module 10 and a capstone thesis + oral defense at the end. Full exam book: <em>exams.md</em>.</p>
+<p><strong>Honor code (self-paced adaptation).</strong> You may use AI for <em>everything</em> — drafting, coding, reviewing, critiquing — because supervising AI output is the skill this course teaches. Two obligations: (1) every deliverable carries an <strong>AI-use declaration</strong> ("drafted by AI, rewritten by me," "AI-reviewed, claims verified," or "entirely mine"), and (2) you must be able to defend every claim in every deliverable under questioning. If you cannot explain a paragraph, it does not count as learned — regardless of who wrote it.</p>
+<p><strong>Office hours.</strong> In a solo course, "office hours" means study groups. Recruit one peer (or an AI in a separate session) to review deliverables and to answer seminar questions out loud. Verbalizing judgment is half the training.</p>
+<hr />
+<h2 id="learning-objectives">Learning objectives</h2>
+<p>By the end of this course, the student can — organized by Bloom's taxonomy:</p>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Objective</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Remember</strong></td>
+<td>Define the core vocabulary: token, context window, hallucination, RAG, embedding, eval, drift, precision/recall, latency, prompt injection, and the PM toolkit (PRD, RICE, north star, JTBD, double diamond).</td>
+</tr>
+<tr>
+<td><strong>Understand</strong></td>
+<td>Explain how LLMs work from first principles — training as lossy compression, attention, next-token inference — and why that implies both capability and failure modes. Explain the AI PM's core insight: <em>capability is not reliability</em>.</td>
+</tr>
+<tr>
+<td><strong>Apply</strong></td>
+<td>Run a discovery interview; write a PRD with testable acceptance criteria; score with RICE; build a no-code AI product; call an LLM API; build and run an eval suite; estimate cost per interaction.</td>
+</tr>
+<tr>
+<td><strong>Analyze</strong></td>
+<td>Decompose any product idea into feasibility (AI vs. rules vs. human), data requirements, evaluation design, and cost/latency constraints. Analyze case studies — including separating vendor-published claims from verifiable evidence.</td>
+</tr>
+<tr>
+<td><strong>Evaluate</strong></td>
+<td>Judge model quality with evals and metrics; design production eval systems (golden sets, regression gates, drift monitoring); weigh model-selection and packaging trade-offs; assess bias, privacy, security, and compliance risk; decide when <em>not</em> to use AI.</td>
+</tr>
+<tr>
+<td><strong>Create</strong></td>
+<td>Ship a capstone AI product end-to-end with a PRD, eval suite, metrics plan, cost model, and risk register; write a case study; defend the whole in a recorded presentation; produce a 30/60/90 plan for a first AI PM role.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="assessment-grading">Assessment &amp; grading</h2>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Weight</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Problem sets</td>
+<td>25%</td>
+<td>Weekly exercises; graded on completion + evident learning (see rubric)</td>
+</tr>
+<tr>
+<td>Case memos</td>
+<td>20%</td>
+<td>Four 1-page decision memos (5% each), one per case</td>
+</tr>
+<tr>
+<td>Self-assessments</td>
+<td>10%</td>
+<td>Weekly "you can now" checklists, honestly scored</td>
+</tr>
+<tr>
+<td>Midterm examination</td>
+<td>15%</td>
+<td>Take-home, ~3 hours, after Module 10 (<em>exams.md</em>)</td>
+</tr>
+<tr>
+<td>Final: capstone thesis + defense</td>
+<td>30%</td>
+<td>Written thesis, recorded defense, portfolio review (<em>exams.md</em>)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Letter scale (self-graded):</strong> A ≥ 90 · A− ≥ 85 · B+ ≥ 80 · B ≥ 75 · B− ≥ 70 · C+ ≥ 65 · below 65: repeat the deficient modules. An "A" requires the capstone to be externally demonstrable (see below).</p>
+<p><strong>External review (the honest grade).</strong> The portfolio's true examination happens when a hiring manager, mentor, or recruiter reads it. After Module 19, send the portfolio index to one experienced PM or hiring manager for review. Their read is the grade that matters; treat it as a final exam with an external examiner.</p>
+<p><strong>Audit track vs. credit track.</strong> Audit: read + watch only, no deliverables, no grade. Credit track (recommended): everything. Audit-tracking a course like this produces knowledge without judgment; the deliverables are where judgment is built.</p>
+<hr />
+<h2 id="course-calendar">Course calendar</h2>
+<table>
+<thead>
+<tr>
+<th>Mod</th>
+<th>Module</th>
+<th>Theme</th>
+<th>Deliverable</th>
+<th>Case</th>
+<th>Milestone</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Orientation: The PM's Instrument</td>
+<td>Foundations</td>
+<td>Skill map + portfolio system</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>2</td>
+<td>The Transformer: How LLMs Work</td>
+<td>AI literacy</td>
+<td>"AI 101" explainer</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Prompting as an Interface</td>
+<td>AI literacy</td>
+<td>Prompt library</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Retrieval &amp; No-Code Building (RAG)</td>
+<td>AI literacy</td>
+<td>Working RAG bot + write-up</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Python &amp; the API Layer</td>
+<td>AI literacy</td>
+<td>Scripts + API README</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Measurement: Evals &amp; Metrics</td>
+<td>AI literacy</td>
+<td>Eval suite + report</td>
+<td><strong>Case A: Copilot</strong></td>
+<td>Case memo 1</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Discovery: The Double Diamond</td>
+<td>PM craft</td>
+<td>Discovery notes</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>8</td>
+<td>The PRD &amp; Spec Writing</td>
+<td>PM craft</td>
+<td>PRD v1</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Prioritization &amp; Roadmaps</td>
+<td>PM craft</td>
+<td>RICE + roadmap</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Metrics, Funnels &amp; Instrumentation</td>
+<td>PM craft</td>
+<td>Metrics tree</td>
+<td>—</td>
+<td><strong>Midterm</strong></td>
+</tr>
+<tr>
+<td>11</td>
+<td>Delivery: Working with Engineers</td>
+<td>PM craft</td>
+<td>Sprint plan</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Feasibility &amp; System Design</td>
+<td>AI PM craft</td>
+<td>Feasibility doc + template</td>
+<td><strong>Case B: Fin</strong></td>
+<td>Case memo 2</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Data: The Fuel</td>
+<td>AI PM craft</td>
+<td>Data plan</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Evals in Production</td>
+<td>AI PM craft</td>
+<td>Production eval plan</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Cost, Latency &amp; Model Selection</td>
+<td>AI PM craft</td>
+<td>Cost model</td>
+<td><strong>Case C: Duolingo</strong></td>
+<td>Case memo 3</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Risk, Safety &amp; Go-to-Market</td>
+<td>AI PM craft</td>
+<td>Risk register + GTM</td>
+<td><strong>Case D: Klarna</strong></td>
+<td>Case memo 4</td>
+</tr>
+<tr>
+<td>17</td>
+<td>Capstone: Proposal</td>
+<td>Capstone</td>
+<td>Capstone brief + PRD v2</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>18</td>
+<td>Capstone: Build &amp; Measure</td>
+<td>Capstone</td>
+<td>Working product + eval report</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>19</td>
+<td>Portfolio &amp; Packaging</td>
+<td>Capstone</td>
+<td>Case study, demo, index</td>
+<td>—</td>
+<td>External review</td>
+</tr>
+<tr>
+<td>20</td>
+<td>The Defense &amp; Transition</td>
+<td>Capstone</td>
+<td>STAR stories, résumé, 30/60/90</td>
+<td>—</td>
+<td><strong>Final</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="modules">MODULES</h1>
+<hr />
+<h2 id="module-1-orientation-the-product-managers-instrument">Module 1 — Orientation: The Product Manager's Instrument</h2>
+<p><strong>Objectives:</strong> Explain what an AI PM does in two minutes · map your transferable skills to PM competencies · stand up the portfolio system.</p>
+<p><strong>Pre-class preparation</strong>
+- <em>Required:</em> This course's catalog description and assessment sections (above). Skim 2–3 real "AI product manager" job descriptions on LinkedIn/Indeed — read them as specifications: what <em>outcomes</em> do they demand?
+- <em>Required:</em> <a href="https://lennysnewsletter.com">Lenny's Newsletter — "A guide to AI prototyping for product managers"</a> (free tier; search the archive)
+- <em>Recommended:</em> <a href="https://www.launchnotes.com/blog/ai-product-manager-job-description-key-responsibilities-and-skills">LaunchNotes — "AI Product Manager: Responsibilities &amp; Skills"</a></p>
+<p><strong>Lecture.</strong> A product manager is the person who owns the answer to three questions: <em>what problem are we solving, for whom, and how will we know it worked?</em> Everything else — PRDs, roadmaps, standups — is instrumentation around those three questions. Classic PMs sit between users, engineers, and the business; the AI PM adds a fourth party: <em>the model</em>, which has capabilities, failure modes, and a per-token price. The AI PM's distinctive job is judging when AI is the right instrument, designing how it will be measured, and owning the risks it introduces. Note what is <em>not</em> in the job: training models. Technical literacy — enough to judge feasibility, read metrics, and argue trade-offs — is the requirement, and it is exactly what this course builds.</p>
+<p><strong>FDE twist.</strong> You have run most of a PM's job inside client engagements: scoping, stakeholders, risk, delivery. The gap this course closes is vocabulary and instrument: how to <em>write</em> the product down, how to <em>measure</em> the AI, and how to <em>argue</em> the trade-offs with engineers.</p>
+<p><strong>Seminar questions.</strong> Where does an AI PM's job differ from a classic PM's? Where is it identical? What does "AI for everything" thinking cost a company?</p>
+<p><strong>Problem set.</strong> The asset map: translate your strategist/operator experience into PM terms on paper (stakeholder alignment → stakeholder management; engagement scoping → prioritization &amp; trade-offs; risk on engagements → risk management; ambiguity → discovery). Add four rows of your own.</p>
+<p><strong>Deliverable.</strong> Portfolio system: folder structure (<code>portfolio/</code>, <code>prompts/</code>, <code>evals/</code>, <code>capstone/</code>) plus <code>portfolio/README.md</code> — a tracker table (Week, Artifact, Date done, One-line value pitch, Link) with this module as row one.</p>
+<p><strong>Self-assessment.</strong> ☐ I can explain what an AI PM does in two minutes ☐ I've mapped 6+ transferable skills ☐ My tracker exists and I know what "done" means for me this week.</p>
+<hr />
+<h2 id="module-2-the-transformer-how-llms-work">Module 2 — The Transformer: How LLMs Work</h2>
+<p><strong>Objectives:</strong> Explain, in plain English, how an LLM works: training, tokens, context window, inference · articulate why "predicting the next word" produces intelligence-like behavior · state what AI can and cannot do.</p>
+<p><strong>Pre-class preparation</strong>
+- <em>Required:</em> <a href="https://www.youtube.com/watch?v=zjkBMFhNj_g">Karpathy — "Intro to Large Language Models" (1 hr)</a>
+- <em>Required:</em> <a href="https://writings.stephenwolfram.com/2023/02/what-is-chatgpt-doing-and-why-does-it-work">Wolfram — "What Is ChatGPT Doing … and Why Does It Work?"</a> — read the first third
+- <em>Required:</em> <a href="https://www.3blue1brown.com/lessons/attention/">3Blue1Brown — "Attention in transformers, step-by-step"</a>
+- <em>Required paper:</em> Vaswani et al., <em>Attention Is All You Need</em> (2017) — <a href="https://arxiv.org/abs/1706.03762">arXiv:1706.03762</a>. Read the abstract and introduction; skim the architecture figure. This is the paper that created the transformer. You are not expected to follow the math — you are expected to be able to say what the paper <em>did</em>.
+- <em>Recommended paper:</em> Brown et al., <em>Language Models are Few-Shot Learners</em> (2020) — <a href="https://arxiv.org/abs/2005.14165">arXiv:2005.14165</a>. Read the abstract only.</p>
+<p><strong>Lecture.</strong> The mental model to internalize: a language model is a giant statistical machine trained to predict the next token (a word fragment) given everything before it. Training is lossy compression — the model absorbs patterns from internet-scale text into its parameters, not the text itself. That is why it "knows" things (patterns, it compressed) and why it hallucinates (patterns it confidently mis-assembles). Attention is the mechanism that lets each token weigh the relevance of every other token in the context — it is what makes long-range meaning possible. Inference is the cheap operation: feed tokens in, sample the next, repeat. Two properties follow directly and will recur all course: <strong>capability</strong> (what it can do in a demo) is not <strong>reliability</strong> (what it will do in production), and the <strong>context window</strong> is the only working memory the model has — what is not in context does not exist for it. "It's just predicting the next word" is true, and it is not a put-down: the discipline of an AI PM is designing around a system that is probabilistic, not deterministic.</p>
+<p><strong>Seminar questions.</strong> If an LLM "knows" only what it compressed, what does that imply about building a product on a model's internal knowledge vs. on retrieved documents? What does the capability/reliability gap mean for a product that must never be wrong?</p>
+<p><strong>Problem set.</strong> Write the first 15 glossary terms (Appendix C) in your own words from memory; check against the glossary.</p>
+<p><strong>Deliverable.</strong> The "AI 101" explainer: a 2-page plain-English document — <em>how an LLM works, for a smart non-technical person</em> — covering training as lossy compression, tokens, context window, probabilistic output, hallucination. You will reuse this document for interviews, exec briefings, and onboarding your FDE team.</p>
+<p><strong>Self-assessment.</strong> ☐ I can define: token, context window, hallucination, inference, fine-tuning ☐ I can explain why a model confidently states false facts ☐ I can say what the 2017 transformer paper did and why it mattered ☐ I can explain capability vs. reliability.</p>
+<hr />
+<h2 id="module-3-prompting-as-an-interface">Module 3 — Prompting as an Interface</h2>
+<p><strong>Objectives:</strong> Use frontier models systematically · design prompts (role, context, task, format; few-shot; structured output) · build a reusable prompt library.</p>
+<p><strong>Pre-class preparation</strong>
+- <em>Required:</em> <a href="https://www.deeplearning.ai/courses/chatgpt-prompt-eng">DeepLearning.AI — "ChatGPT Prompt Engineering for Developers" (free)</a> — or, if you prefer zero code, <a href="https://www.deeplearning.ai/courses/ai-prompting-for-everyone">AI Prompting for Everyone</a>
+- <em>Recommended:</em> <a href="https://simonwillison.net/">Simon Willison's blog</a> — 30 minutes on the <em>llms</em> tag. He is the field's clearest practical writer; subscribe for the rest of your career.</p>
+<p><strong>Lecture.</strong> The prompt is the product's interface to the model — which makes prompt design interface design. The core pattern: <strong>role</strong> (who the model is), <strong>context</strong> (the situation), <strong>task</strong> (what to do), <strong>format</strong> (how to output). Add <strong>few-shot</strong> examples when behavior matters more than prose, and <strong>structured output</strong> (JSON, schemas) when a machine will consume the result — every serious product forces structure. Temperature is the creativity knob; products that need determinism turn it down or fix the seed. Two deeper truths: (1) prompt engineering is <em>shifting</em> the model's behavior, not rebuilding it — when the prompt grows past a page, you are fighting the model and should reconsider the design; (2) prompts are attack surface — the model will follow instructions it finds in user-supplied text, which is the security hole called prompt injection (full treatment in Module 16). Treat the prompt as a spec: version it, test it, and measure it like any interface.</p>
+<p><strong>Seminar questions.</strong> Where does prompt engineering end and product design begin? What breaks first when a prompt library grows to 200 prompts?</p>
+<p><strong>Problem set.</strong> The 20-prompt challenge: pick one high-value use case (client status updates, vendor proposal summaries, FDE scoping questions), build 20 prompts, test each, record what worked. Include at least one "ask me clarifying questions first" prompt and one structured-output prompt.</p>
+<p><strong>Deliverable.</strong> <code>prompts/</code> library: winning prompts with (a) why it works, (b) one bad variant and why it fails. A hiring manager will ask "how do you prompt?" — this is the evidence.</p>
+<p><strong>Self-assessment.</strong> ☐ I can explain system vs. user prompts, few-shot, temperature, structured output ☐ 15+ tested prompts saved ☐ I can explain prompt injection in one sentence.</p>
+<hr />
+<h2 id="module-4-retrieval-no-code-building-rag">Module 4 — Retrieval &amp; No-Code Building (RAG)</h2>
+<p><strong>Objectives:</strong> Build a working document-Q&amp;A product without code · explain RAG at the architectural level · articulate why grounding reduces hallucination.</p>
+<p><strong>Pre-class preparation</strong>
+- <em>Required paper:</em> Lewis et al., <em>Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks</em> (2020) — <a href="https://arxiv.org/abs/2005.11401">arXiv:2005.11401</a>. Read the abstract and the conclusion; the core idea is parametric memory (the model) + non-parametric memory (a retrieval index).
+- <em>Required paper:</em> Liu et al., <em>Lost in the Middle: How Language Models Use Long Contexts</em> (2023) — <a href="https://arxiv.org/abs/2307.03172">arXiv:2307.03172</a>. Read the abstract and skim the findings: models use information at the <em>ends</em> of long contexts far better than the middle. This one finding shapes real product decisions (where you place retrieved content, how you chunk documents).
+- <em>Required:</em> 30 minutes on <a href="https://simonwillison.net/">Simon Willison's blog</a> on retrieval/search.
+- <em>Recommended:</em> A YouTube walkthrough of your chosen builder (search "build a document Q&amp;A bot with [tool] 2026").</p>
+<p><strong>Lecture.</strong> A model's parameters are its <em>trained</em> knowledge — frozen at training time, unreliable for your specific documents. Retrieval-augmented generation fixes this by giving the model a working memory: chunk your documents, embed them into vectors, and at query time fetch the most relevant chunks into the context window. The model then answers from what is in front of it, not from memory — which is why RAG reduces hallucination and keeps answers current (update the documents, and the answers update). The architecture you should be able to draw from memory: documents → chunking → embeddings → vector store → (query → retrieve top-k → stuff into context) → model → grounded answer. Now the failure modes: bad retrieval (the right chunk didn't make top-k), bad chunking (the answer straddled two chunks), and <em>Lost in the Middle</em> — the model under-uses the middle of its context, so where you place retrieved content is a design decision. Retrieval quality is a product-quality problem: it is measurable, and it is yours to own.</p>
+<p><strong>Seminar questions.</strong> Why does RAG beat fine-tuning for most products? (Answer by Module 13.) What happens to a RAG system when the underlying documents contain contradictions?</p>
+<p><strong>Problem set.</strong> Build a document Q&amp;A bot with a free-tier builder (Claude/Google AI Studio projects, Flowise, or n8n). Upload 3–5 real documents; test 25 questions; note the failure cases.</p>
+<p><strong>Deliverable.</strong> The working bot + a 1-page architecture write-up (draw the pipeline) + 3 documented failure cases with hypotheses about <em>why</em> they failed.</p>
+<p><strong>Self-assessment.</strong> ☐ I can explain RAG and draw its pipeline ☐ I can explain what "Lost in the Middle" means for design ☐ I can list 3 failure modes of my bot and diagnose each.</p>
+<hr />
+<h2 id="module-5-python-the-api-layer">Module 5 — Python &amp; the API Layer</h2>
+<p><strong>Objectives:</strong> Run Python · make a real LLM API call · read a small script · estimate what a call costs · explain the request/response pattern.</p>
+<p><strong>Pre-class preparation</strong>
+- <em>Required:</em> <a href="https://www.youtube.com/watch?v=rfscVS0vtbw">freeCodeCamp — "Learn Python – Full Course for Beginners"</a> — watch through ~2.5 hrs (functions, lists, dictionaries). You will finish the rest in Module 13 downtime.
+- <em>Reference:</em> <a href="https://www.freecodecamp.org/news/the-python-handbook/">The Python Handbook</a>
+- <em>Recommended:</em> <a href="https://www.kaggle.com/learn/python">Kaggle Learn — Python</a> (browser-based, free) as an alternative or supplement.</p>
+<p><strong>Lecture.</strong> Why does an AI PM learn Python? Not to ship production code — to <em>verify, evaluate, and estimate</em>. Three uses recur: (1) run evaluation scripts that score model outputs; (2) read the code engineers and data scientists write, well enough to ask good questions; (3) build prototypes and cost estimates. The API pattern you must internalize: an <strong>endpoint</strong> is a URL that accepts a <strong>request</strong> (your prompt + parameters, authenticated by an <strong>API key</strong>) and returns a <strong>response</strong> (the model's output + <strong>usage</strong> — tokens in/out). Everything about cost flows from usage: price per million input tokens + price per million output tokens (output is typically 3–5× input price — check current pricing). A chain — call 1 summarizes, call 2 extracts, call 3 grades — is the seed of every agent architecture. Your first scripts will feel magical; by Module 18 they will feel like furniture. That shift is the point of this module.</p>
+<p><strong>Problem set.</strong> Make the call. Free path: <a href="https://ollama.com">Ollama</a> locally (zero cost). Hosted path: ~$5 of credits at OpenAI or Anthropic. Script 1: prompt → response → token usage. Script 2: a 3-call chain (summarize → bullets → grade). Comment every line yourself — the commenting is the learning.</p>
+<p><strong>Deliverable.</strong> Both scripts in <code>portfolio/</code> + README: API key, endpoint, request/response, token, rough cost of one call.</p>
+<p><strong>Self-assessment.</strong> ☐ I can run a <code>.py</code> file ☐ I can explain endpoint/request/response/API key ☐ I can read a 30-line script and say what it does ☐ I can estimate one API call's cost.</p>
+<hr />
+<h2 id="module-6-measurement-evals-metrics">Module 6 — Measurement: Evals &amp; Metrics</h2>
+<p><em>Case A: GitHub Copilot — "Measuring the Unmeasurable" (case-packets.md)</em></p>
+<p><strong>Objectives:</strong> Build and run an eval suite · explain the accuracy trap and precision/recall · measure an AI feature's quality · write a case decision memo.</p>
+<p><strong>Pre-class preparation</strong>
+- <em>Required:</em> 2–3 Simon Willison posts on LLM evals/testing (<a href="https://simonwillison.net">simonwillison.net</a>, <em>machine-learning</em> or <em>llms</em> tags)
+- <em>Required:</em> <strong>Case A</strong> in <em>case-packets.md</em> — read the packet, form a view, write memo 1 <em>before</em> reading its teaching note.
+- <em>Required paper (background for Case A):</em> Chen et al., <em>Evaluating Large Language Models Trained on Code</em> (2021) — <a href="https://arxiv.org/abs/2107.03374">arXiv:2107.03374</a>. Read the abstract and the HumanEval discussion: Codex solves 28.8% of HumanEval problems; with 100 samples per problem, 70.2%. The birth of "evaluate by functional test."</p>
+<p><strong>Lecture.</strong> The accuracy trap: a model that answers "yes" to everything scores 90% "accuracy" on skewed data while being useless. The discipline of evals exists to defeat this. An <strong>eval set</strong> is a fixed collection of cases with expected behaviors; an eval <em>run</em> scores the model against it. For classification, precision = of the things flagged, how many were right; recall = of the things that should be flagged, how many were caught — and they trade off; the threshold you choose is a <em>product</em> decision (in a medical app you want recall; in a spam filter, precision). For generative output, scoring is fuzzier: rubric-based human review, LLM-as-judge (fast, cheap, biased — spot-check), or functional tests (does the code pass the test suite — the HumanEval insight). The deeper lesson, via Copilot: when the artifact is open-ended (code, prose), measurement is a <em>design</em> problem — you must define what "good" means before you can argue about whether the AI is good. That definition is the AI PM's job.</p>
+<p><strong>FDE twist.</strong> Your FDE team will be asked "does this AI actually work?" by clients. This module gives you the instrument that answers it — before you've even met the client.</p>
+<p><strong>Problem set.</strong> Build an eval suite for your Module 4 bot: 25 cases (easy, edge, adversarial, out-of-scope) with expected behaviors; run, score, find failure patterns; fix the worst; re-run.</p>
+<p><strong>Deliverable.</strong> <code>evals/week6-eval-suite.md</code> (suite + results + what you learned) <strong>and Case memo 1</strong> (1 page, per <em>case-packets.md</em>).</p>
+<p><strong>Self-assessment.</strong> ☐ I can define precision, recall, accuracy, hallucination rate ☐ I can explain why accuracy alone misleads ☐ I ran a fix-and-re-run eval cycle ☐ My case memo takes a position.</p>
+<hr />
+<h2 id="module-7-discovery-the-double-diamond">Module 7 — Discovery: The Double Diamond</h2>
+<p><strong>Objectives:</strong> Run the discovery half of the double diamond · conduct non-leading user interviews · write JTBD statements · capture evidence, not opinions.</p>
+<p><strong>Pre-class preparation</strong>
+- <em>Required:</em> <a href="https://lennysnewsletter.com">Lenny's Newsletter</a> — search "what do product managers do"
+- <em>Required:</em> <em>The Mom Test</em> (Appendix D), chapters 1–2 — how to interview without being lied to
+- <em>Recommended:</em> A "double diamond" explainer and a JTBD primer (search either term; pick one well-cited source)</p>
+<p><strong>Lecture.</strong> Product work is two diamonds: <em>discover</em> the right problem (divergent) → <em>define</em> it (convergent) → <em>develop</em> the right solution (divergent) → <em>deliver</em> it (convergent). Most failures happen in the first diamond, where speed feels like progress. Discovery is an evidence-gathering discipline: you are looking for <em>demonstrated</em> behavior, not <em>stated</em> desire — what people did, how they solve it today, what it costs them. The Mom Test's core move: talk about their past, never pitch your idea, never ask "would you use this?" (people lie to be polite). The output is jobs-to-be-done — "when <strong><em>, I want </em></strong>, so I can ___" — and a set of quotes you can show, not a feature list. A problem statement without interview evidence is a hypothesis wearing a costume; your PRD in Module 8 will cite this evidence, which is what separates product management from opinion.</p>
+<p><strong>Problem set.</strong> Pick a real problem space (FDE twist: a service clients keep requesting, or a recurring client pain). Write a one-paragraph problem statement. Interview 3–5 people Mom-Test style. Capture quotes, pains, current workarounds, frequency.</p>
+<p><strong>Deliverable.</strong> <code>portfolio/discovery-notes.md</code> — problem statement, interview notes, 5+ direct quotes, 3 JTBD statements, and a "surprises" section (what contradicted your assumption — the gold).</p>
+<p><strong>Self-assessment.</strong> ☐ I can explain the double diamond ☐ I can interview without leading ☐ I can write a JTBD statement ☐ My notes contain demonstrated behavior, not stated desires.</p>
+<hr />
+<h2 id="module-8-the-prd-spec-writing">Module 8 — The PRD &amp; Spec Writing</h2>
+<p><strong>Objectives:</strong> Write a PRD with evidence, scope discipline, user stories, and <em>testable</em> acceptance criteria.</p>
+<p><strong>Pre-class preparation</strong>
+- <em>Required:</em> Two real PRD examples (search "PRD example"; or Lenny's PRD template on lennysnewsletter.com)
+- <em>Required:</em> A user stories + acceptance criteria guide (Atlassian's is good and free)</p>
+<p><strong>Lecture.</strong> The PRD is a <em>decision document</em>, not a wish list: it records the problem (with evidence), the users, the success metrics, the scope, and the requirements in a form engineers can build from. The unit of requirements is the <strong>user story</strong> — "as a <strong><em>, I want </em></strong>, so ___" — with <strong>acceptance criteria</strong> written as given/when/then ("Given a question outside scope, when asked, the bot responds with the out-of-scope message"). Testable acceptance criteria are the difference between a spec and a vibe. Scope is the PRD's spine: an explicit out-of-scope section is a promise to stakeholders about what you are <em>not</em> doing, which is harder and more valuable than listing what you are. A good test for the whole document: <em>could an engineer build this without asking me ten questions?</em> If not, tighten.</p>
+<p><strong>Problem set.</strong> Write PRD v1 for one AI feature of your capstone idea: problem &amp; evidence (cite Module 7), users, success metrics (deepened in Module 10), scope in/out, user stories, acceptance criteria, risks, open questions.</p>
+<p><strong>Deliverable.</strong> <code>portfolio/prd-v1.md</code>.</p>
+<p><strong>Self-assessment.</strong> ☐ I can define PRD, user story, acceptance criteria, out-of-scope ☐ My acceptance criteria are given/when/then ☐ My PRD cites evidence ☐ An engineer could build from it without ten questions.</p>
+<hr />
+<h2 id="module-9-prioritization-roadmaps">Module 9 — Prioritization &amp; Roadmaps</h2>
+<p><strong>Objectives:</strong> Score with RICE · apply MoSCoW · build a theme-based roadmap with an explicit "won't do" list · defend a prioritization decision.</p>
+<p><strong>Pre-class preparation</strong>
+- <em>Required:</em> RICE (search "RICE scoring model Intercom") and MoSCoW (one article each)
+- <em>Required:</em> Roadmapping basics (search "product roadmap themes vs features")</p>
+<p><strong>Lecture.</strong> Prioritization is where PMs earn their keep, because saying yes to everything is free and worthless. RICE makes the trade explicit: <strong>R</strong>each × <strong>I</strong>mpact × <strong>C</strong>onfidence ÷ <strong>E</strong>ffort — a single number that forces you to write down assumptions (confidence is a confession of uncertainty, which is its point). MoSCoW handles the <em>shape</em> of a release (must/should/could/won't). The modern roadmap is organized by <strong>themes with outcomes</strong> — "improve activation for new users" — not by dated features, because themes survive contact with reality and dates don't. The single most valuable artifact on any roadmap is the <strong>"won't do" list</strong>: written, explicit, with reasons. It is the difference between a strategy and an aspiration. Note the AI-specific wrinkle: AI features often win on RICE <em>impact</em> but carry hidden cost and risk (Modules 15–16); a good prioritization accounts for them.</p>
+<p><strong>Problem set.</strong> Take 8 candidate features (from discovery + your own ideas), score with RICE showing your work, group winners into themes, lay out a 2-quarter roadmap (theme → outcome → candidate features), and write the "won't do" list with reasons.</p>
+<p><strong>Deliverable.</strong> <code>portfolio/roadmap.md</code>.</p>
+<p><strong>Self-assessment.</strong> ☐ I can explain RICE and MoSCoW ☐ I can defend one decision against pushback ☐ My roadmap is themes + outcomes, not dated features ☐ My "won't do" list has reasons.</p>
+<hr />
+<h2 id="module-10-metrics-funnels-instrumentation">Module 10 — Metrics, Funnels &amp; Instrumentation</h2>
+<p><strong>Objectives:</strong> Define north star + guardrail metrics · build a funnel · specify instrumentation (events) · explain leading vs. lagging measures.</p>
+<p><strong>Pre-class preparation</strong>
+- <em>Required:</em> North star metric (search "north star metric" on lennysnewsletter.com), AARRR ("pirate metrics"), and A/B testing basics (one explainer each)</p>
+<p><strong>Lecture.</strong> A metric is a contract about what success means; choose it badly and everything downstream is theater. The <strong>north star</strong> is the one number that best captures delivered value ("weekly active learners," not "downloads"). <strong>Guardrails</strong> are the numbers that must not silently degrade — for AI features, always include model-quality metrics: hallucination rate, eval score, cost per session. The <strong>funnel</strong> shows where value leaks (acquisition → activation → retention → referral); <strong>instrumentation</strong> is the event log that makes the funnel visible — if you didn't log it, it didn't happen. Leading indicators predict the future (activation rate), lagging ones confirm it (retention); a north star needs both. The AI-specific trap: AI features change <em>quality</em>, not just <em>clicks</em> — an A/B test that shows +10% clicks while hallucination doubles is a loss dressed as a win. Your metrics tree (north star at top, drivers below, guardrails at the side) is the document that makes this legible to everyone.</p>
+<p><strong>Problem set.</strong> For your capstone idea: north star, 3 guardrails with thresholds, the funnel, the event list (every event you'd log), and the model-quality metrics you'd merge in from Module 14.</p>
+<p><strong>Deliverable.</strong> <code>portfolio/metrics-tree.md</code>.</p>
+<p><strong>Self-assessment.</strong> ☐ I can define north star, activation, retention, guardrail, A/B test ☐ My metrics tree has leading and lagging measures ☐ I can list the events a simple AI feature must log.</p>
+<blockquote>
+<h3 id="midterm-examination-take-home-3-hrs">MIDTERM EXAMINATION (take-home, ~3 hrs)</h3>
+<p>Sit after completing this module. See <strong>exams.md</strong> — three essay questions on design, measurement, and prioritization. Closed-notes except: this course guide, your portfolio, and the case packets. Grade against the rubric in the exam book.</p>
+</blockquote>
+<hr />
+<h2 id="module-11-delivery-working-with-engineers">Module 11 — Delivery: Working with Engineers</h2>
+<p><strong>Objectives:</strong> Turn a PRD into a sprint plan · run the delivery rituals (standup, retro, definition of done) · unblock with evidence.</p>
+<p><strong>Pre-class preparation</strong>
+- <em>Required:</em> Agile/scrum basics (search "scrum roles sprint standup retrospective"; Atlassian's guide is free and good)
+- <em>Required:</em> One PM–engineering collaboration essay on <a href="https://firstround.com/review">First Round Review</a> (search "how product managers work with engineers")</p>
+<p><strong>Lecture.</strong> Discovery wins the problem; delivery wins the trust. The delivery machinery: <strong>sprints</strong> (time-boxed iterations), <strong>standups</strong> (daily sync: what I did, what's blocked, what's next), <strong>retros</strong> (what to keep/change), <strong>definition of done</strong> (the shared bar for "finished"). The PM's job <em>during</em> a sprint is not to manage people — it is to manage <em>information</em>: unblock ambiguity ("the spec is unclear here" → "I'll clarify by Thursday"), cut scope with evidence when reality bites, and protect the team from whiplash. Two disciplines matter most. First, tickets: slice work small enough to finish in days, each with acceptance criteria — a ticket without criteria is a hope. Second, saying no: engineers will propose technical debt and scope creep with good reasons; the PM's answer is "show me the impact" — the same RICE discipline from Module 9, now at ticket scale. Treat engineers as expert collaborators, not order-takers: the best spec conversations change the spec.</p>
+<p><strong>Problem set.</strong> Convert your PRD into a sprint plan: tickets with acceptance criteria and a definition of done. Record a 5-minute mock standup (voice memo). Write 3 ways you'd unblock an engineer this sprint.</p>
+<p><strong>Deliverable.</strong> <code>portfolio/sprint-plan.md</code> + communication plan (who you update, how often).</p>
+<p><strong>Self-assessment.</strong> ☐ I can explain sprint, standup, retro, DoD ☐ I can turn a PRD into tickets ☐ I know what a PM does <em>during</em> a sprint.</p>
+<hr />
+<h2 id="module-12-feasibility-system-design">Module 12 — Feasibility &amp; System Design</h2>
+<p><em>Case B: Intercom Fin — "The Retrieval-First Support Agent" (case-packets.md)</em></p>
+<p><strong>Objectives:</strong> Decide when AI is the right tool · sketch a simple AI system architecture · design guardrails and human-in-the-loop · write case memo 2.</p>
+<p><strong>Pre-class preparation</strong>
+- <em>Required:</em> <a href="https://www.anthropic.com/engineering/building-effective-agents">Anthropic — "Building effective agents"</a> — read fully. The most-cited engineering post in the field: the best AI systems are <em>simple, composable patterns</em>, not complex frameworks.
+- <em>Required:</em> <strong>Case B</strong> in <em>case-packets.md</em> — read, form a view, write memo 2 <em>before</em> the teaching note.
+- <em>Required:</em> One a16z essay on AI products (search "a16z how to think about AI products" or "a16z LLM app stack")</p>
+<p><strong>Lecture.</strong> Feasibility is the AI PM's signature judgment: <em>should this use AI at all?</em> The test is comparative — AI vs. a rules-based system vs. a human vs. nothing — scored on input/output clarity, error tolerance, data availability, cost, and latency. AI wins when the task is high-volume, language-shaped, and error-tolerant; it loses when answers must be deterministic, when the cost of being wrong is catastrophic, or when the problem is actually about process, not intelligence. (An "AI-powered toaster" is not a product; it's a gimmick with a transformer inside.) When AI is right, the architecture should be boring: model + retrieval + tools + guardrails + a human in the loop where stakes demand it. The Fin case is the masterclass: retrieval-only answers (no training-knowledge improvisation), source links (verifiable answers), policy checks as a separate model call (composition over one giant prompt), and an explicit human handoff for high-stakes actions. <strong>Simple and composable</strong> is not an aesthetic — it's how you keep a probabilistic system debuggable.</p>
+<p><strong>Seminar questions.</strong> What does Fin's architecture tell you about when <em>not</em> to trust the model's own knowledge? Where should the human-in-the-loop sit in a support product?</p>
+<p><strong>Problem set.</strong> The feasibility drill: 5 product ideas (3 real, 2 deliberately bad) × (what AI would do, input/output, error tolerance, data needs, cost, and the non-AI alternative). Sketch one architecture in boxes-and-arrows.</p>
+<p><strong>Deliverable.</strong> <code>portfolio/feasibility.md</code> — the drill + a reusable one-page feasibility template <strong>and Case memo 2</strong>.</p>
+<p><strong>Self-assessment.</strong> ☐ I can name 3 cases where AI is the wrong tool ☐ I can sketch model + retrieval + tools + guardrails + HITL ☐ I can explain "simple, composable" ☐ My case memo takes a position on Fin's design.</p>
+<hr />
+<h2 id="module-13-data-the-fuel">Module 13 — Data: The Fuel</h2>
+<p><strong>Objectives:</strong> Map data requirements · distinguish retrieval data from fine-tuning data · apply privacy fundamentals (PII, GDPR, EU AI Act vocabulary) · explain the data flywheel.</p>
+<p><strong>Pre-class preparation</strong>
+- <em>Required:</em> One explainer each on: data quality vs. quantity, the data flywheel, and PII/GDPR basics (search the terms; pick well-cited sources)</p>
+<p><strong>Lecture.</strong> Every AI product runs on data, and most product failures trace back to a data assumption. Three distinctions organize the subject. (1) <strong>Quality vs. quantity</strong>: 1,000 clean, labeled examples beat 100,000 messy ones; the model learns the pattern, not the noise. (2) <strong>Retrieval data vs. fine-tuning data</strong>: retrieval data is the corpus your RAG system looks up — you maintain it like documentation; fine-tuning data changes the model itself — expensive, risky, and rarely the right lever when retrieval works. The default architecture is retrieval; the burden of proof is on fine-tuning. (3) <strong>The data flywheel</strong>: product usage generates data (queries, corrections, ratings) that improves the model/eval set, which improves the product — the strategic asset that compounds. Privacy is the constraint that shapes all of it: know what PII is, know that user data is <em>not</em> yours to train on without consent, and know the vocabulary of GDPR and the EU AI Act even if you're not in Europe — they govern what global products may do. An AI PM who says "we'll figure out data later" has already failed; this module's deliverable is the figure-it-out-now document.</p>
+<p><strong>Problem set.</strong> Finish the freeCodeCamp Python course (remaining ~2 hrs). Then map your capstone's data plan: what exists, what's missing, quality issues, collection method, PII exposure and what it means for design.</p>
+<p><strong>Deliverable.</strong> <code>portfolio/data-plan.md</code>.</p>
+<p><strong>Self-assessment.</strong> ☐ I can explain why clean beats big ☐ I can distinguish retrieval vs. fine-tuning data and argue for the default ☐ I can name privacy red flags in a feature idea.</p>
+<hr />
+<h2 id="module-14-evals-in-production">Module 14 — Evals in Production</h2>
+<p><strong>Objectives:</strong> Design a production eval system — golden set, scoring method, regression gates, drift monitoring, feedback loop.</p>
+<p><strong>Pre-class preparation</strong>
+- <em>Required:</em> One eval-in-production guide each from the labs (search "OpenAI evals" and "Anthropic evaluating AI systems"; both publish free, current guides)
+- <em>Required:</em> One explainer on model drift and monitoring (search "model drift monitoring machine learning")</p>
+<p><strong>Lecture.</strong> Module 6 taught you to measure; this module teaches you to <em>operate</em>. A shipped AI product degrades — the world changes, users find new edge cases, the model's distribution drifts — so quality is an ongoing operating problem, not a launch-day checkbox. The production system has five parts: (1) a <strong>golden set</strong> — fixed cases that never change, so you can compare across model versions; (2) a <strong>scoring method</strong> — human review for high-stakes slices, LLM-as-judge for volume, and the discipline to spot-check the judge (judges have biases too); (3) <strong>regression gates</strong> — "we do not ship a model version that scores below X" — the mechanism that turns evals into governance; (4) <strong>drift monitoring</strong> — live signals (thumbs-down rate, "I don't know" rate, cost per session, eval score on a rolling sample) that trigger a re-eval; (5) the <strong>feedback loop</strong> — bad answers from production become new eval cases, so the eval set learns. The lesson to internalize and repeat to executives: <em>"it worked in the demo" is not "it works in production."</em> The demo is a single sample; production is a distribution.</p>
+<p><strong>Problem set.</strong> Design the production eval system for your capstone: golden set (start from Module 6's 25 cases), scoring method with trade-offs, regression thresholds, drift signals with triggers, and the feedback loop.</p>
+<p><strong>Deliverable.</strong> <code>portfolio/production-eval-plan.md</code>.</p>
+<p><strong>Self-assessment.</strong> ☐ I can design an eval pipeline for a live feature ☐ I can explain golden set, LLM-as-judge and when it lies, regression, drift, feedback loop ☐ I can give the "demo vs. production" speech.</p>
+<hr />
+<h2 id="module-15-cost-latency-model-selection">Module 15 — Cost, Latency &amp; Model Selection</h2>
+<p><em>Case C: Duolingo Max — "When AI Succeeds, Margins Compress" (case-packets.md)</em></p>
+<p><strong>Objectives:</strong> Build a cost model · set a latency budget · select a model with explicit trade-offs · write case memo 3.</p>
+<p><strong>Pre-class preparation</strong>
+- <em>Required:</em> Current pricing pages for OpenAI and Anthropic (search "OpenAI pricing" / "Anthropic API pricing"); note price per million tokens and the input/output price gap
+- <em>Required:</em> One model-selection guide (search "how to choose an LLM cost latency quality")
+- <em>Required:</em> <strong>Case C</strong> in <em>case-packets.md</em> — read, form a view, write memo 3 <em>before</em> the teaching note.</p>
+<p><strong>Lecture.</strong> AI breaks the software-economics assumption that marginal cost is ~zero: every interaction burns tokens, and your bill scales with success. The AI PM's toolkit: <strong>cost per interaction</strong> = (input tokens × input price + output tokens × output price) + retrieval/storage; then × usage = monthly bill. <strong>Latency</strong> is a product constraint — a "personal assistant" that takes 10 seconds to respond is not a personal assistant; set the budget before choosing the model. <strong>Model tiers</strong> are the trade-off engine: frontier models (better, slower, dearer) vs. small/cheap models (fast, cheap, good-enough on most cases) — and the professional move is to find where the cheap model is good enough, using <em>your</em> eval set (Module 6/14), not the leaderboard. <strong>Caching</strong> and prompt/cost engineering (shorter contexts, cheaper models for routine calls) are the levers. <strong>Fine-tuning</strong> is the expensive last resort. The Duolingo case is the cautionary tale that defines the module: AI features <em>worked</em> — and gross margin compressed because compute scaled with success, while the market punished the stock anyway. Budget for your own success before you launch, not after.</p>
+<p><strong>Problem set.</strong> Build the cost model for your capstone: tokens per action, cost per interaction, monthly bill at projected usage, 2–3 model tiers compared, latency budget, and a sensitivity ("if usage doubles…; if we switch models…").</p>
+<p><strong>Deliverable.</strong> <code>portfolio/cost-model.md</code> <strong>and Case memo 3</strong>.</p>
+<p><strong>Self-assessment.</strong> ☐ I can estimate cost per interaction and per month ☐ I can compare models on cost/latency/quality and make a call ☐ I can explain the "AI success compresses margins" dynamic.</p>
+<hr />
+<h2 id="module-16-risk-safety-go-to-market">Module 16 — Risk, Safety &amp; Go-to-Market</h2>
+<p><em>Case D: Klarna AI Assistant — "Vendor Claims as Data" (case-packets.md)</em></p>
+<p><strong>Objectives:</strong> Build a risk register · explain prompt injection and its mitigations · apply responsible-AI and compliance vocabulary · position and price an AI product · write case memo 4.</p>
+<p><strong>Pre-class preparation</strong>
+- <em>Required:</em> One explainer on prompt injection (search "prompt injection explained")
+- <em>Required:</em> One responsible-AI primer (Anthropic or Google publish good free ones)
+- <em>Required:</em> One EU AI Act primer (search "EU AI Act explained")
+- <em>Recommended:</em> Wilson &amp; Daugherty, <em>Collaborative Intelligence: Humans and AI Are Joining Forces</em>, HBR July–August 2018 — <a href="https://hbr.org/2018/07/collaborative-intelligence-humans-and-ai-are-joining-forces">hbr.org/2018/07/collaborative-intelligence-humans-and-ai-are-joining-forces</a> (free summary; full PDF is subscriber-only)
+- <em>Required:</em> <strong>Case D</strong> in <em>case-packets.md</em> — read, form a view, write memo 4 <em>before</em> the teaching note.</p>
+<p><strong>Lecture.</strong> The risk taxonomy for AI products: <strong>hallucination</strong> (wrong confident output), <strong>bias</strong> (skewed training data producing skewed outcomes), <strong>privacy</strong> (PII leakage in prompts and training), <strong>security</strong> (prompt injection — attacker text hijacking the model's instructions; a real, demonstrated vulnerability class), and <strong>compliance</strong> (GDPR, EU AI Act, sector rules). The AI PM's instrument is the <strong>risk register</strong>: for each risk — likelihood, impact, mitigation, detection, owner. The universal mitigations recur: retrieval over improvisation (Module 4), evals as gates (Module 14), human-in-the-loop where stakes are high (Module 12), and transparency (source links, "this is AI" disclosure). Go-to-market completes the picture: positioning ("the fastest way to resolve a refund" beats "AI-powered refund agent"), and pricing — where AI breaks subscription assumptions, because usage-based cost (Module 15) argues for usage-based price, hybrid tiers, or outcome pricing (Fin's "pay per resolution"). Finally, the Klarna case teaches <em>epistemology</em>: the numbers are vendor-published. Your job as a PM is to know which claims are verified, which are marketing, and what you would measure yourself.</p>
+<p><strong>Seminar questions.</strong> How would you verify Klarna's numbers if you were their CTO? If you were their competitor? Where does "does the work of 700 agents" break down as a framing?</p>
+<p><strong>Problem set.</strong> Risk register for your capstone (the five risks above, each with likelihood/impact/mitigation/detection) + a GTM one-pager (who it's for, positioning, pricing logic, three expected objections and answers).</p>
+<p><strong>Deliverable.</strong> <code>portfolio/risk-register.md</code> + <code>portfolio/gtm-onepager.md</code> <strong>and Case memo 4</strong>.</p>
+<p><strong>Self-assessment.</strong> ☐ I can explain prompt injection and one mitigation ☐ My risk register has five risks, each with detection ☐ I can position without saying "AI-powered" four times ☐ I can explain why per-token pricing creates a packaging problem.</p>
+<hr />
+<h2 id="module-17-capstone-proposal">Module 17 — Capstone: Proposal</h2>
+<p><strong>Objectives:</strong> Scope a 15–20-hour build · write the capstone brief integrating every prior module · set evaluation design before code.</p>
+<p><strong>Pre-class preparation</strong>
+- <em>Required:</em> Re-read your discovery notes (Module 7), PRD v1 (Module 8), metrics tree (Module 10), and production eval plan (Module 14) — the capstone integrates them.</p>
+<p><strong>Lecture.</strong> A capstone is a demonstration of judgment, not of engineering. The scoping rule: <strong>narrow enough to finish, deep enough to show</strong>. A document-Q&amp;A assistant, a meeting-notes summarizer with action extraction, a support-triage bot — all are sufficient. The brief must be one page and must cite earlier modules: problem (M7 evidence), users, scope in/out, success metrics (M10), eval plan (M14), cost model (M15), risks (M16). Evaluation design comes <em>before</em> code: define the golden set and the success bar before you write a line, so "done" means "measured," not "demoed." <strong>FDE twist:</strong> the strongest capstone is a real FDE-shaped problem — a working prototype your team could show a client. That is not extra credit; it is the point.</p>
+<p><strong>Problem set.</strong> Write the capstone brief (one page) + PRD v2 (everything you now know that v1 didn't). Pre-register your golden set (25+ cases).</p>
+<p><strong>Deliverable.</strong> <code>capstone/brief.md</code> + <code>capstone/prd-v2.md</code>.</p>
+<p><strong>Self-assessment.</strong> ☐ My capstone is scoped to 15–20 hours ☐ Every brief section cites an earlier module ☐ My eval set is defined before code ☐ I can state success in one sentence.</p>
+<hr />
+<h2 id="module-18-capstone-build-measure">Module 18 — Capstone: Build &amp; Measure</h2>
+<p><strong>Objectives:</strong> Ship the product · run the eval cycle · report before/after with real numbers.</p>
+<p><strong>Pre-class preparation:</strong> None required — this is a build week.</p>
+<p><strong>Lecture.</strong> The build discipline: no-code + API scripts (or Python with heavy AI assistance — using an LLM to write code is what modern PMs do; reading every line it writes is what makes them PMs). Then the loop: run the golden set → score → fix the worst failure mode → re-run. Record everything: eval before/after, cost per interaction, latency, three user-visible examples of the improvement. The eval report is the capstone's center of gravity — a working product without measured results is a hobby.</p>
+<p><strong>Problem set.</strong> Build + eval loop (as above).</p>
+<p><strong>Deliverable.</strong> The working product + <code>capstone/eval-report.md</code> (before/after table, failure analysis, "what I'd do with 2 more weeks").</p>
+<p><strong>Self-assessment.</strong> ☐ The product works end-to-end ☐ My report shows a real before/after ☐ I can demo in 2 minutes without a script failure ☐ I know exactly what I'd improve next and why.</p>
+<hr />
+<h2 id="module-19-portfolio-packaging">Module 19 — Portfolio &amp; Packaging</h2>
+<p><strong>Objectives:</strong> Package the work for external judgment — case study, demo, index, LinkedIn.</p>
+<p><strong>Pre-class preparation:</strong> None required — packaging week.</p>
+<p><strong>Lecture.</strong> Hiring managers don't read résumés; they read evidence. The packaging stack: (1) <strong>case study</strong> — problem → process → solution → results (real numbers from M18) → what you'd do differently, written in STAR discipline; (2) <strong>demo video</strong> — 3 minutes, no dead air, talking through your own product (a job interview in miniature); (3) <strong>portfolio index</strong> — one page, who you are, the M1 asset map, five best artifacts with one-line pitches; (4) <strong>LinkedIn</strong> — headline with PM intent, post the case study. The test of packaging: <em>a stranger understands the case study in three minutes.</em></p>
+<p><strong>Deliverable.</strong> <code>portfolio/case-study.md</code>, demo video, portfolio index, LinkedIn refresh. Then send the index to one experienced PM or hiring manager — the external review is part of the grade.</p>
+<p><strong>Self-assessment.</strong> ☐ A stranger can understand my case study in 3 minutes ☐ My demo has no dead air ☐ My index has 5+ artifacts with one-line pitches ☐ External review requested.</p>
+<hr />
+<h2 id="module-20-the-defense-transition">Module 20 — The Defense &amp; Transition</h2>
+<p><strong>Objectives:</strong> Defend the work · answer AI-PM interview questions with frameworks · produce the transition kit (STAR stories, résumé, 30/60/90).</p>
+<p><strong>Pre-class preparation</strong>
+- <em>Required:</em> <em>Cracking the PM Interview</em> (Appendix D), Part III — interview prep
+- <em>Required:</em> Collect 10 real "AI product manager interview questions" (search); note the pattern — they test judgment ("should this feature use AI?"), measurement ("how would you know it's working?"), and risk ("how do you handle hallucination?") — you built answers in Modules 12, 14, 16.</p>
+<p><strong>Lecture.</strong> The AI PM interview tests three loops: <strong>product sense</strong> ("design an AI feature for X"), <strong>execution</strong> ("how would you prioritize / measure / de-risk?"), and <strong>behavioral</strong> ("tell me about a time…" — STAR: situation, task, action, result, ending in numbers). The killer question — "walk me through how you'd decide whether a feature should use AI" — now has a two-minute answer with a real framework, because you have one: comparative feasibility (M12), data check (M13), evaluation design (M14), cost/latency (M15), risk (M16). Your capstone is the proof. The transition kit: three STAR stories mined from your strategist/operator career and translated into PM vocabulary (the M1 asset map, turned into narrative), a résumé written in outcomes ("led X, defined success as Y, shipped Z"), and the <strong>30/60/90</strong> — 30 days learning the business and users, 60 days owning a feature end-to-end, 90 days driving a measured outcome. The 30/60/90 gets you hired because it shows you arrive already doing the job.</p>
+<p><strong>Problem set.</strong> Mock interviews: record yourself answering 10 questions (4 behavioral STAR, 3 product sense, 3 execution). Listen back. Answer the killer question out loud for two minutes.</p>
+<p><strong>Deliverable.</strong> <code>portfolio/star-stories.md</code>, <code>portfolio/resume.md</code>, <code>portfolio/90-day-plan.md</code> — then sit the <strong>Final</strong> (<em>exams.md</em>).</p>
+<p><strong>Self-assessment.</strong> ☐ I can answer "should this feature use AI?" with a framework in 2 minutes ☐ 3 STAR stories ending in numbers ☐ I can explain the capstone in 2 minutes ☐ My 90-day plan fits on one page.</p>
+<hr />
+<h1 id="appendix-a-reading-packet">APPENDIX A — Reading packet</h1>
+<p><strong>Papers (all free, all verified August 2026; read the assigned portions only — you are a PM, not a researcher):</strong>
+1. Vaswani et al. (2017). <em>Attention Is All You Need</em>. arXiv:1706.03762 — <a href="https://arxiv.org/abs/1706.03762">link</a>
+2. Brown et al. (2020). <em>Language Models are Few-Shot Learners</em> (GPT-3). arXiv:2005.14165 — <a href="https://arxiv.org/abs/2005.14165">link</a>
+3. Lewis et al. (2020). <em>Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks</em>. arXiv:2005.11401 — <a href="https://arxiv.org/abs/2005.11401">link</a>
+4. Liu et al. (2023). <em>Lost in the Middle: How Language Models Use Long Contexts</em>. arXiv:2307.03172 — <a href="https://arxiv.org/abs/2307.03172">link</a>
+5. Chen et al. (2021). <em>Evaluating Large Language Models Trained on Code</em> (Codex/HumanEval). arXiv:2107.03374 — <a href="https://arxiv.org/abs/2107.03374">link</a>
+6. Wilson &amp; Daugherty (2018). <em>Collaborative Intelligence: Humans and AI Are Joining Forces</em>. Harvard Business Review, July–August 2018 — <a href="https://hbr.org/2018/07/collaborative-intelligence-humans-and-ai-are-joining-forces">link</a> (summary free; PDF gated)</p>
+<p><strong>Video lectures:</strong>
+- Karpathy, <em>Intro to Large Language Models</em> — <a href="https://www.youtube.com/watch?v=zjkBMFhNj_g">YouTube</a>
+- 3Blue1Brown, <em>Neural networks</em> and <em>Attention in transformers</em> — <a href="https://www.3blue1brown.com/lessons/">3blue1brown.com/lessons</a>
+- DeepLearning.AI short courses (free): <em>ChatGPT Prompt Engineering for Developers</em>, <em>AI Prompting for Everyone</em> — <a href="https://www.deeplearning.ai/courses">deeplearning.ai/courses</a></p>
+<p><strong>Practitioner canon (free):</strong>
+- Simon Willison's blog — <a href="https://simonwillison.net">simonwillison.net</a>
+- Anthropic, <em>Building effective agents</em> — <a href="https://www.anthropic.com/engineering/building-effective-agents">anthropic.com/engineering/building-effective-agents</a>
+- Wolfram, <em>What Is ChatGPT Doing… and Why Does It Work?</em> — <a href="https://writings.stephenwolfram.com/2023/02/what-is-chatgpt-doing-and-why-does-it-work">writings.stephenwolfram.com</a>
+- Lenny's Newsletter — <a href="https://lennysnewsletter.com">lennysnewsletter.com</a>
+- First Round Review — <a href="https://firstround.com/review">firstround.com/review</a>
+- Kaggle Learn (Python, Intro to ML) — <a href="https://www.kaggle.com/learn">kaggle.com/learn</a></p>
+<p><strong>Case sources (primary, for <em>case-packets.md</em>):</strong>
+- Intercom Fin launch post — <a href="https://www.intercom.com/blog/announcing-intercoms-new-ai-chatbot/">intercom.com/blog</a>
+- Intercom × Anthropic × AWS case study — <a href="https://aws.amazon.com/solutions/case-studies/intercom-anthropic/">aws.amazon.com/solutions/case-studies/intercom-anthropic</a>
+- GitHub research, <em>Quantifying Copilot's impact</em> — <a href="https://github.blog/news-insights/research/research-quantifying-github-copilots-impact-on-developer-productivity-and-happiness">github.blog</a>
+- OpenAI customer story, <em>Klarna's AI assistant</em> — <a href="https://openai.com/index/klarna/">openai.com/index/klarna</a>
+- Klarna press release — <a href="https://www.klarna.com/international/press/klarna-ai-assistant-handles-two-thirds-of-customer-service-chats-in-its-first-month/">klarna.com/international/press</a></p>
+<p><strong>Books (the entire materials budget, &lt;$50):</strong> see Appendix D.</p>
+<p><strong>Newsletters (free):</strong> The Batch (deeplearning.ai) · Lenny's Newsletter · Simon Willison (RSS).</p>
+<hr />
+<h1 id="appendix-b-examined-deliverable-checklist">APPENDIX B — Examined deliverable checklist</h1>
+<p>Every deliverable is examinable; the five starred ones carry the most weight in interviews and in the final. All must be linked from <code>portfolio/README.md</code>:</p>
+<ul>
+<li>☐ M1 Skill map &amp; portfolio system</li>
+<li>☐ M2 "AI 101" explainer</li>
+<li>☐ M3 Prompt library (15+)</li>
+<li>☐ M4 RAG bot + architecture write-up</li>
+<li>☐ M5 Python scripts + API README</li>
+<li>☐ M6 Eval suite + report ★</li>
+<li>☐ M7 Discovery notes</li>
+<li>☐ M8 PRD v1</li>
+<li>☐ M9 RICE + roadmap + won't-do</li>
+<li>☐ M10 Metrics tree</li>
+<li>☐ M11 Sprint plan + DoD</li>
+<li>☐ M12 Feasibility drill + template ★</li>
+<li>☐ M13 Data plan</li>
+<li>☐ M14 Production eval plan ★</li>
+<li>☐ M15 Cost &amp; latency model ★</li>
+<li>☐ M16 Risk register + GTM one-pager</li>
+<li>☐ M17 Capstone brief + PRD v2</li>
+<li>☐ M18 Capstone + eval report ★</li>
+<li>☐ M19 Case study + demo + index</li>
+<li>☐ M20 STAR stories + résumé + 30/60/90</li>
+<li>☐ Case memos 1–4 (1 page each)</li>
+<li>☐ Midterm (exams.md)</li>
+<li>☐ Final: thesis + defense (exams.md)</li>
+</ul>
+<hr />
+<h1 id="appendix-c-key-terms-examinable">APPENDIX C — Key terms (examinable)</h1>
+<p><strong>AI literacy (Modules 2–6):</strong> model · LLM · token · context window · training · inference · fine-tuning · prompt (system/user/few-shot) · temperature · hallucination · RAG · embedding · vector database · agent · eval · golden set · LLM-as-judge · precision/recall · accuracy trap · latency · throughput · structured output · tool use · distillation · benchmark · RLHF · jailbreak · capability vs. reliability</p>
+<p><strong>PM craft (Modules 7–11):</strong> double diamond · JTBD · discovery · Mom Test · PRD · user story · acceptance criteria · out-of-scope · RICE · MoSCoW · roadmap themes · north star · guardrail metric · funnel · activation · retention · instrumentation · A/B test · sprint · standup · retro · definition of done</p>
+<p><strong>AI PM craft (Modules 12–16):</strong> feasibility · human-in-the-loop · composable architecture · parametric vs. non-parametric memory · data flywheel · PII · GDPR · EU AI Act · model drift · regression gate · feedback loop · cost per interaction · token economics · caching · model tiers · prompt injection · bias · risk register · positioning · usage-based pricing · outcome pricing</p>
+<hr />
+<h1 id="appendix-d-the-book-budget-50">APPENDIX D — The book budget (&lt;$50)</h1>
+<ol>
+<li><strong>The Mom Test</strong> (Fitzpatrick, used ~$10) — Module 7. Smallest, highest-leverage book in the course.</li>
+<li><strong>Cracking the PM Interview</strong> (McDowell &amp; Bavaro, used ~$15) — Modules 1, 20. The frameworks + interview bible.</li>
+<li><strong>Inspired</strong> (Cagan, used ~$15) — Modules 7–11. The PM craft canon; read alongside the modules.</li>
+</ol>
+<p>Everything else is free. Resist paid courses; the free packet above is what working PMs themselves read.</p>
+<hr />
+<h2 id="closing-note">Closing note</h2>
+<p>This course teaches a stack that survives model turnover: <strong>judgment about problems, literacy about models, discipline about measurement, and courage about risk.</strong> The models will be replaced annually; the PM won't be. Sit the midterm honestly, defend the capstone proudly, and treat every "A" as provisional until an external reviewer agrees.</p>
+<p><em>— PROD 260 syllabus, built August 2026 from a two-round interview with the student. Re-verify Appendix A annually.</em></p>
+    <div class="pagefoot">
+      <a href="index.html">← Back to the program</a>
+      <span>Markdown source: <code>ai-pm-training-guide.md</code></span>
+    </div>
+  </main>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement, sb=document.getElementById("sidebar");
+  var KEY="fm-theme";
+  try{var saved=localStorage.getItem(KEY); if(saved) root.setAttribute("data-theme",saved);}catch(e){}
+  document.getElementById("themebtn").addEventListener("click",function(){
+    var cur=root.getAttribute("data-theme");
+    var dark=cur?cur==="dark":matchMedia("(prefers-color-scheme:dark)").matches;
+    var next=dark?"light":"dark";
+    root.setAttribute("data-theme",next);
+    try{localStorage.setItem(KEY,next);}catch(e){}
+  });
+  document.getElementById("printbtn").addEventListener("click",function(){window.print();});
+  document.querySelectorAll(".main table").forEach(function(t){
+    if(t.parentElement.classList.contains("tablewrap"))return;
+    var w=document.createElement("div");w.className="tablewrap";
+    t.parentNode.insertBefore(w,t);w.appendChild(t);
+  });
+  document.getElementById("navtoggle").addEventListener("click",function(){sb.classList.toggle("open");});
+  sb.addEventListener("click",function(e){if(e.target.tagName==="A")sb.classList.remove("open");});
+  var search=document.getElementById("navsearch");
+  search.addEventListener("input",function(){
+    var q=search.value.trim().toLowerCase();
+    document.querySelectorAll(".navgroup").forEach(function(g){
+      var shown=0;
+      g.querySelectorAll(".nava").forEach(function(a){
+        var hit=!q||a.textContent.toLowerCase().indexOf(q)>-1;
+        a.style.display=hit?"":"none"; if(hit)shown++;
+      });
+      var gl=g.querySelector(".glabel");
+      var glhit=!q||(gl&&gl.textContent.toLowerCase().indexOf(q)>-1);
+      g.style.display=(shown||glhit)?"":"none";
+    });
+  });
+  var links={};
+  document.querySelectorAll(".nava").forEach(function(a){links[a.getAttribute("data-nav")]=a;});
+  var targets=[].slice.call(document.querySelectorAll(".main h1[id],.main h2[id],.main h3[id]"));
+  var current=null;
+  function activate(id){
+    if(current===id)return;
+    if(links[current])links[current].classList.remove("active");
+    current=id;
+    var el=links[id];
+    if(el){
+      el.classList.add("active");
+      var r=el.getBoundingClientRect(), sr=sb.getBoundingClientRect();
+      if(r.top<sr.top||r.bottom>sr.bottom){ sb.scrollTop+=(r.top-sr.top)-sr.height/2+r.height/2; }
+    }
+  }
+  if("IntersectionObserver" in window){
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if(en.isIntersecting) activate(en.target.id); });
+    },{rootMargin:"-52px 0px -72% 0px",threshold:0});
+    targets.forEach(function(t){io.observe(t);});
+  }
+  document.addEventListener("keydown",function(e){
+    if(e.key==="/"&&document.activeElement!==search){e.preventDefault();search.focus();}
+    if(e.key==="Escape"&&document.activeElement===search){search.value="";search.dispatchEvent(new Event("input"));search.blur();}
+  });
+})();
+</script>
+</body>
+</html>

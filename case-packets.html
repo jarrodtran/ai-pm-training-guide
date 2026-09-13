@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>PROD 260 — Case Packet · AI-PM Training Guide</title>
+<style>
+/* ─────────────────────────────────────────────────────────────
+   AI-PM Training Guide — design system
+   Single source of truth. Inlined into every page at build time so
+   each output remains a self-contained, dependency-free HTML file.
+   ───────────────────────────────────────────────────────────── */
+:root{
+  --bg:#ffffff; --bg-2:#f5f5f7; --bg-3:#fbfbfd;
+  --text:#1d1d1f; --text-2:#6e6e73; --text-3:#86868b;
+  --sep:rgba(0,0,0,.10); --sep-2:rgba(0,0,0,.06);
+  --accent:#0071e3; --accent-soft:rgba(0,113,227,.09);
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --r:18px; --r-sm:12px; --bar:52px; --maxw:820px;
+  --shadow:0 1px 3px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.04);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#000000; --bg-2:#1d1d1f; --bg-3:#161617;
+  --text:#f5f5f7; --text-2:#a1a1a6; --text-3:#86868b;
+  --sep:rgba(255,255,255,.14); --sep-2:rgba(255,255,255,.08);
+  --accent:#2997ff; --accent-soft:rgba(41,151,255,.14);
+  --shadow:0 1px 3px rgba(0,0,0,.5),0 8px 24px rgba(0,0,0,.4);
+}}
+html[data-theme="dark"]{
+  --bg:#000000; --bg-2:#1d1d1f; --bg-3:#161617;
+  --text:#f5f5f7; --text-2:#a1a1a6; --text-3:#86868b;
+  --sep:rgba(255,255,255,.14); --sep-2:rgba(255,255,255,.08);
+  --accent:#2997ff; --accent-soft:rgba(41,151,255,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{
+  font-family:var(--sans);background:var(--bg);color:var(--text);
+  font-size:17px;line-height:1.6;letter-spacing:-.011em;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:4px solid var(--accent-soft);outline-offset:2px;border-radius:6px}
+
+/* ── top bar ───────────────────────────────────────────────── */
+.topbar{
+  position:fixed;top:0;left:0;right:0;height:var(--bar);z-index:60;
+  display:flex;align-items:center;gap:14px;padding:0 22px;
+  background:color-mix(in srgb,var(--bg) 72%,transparent);
+  -webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);
+  border-bottom:1px solid var(--sep);
+}
+.topbar .mark{font-size:14px;font-weight:600;letter-spacing:-.01em;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topbar .spacer{flex:1}
+.iconbtn{
+  font:500 13px var(--sans);color:var(--text-2);background:transparent;border:1px solid var(--sep);
+  border-radius:980px;padding:6px 13px;cursor:pointer;white-space:nowrap;transition:background .2s,color .2s,border-color .2s;
+  text-decoration:none;display:inline-flex;align-items:center;
+}
+.iconbtn:hover{background:var(--bg-2);color:var(--text);border-color:var(--sep-2);text-decoration:none}
+.nowrap{white-space:nowrap}
+#navtoggle{display:none}
+.backlink{color:var(--text-2);font-size:13px;text-decoration:none;white-space:nowrap}
+.backlink:hover{color:var(--accent);text-decoration:none}
+
+/* ── shell ─────────────────────────────────────────────────── */
+.shell{display:grid;grid-template-columns:286px minmax(0,1fr);max-width:1440px;margin:0 auto;padding-top:var(--bar)}
+.shell.nonav{grid-template-columns:minmax(0,1fr)}
+.sidebar{
+  position:sticky;top:var(--bar);height:calc(100vh - var(--bar));overflow-y:auto;
+  padding:26px 18px 80px 22px;border-right:1px solid var(--sep);overscroll-behavior:contain;
+}
+.sidebar::-webkit-scrollbar{width:8px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--sep);border-radius:4px}
+.navsearch{
+  width:100%;padding:8px 12px;margin-bottom:20px;border:1px solid var(--sep);border-radius:10px;
+  background:var(--bg-2);color:var(--text);font:500 13.5px var(--sans);letter-spacing:-.01em;
+}
+.navsearch::placeholder{color:var(--text-3)}
+.navsearch:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft);background:var(--bg)}
+.navgroup{margin-bottom:20px}
+.glabel{
+  display:block;font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--text-3);margin:0 0 7px 10px;text-decoration:none;
+}
+a.glabel:hover{color:var(--accent);text-decoration:none}
+.nava{
+  display:block;font-size:13.5px;line-height:1.34;letter-spacing:-.01em;
+  padding:5px 10px;border-radius:8px;color:var(--text-2);text-decoration:none;
+  transition:background .15s,color .15s;
+}
+.nava:hover{background:var(--bg-2);color:var(--text);text-decoration:none}
+.nava.lvl3{padding-left:22px;font-size:12.5px;color:var(--text-3)}
+.nava.active{background:var(--accent-soft);color:var(--accent);font-weight:600}
+
+/* ── article ───────────────────────────────────────────────── */
+.main{padding:0 56px 140px;max-width:calc(var(--maxw) + 112px)}
+.hero{padding:76px 0 44px;border-bottom:1px solid var(--sep);margin-bottom:46px}
+.kicker{font-size:12px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.hero h1{font-size:clamp(36px,5.2vw,58px);line-height:1.05;letter-spacing:-.028em;font-weight:700}
+.hero .sub{font-size:clamp(19px,2.2vw,24px);line-height:1.32;letter-spacing:-.017em;color:var(--text-2);margin-top:16px;max-width:30ch;font-weight:400}
+.hero .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.hero .meta span{
+  font-size:12.5px;color:var(--text-2);background:var(--bg-2);
+  border-radius:980px;padding:5px 13px;letter-spacing:-.01em;white-space:nowrap;
+}
+.main h1{
+  font-size:clamp(30px,3.6vw,42px);line-height:1.08;letter-spacing:-.024em;font-weight:700;
+  margin:70px 0 10px;scroll-margin-top:calc(var(--bar) + 20px);
+}
+.main h1:first-of-type{margin-top:10px}
+.main h2{
+  font-size:clamp(22px,2.5vw,29px);line-height:1.16;letter-spacing:-.019em;font-weight:700;
+  margin:46px 0 14px;scroll-margin-top:calc(var(--bar) + 20px);
+}
+.main h3{
+  font-size:19px;line-height:1.28;letter-spacing:-.013em;font-weight:600;
+  margin:32px 0 10px;scroll-margin-top:calc(var(--bar) + 20px);
+}
+.main h4{font-size:17px;font-weight:600;margin:24px 0 8px;scroll-margin-top:calc(var(--bar) + 20px)}
+.main p{font-size:17px;line-height:1.62;margin:0 0 15px;max-width:74ch}
+.main ul,.main ol{margin:0 0 17px 23px;font-size:17px;line-height:1.6}
+.main li{margin-bottom:7px}
+.main li>ul,.main li>ol{margin-top:7px}
+.main strong{font-weight:600}
+.main em{font-style:italic}
+.main hr{border:none;border-top:1px solid var(--sep);margin:60px 0}
+
+/* tables — hairline, no vertical rules */
+.tablewrap{overflow-x:auto;margin:20px 0 26px;border:1px solid var(--sep);border-radius:var(--r-sm);-webkit-overflow-scrolling:touch}
+.main table{width:100%;border-collapse:collapse;font-size:14.5px;letter-spacing:-.006em;min-width:540px;background:var(--bg)}
+.main th{
+  text-align:left;font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--text-2);background:var(--bg-2);padding:12px 15px;white-space:nowrap;
+  position:sticky;top:0;z-index:1;border-bottom:1px solid var(--sep);
+}
+.main td{padding:12px 15px;border-top:1px solid var(--sep-2);vertical-align:top;line-height:1.5}
+.main tbody tr:first-child td{border-top:none}
+.main td strong{font-weight:600;color:var(--text)}
+
+/* code + diagram blocks */
+.main pre{
+  background:var(--bg-2);border-radius:var(--r-sm);padding:20px 22px;margin:20px 0 26px;
+  overflow-x:auto;font-family:var(--mono);font-size:12.5px;line-height:1.52;letter-spacing:0;
+  color:var(--text);-webkit-overflow-scrolling:touch;
+}
+.main pre code{background:none;padding:0;font-size:inherit}
+.main code{font-family:var(--mono);font-size:.88em;background:var(--bg-2);padding:2px 6px;border-radius:6px;letter-spacing:0}
+
+/* callouts */
+.main blockquote{background:var(--bg-2);border-radius:var(--r);padding:20px 24px;margin:22px 0 28px;max-width:74ch}
+.main blockquote p{font-size:16px;line-height:1.58;margin:0;color:var(--text-2)}
+.main blockquote p+p{margin-top:10px}
+.main blockquote strong{color:var(--text);font-weight:600}
+
+/* footer */
+.pagefoot{margin-top:72px;padding-top:26px;border-top:1px solid var(--sep);font-size:13px;color:var(--text-3);display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center}
+.pagefoot a{color:var(--text-2)}
+.pagefoot a:hover{color:var(--accent)}
+
+@media (max-width:980px){
+  .shell{grid-template-columns:1fr}
+  #navtoggle{display:inline-flex;align-items:center}
+  .sidebar{
+    position:fixed;top:var(--bar);left:0;right:0;bottom:0;height:auto;width:100%;max-width:none;
+    background:var(--bg);border-right:none;z-index:55;padding:20px 22px 80px;
+    transform:translateX(-100%);transition:transform .34s cubic-bezier(.32,.72,0,1);
+  }
+  .sidebar.open{transform:none}
+  .main{padding:0 22px 110px;max-width:none}
+  .hero{padding:44px 0 32px;margin-bottom:34px}
+  .main h1{margin-top:52px}
+}
+@media print{
+  .topbar,.sidebar,.navsearch,.pagefoot{display:none!important}
+  .shell{display:block;padding-top:0;max-width:none}
+  .main{max-width:none;padding:0}
+  body{font-size:10.5pt;background:#fff;color:#000}
+  .hero{padding-top:0;border-color:#ccc}
+  .main h1{page-break-before:always;page-break-after:avoid;font-size:20pt}
+  .main h1:first-of-type{page-break-before:avoid}
+  .main h2,.main h3{page-break-after:avoid}
+  .main pre,.tablewrap,.main blockquote{page-break-inside:avoid}
+  .main pre,.main blockquote,.main th{background:#f2f2f2}
+  a{color:#000;text-decoration:none}
+  .hero .meta span{border:1px solid #ddd;background:none}
+}
+
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <button class="iconbtn" id="navtoggle" aria-label="Contents">Contents</button>
+  <a class="backlink" href="index.html">← AI-PM Training Guide</a>
+  <span class="spacer"></span>
+  <button class="iconbtn nowrap" id="themebtn" aria-label="Toggle appearance">Appearance</button>
+  <button class="iconbtn nowrap" id="printbtn">Print</button>
+</div>
+
+<div class="shell">
+  <nav class="sidebar" id="sidebar" aria-label="Contents">
+    <input class="navsearch" id="navsearch" type="search" placeholder="Filter sections" autocomplete="off" aria-label="Filter sections">
+    <div class="navgroup"><span class="glabel">Contents</span>
+<a class="nava" href="#how-to-use-this-packet-hbs-case-method" data-nav="how-to-use-this-packet-hbs-case-method">How to use this packet (HBS case method)</a>
+</div>
+<div class="navgroup"><a class="glabel" href="#case-a-github-copilot-measuring-the-unmeasurable">CASE A — GitHub Copilot: "Measuring the Unmeasurable"</a>
+<a class="nava" href="#background" data-nav="background">Background</a>
+<a class="nava" href="#timeline" data-nav="timeline">Timeline</a>
+<a class="nava" href="#the-measurement-problem" data-nav="the-measurement-problem">The measurement problem</a>
+<a class="nava" href="#the-decision" data-nav="the-decision">The decision</a>
+<a class="nava" href="#discussion-questions" data-nav="discussion-questions">Discussion questions</a>
+<a class="nava lvl3" href="#teaching-note-case-a" data-nav="teaching-note-case-a">Teaching note — Case A</a>
+</div>
+<div class="navgroup"><a class="glabel" href="#case-b-intercom-fin-the-retrieval-first-support-agent">CASE B — Intercom Fin: "The Retrieval-First Support Agent"</a>
+<a class="nava" href="#background_1" data-nav="background_1">Background</a>
+<a class="nava" href="#the-decision_1" data-nav="the-decision_1">The decision</a>
+<a class="nava" href="#discussion-questions_1" data-nav="discussion-questions_1">Discussion questions</a>
+<a class="nava lvl3" href="#teaching-note-case-b" data-nav="teaching-note-case-b">Teaching note — Case B</a>
+</div>
+<div class="navgroup"><a class="glabel" href="#case-c-duolingo-max-when-ai-succeeds-margins-compress">CASE C — Duolingo Max: "When AI Succeeds, Margins Compress"</a>
+<a class="nava" href="#background_2" data-nav="background_2">Background</a>
+<a class="nava" href="#the-decision_2" data-nav="the-decision_2">The decision</a>
+<a class="nava" href="#discussion-questions_2" data-nav="discussion-questions_2">Discussion questions</a>
+<a class="nava lvl3" href="#teaching-note-case-c" data-nav="teaching-note-case-c">Teaching note — Case C</a>
+</div>
+<div class="navgroup"><a class="glabel" href="#case-d-klarna-ai-assistant-vendor-claims-as-data">CASE D — Klarna AI Assistant: "Vendor Claims as Data"</a>
+<a class="nava" href="#background_3" data-nav="background_3">Background</a>
+<a class="nava" href="#the-decision_3" data-nav="the-decision_3">The decision</a>
+<a class="nava" href="#discussion-questions_3" data-nav="discussion-questions_3">Discussion questions</a>
+<a class="nava lvl3" href="#teaching-note-case-d" data-nav="teaching-note-case-d">Teaching note — Case D</a>
+<a class="nava" href="#case-grading-rubric-applies-to-memos-14" data-nav="case-grading-rubric-applies-to-memos-14">Case grading rubric (applies to memos 1–4)</a>
+</div>
+  </nav>
+
+  <main class="main">
+    <header class="hero">
+      <div class="kicker">Case packet</div>
+      <h1>PROD 260 — Case Packet</h1>
+      <p class="sub">Four cases, exhibits and teaching notes</p>
+    </header>
+<h2 id="how-to-use-this-packet-hbs-case-method">How to use this packet (HBS case method)</h2>
+<p>For each case: (1) read the packet and the assigned primary sources; (2) form a view on the decision or judgment the case centers; (3) <strong>write your 1-page decision memo before reading the teaching note</strong> at the end of that case; (4) then read the teaching note and grade your memo against it. Memos are 5% of the course grade each.</p>
+<p>All facts and figures below were verified against the cited primary sources, August 2026. Where a number is <em>vendor-published</em> (company or partner claims), it is labeled as such — treating that distinction is part of the exercise.</p>
+<hr />
+<h1 id="case-a-github-copilot-measuring-the-unmeasurable">CASE A — GitHub Copilot: "Measuring the Unmeasurable"</h1>
+<p><strong>Prepared for PROD 260 · Module 6 (Measurement)</strong>
+<strong>Sources:</strong> GitHub Research blog (2022); Chen et al. 2021 (arXiv:2107.03374); GitHub public statistics pages (2024–2025); independent replication study (arXiv:2509.20353).</p>
+<h2 id="background">Background</h2>
+<p>In June 2022, GitHub shipped Copilot — an AI pair programmer that suggests code as developers type — as a generally available product. It is powered by Codex, a GPT model fine-tuned on public code, described in the research paper <em>Evaluating Large Language Models Trained on Code</em> (Chen et al., 2021). The paper introduced <strong>HumanEval</strong>, an evaluation set of 164 programming problems that tests <em>functional correctness</em> — does the generated code pass the test? Codex solved 28.8% of HumanEval problems on its first sample; with 100 samples per problem, 70.2%. The paper's authors themselves noted limitations: difficulty with long chains of operations, and "the potential broader impacts of deploying powerful code generation technologies, covering safety, security, and economics."</p>
+<h2 id="timeline">Timeline</h2>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Event</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Jul 2021</td>
+<td>Codex paper published (arXiv:2107.03374)</td>
+</tr>
+<tr>
+<td>Jun 2021</td>
+<td>Copilot technical preview announced (VS Code extension)</td>
+</tr>
+<tr>
+<td>Jun 2022</td>
+<td>Copilot general availability</td>
+</tr>
+<tr>
+<td>Sep 2022</td>
+<td>GitHub publishes its productivity experiment (below)</td>
+</tr>
+<tr>
+<td>2023–2024</td>
+<td>GitHub reports rising share of AI-written code; claims reach 46% of code in enabled files, up from 27% in 2022 (GitHub statistics pages — <em>vendor-published</em>)</td>
+</tr>
+<tr>
+<td>Jul 2025</td>
+<td>GitHub reports 20M all-time users; claims 90% of Fortune 100 companies have deployed Copilot (<em>vendor-published</em>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-measurement-problem">The measurement problem</h2>
+<p>Copilot is the canonical "hard to measure" AI feature: its output is open-ended code, its value is partly subjective (developer satisfaction, focus, learning), and its failures (subtle bugs, security vulnerabilities, plausible-looking nonsense) may not surface for months. GitHub's own research (Sep 2022) ran a controlled experiment with 95 professional developers: those using Copilot completed an HTTP-server task <strong>55% faster</strong> (1h11m vs. 2h41m; P=0.0017; 95% CI [21%, 73%]) — a real, statistically significant result on a narrow task.</p>
+<p>But the picture is contested at field scale. A later independent longitudinal study of a company's engineering team (arXiv:2509.20353, 2025) found <strong>no statistically significant difference</strong> in developers' weekly activity after adopting Copilot, while noting participants <em>felt</em> faster. Meanwhile vendor statistics emphasize adoption and share-of-code, not business outcomes.</p>
+<p><strong>Exhibit A — the numbers in play:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Value</th>
+<th>Source type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HumanEval solve rate (Codex, first sample)</td>
+<td>28.8%</td>
+<td>Research paper</td>
+</tr>
+<tr>
+<td>HumanEval solve rate (100 samples)</td>
+<td>70.2%</td>
+<td>Research paper</td>
+</tr>
+<tr>
+<td>Task completion speedup (controlled, n=95)</td>
+<td>55% faster</td>
+<td>Vendor research (GitHub)</td>
+</tr>
+<tr>
+<td>Speedup 95% confidence interval</td>
+<td>[21%, 73%]</td>
+<td>Vendor research (GitHub)</td>
+</tr>
+<tr>
+<td>Share of code written by Copilot (2022 → 2024)</td>
+<td>27% → 46%</td>
+<td>Vendor statistics</td>
+</tr>
+<tr>
+<td>Weekly-activity effect in field study</td>
+<td>Not statistically significant</td>
+<td>Independent study</td>
+</tr>
+<tr>
+<td>All-time users (Jul 2025)</td>
+<td>20M</td>
+<td>Vendor statistics</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-decision">The decision</h2>
+<p>You are the PM who must convince the company (and customers) that Copilot delivers measurable value. Your choices of metric will determine what the company optimizes: <strong>developer speed</strong> (controlled experiments), <strong>developer satisfaction</strong> (surveys — GitHub reported &gt;90% agreement that it accelerates repetitive work), <strong>code quality</strong> (bug rates, security findings, review times), <strong>business outcomes</strong> (merge time, time-to-ship features, retention), or some combination. Each metric has a trap: speed experiments don't generalize; satisfaction is subjective; quality is confounded by the very code the AI wrote; business outcomes take quarters.</p>
+<p><strong>Your memo (1 page):</strong> Define how you would <em>measure</em> Copilot's value. What is the north star for a developer-tool AI? What are the guardrails? Which claims in Exhibit A would you trust, which would you discount, and how would you design your own evaluation? Where does the capability/reliability gap show up in this product?</p>
+<h2 id="discussion-questions">Discussion questions</h2>
+<ol>
+<li>What does the gap between GitHub's controlled experiment and the independent field study teach you about AI measurement in general?</li>
+<li>If you optimized for "share of code written by AI," what would you accidentally optimize against? (Consider learning, code review load, security.)</li>
+<li>HumanEval tests functional correctness. What does it <em>not</em> test — and what would you add for a production developer tool?</li>
+</ol>
+<hr />
+<h3 id="teaching-note-case-a">Teaching note — Case A</h3>
+<p><strong>What to look for in a strong memo:</strong> (1) A recognition that no single metric suffices — the best memos define a metric <em>system</em>: a north star (e.g., time-to-merge or developer-reported value), quality guardrails (bug rate, security findings), and satisfaction measures. (2) Explicit skepticism of vendor numbers — 55% is a narrow task; 46% share-of-code is an input, not an outcome. (3) A designed evaluation: the memo proposes its own controlled or quasi-experiment rather than accepting any published number. (4) Naming the capability/reliability gap: the demo (solves a task fast) vs. production reality (subtle bugs, security risk).</p>
+<p><strong>The recurring lesson (module-level):</strong> when the artifact is open-ended, measurement is a <em>design</em> problem first. Copilot forced the industry to invent measurement; the PM who defines the metric system controls the strategy conversation. Red flags: accepting any single number, especially a vendor one; proposing "accuracy" or "speed" as if self-evident; no mention of what could go wrong.</p>
+<hr />
+<h1 id="case-b-intercom-fin-the-retrieval-first-support-agent">CASE B — Intercom Fin: "The Retrieval-First Support Agent"</h1>
+<p><strong>Prepared for PROD 260 · Module 12 (Feasibility &amp; System Design)</strong>
+<strong>Sources:</strong> Intercom launch post (Mar 2023); AWS × Anthropic × Intercom case study (2024–2025); Fin customer case studies (Rocket Money, Consensys — vendor-published).</p>
+<h2 id="background_1">Background</h2>
+<p>In March 2023 — days after GPT-4's release — Intercom announced <strong>Fin</strong>, an AI customer-support agent. The founding design constraint is stated plainly in the launch post: Fin "is designed to only provide answers based on content in your existing help center," because "large language models currently have a different failure mode than previous bots: while a rules bot may deliver an irrelevant answer, our AI bot may deliver an <em>incorrect</em> answer." Fin links to its source articles so users can verify; when help content updates, answers update with it. The launch post also flags the era's constraints: cost ("large language models are currently expensive to run") and latency ("10 or more seconds of latency is not uncommon").</p>
+<p>Intercom later rebuilt Fin on Anthropic's Claude via AWS Bedrock. The architecture (per the AWS case study) is <strong>15–20 subcomponents, each paired with a specific model</strong> — answer verification, policy-compliance checking, response generation — rather than one giant prompt. Intercom reports average resolution rates of <strong>56% within 30 days of deployment</strong>, with some customers reaching <strong>80–90%</strong>; <strong>4,000+ customers</strong> and "tens of millions of dollars" in revenue since launch (<em>vendor-published</em>). Anthropic itself became a Fin customer.</p>
+<p><strong>Exhibit B — customer results (vendor-published, fin.ai):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Customer</th>
+<th>Fin involvement</th>
+<th>Resolution rate</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rocket Money</td>
+<td>54% of conversations</td>
+<td>68%</td>
+<td>~$1M annual efficiency gain; human CSAT +6 points; phased rollout (started at 10% of conversations, scoped workflows: billing, troubleshooting, account access)</td>
+</tr>
+<tr>
+<td>Consensys</td>
+<td>90% of conversations</td>
+<td>&gt;70%</td>
+<td>~20k resolutions/month; ran a live "bake-off" vs. two competitors; pays per resolution</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-decision_1">The decision</h2>
+<p>Fin is a feasibility and design case. Intercom made a series of architectural bets: retrieval-only answers (no improvisation from training knowledge), source-link transparency, per-task models (verify → generate → policy-check) instead of one monolithic prompt, explicit human handoff for high-stakes actions (e.g., cancellations), and phasing — customers like Rocket Money started at 10% of conversations with tightly scoped workflows. You are the PM at a company building a similar agent for a <em>different</em> domain (pick one: healthcare scheduling, field-service support, or a B2B software help desk). Which of Fin's bets transfer? Which don't? What does your feasibility assessment say?</p>
+<p><strong>Your memo (1 page):</strong> For your chosen domain: (1) feasibility — AI vs. rules vs. human for each of the top 5 support intents; (2) architecture — where retrieval, guardrails, policy checks, and human handoff sit; (3) the eval design you'd use before letting it touch real customers; (4) the rollout path (how you'd phase, like Rocket Money's 10% start).</p>
+<h2 id="discussion-questions_1">Discussion questions</h2>
+<ol>
+<li>Fin's launch post says the failure mode changed from "irrelevant" to "incorrect." Why is that a <em>harder</em> product problem? What does it imply for UX design (source links, disclosure)?</li>
+<li>Why build 15–20 subcomponents with separate models instead of one long prompt? (Relate to Anthropic's "simple, composable patterns.")</li>
+<li>Rocket Money started at 10% of conversations with billing/troubleshooting scope. What made that a good first slice? What would you add last, and why?</li>
+</ol>
+<hr />
+<h3 id="teaching-note-case-b">Teaching note — Case B</h3>
+<p><strong>What to look for in a strong memo:</strong> (1) Feasibility scored per intent, with high-stakes intents (account actions, health, money) reserved for humans or heavily guarded AI — not a blanket "AI for everything." (2) Architecture borrowing Fin's composition: retrieval + generation + a separate verification/policy step, plus escalation. (3) An eval design <em>before</em> customer exposure (golden set of the top intents, resolution correctness, hallucination rate on out-of-scope). (4) A phased rollout with a defined expansion order and a decision rule for expanding ("resolve ≥X% correctly on slice 1 for 4 weeks, then add slice 2"). Red flags: no human handoff; trusting the model's own knowledge; proposing to "just fine-tune" instead of retrieval; no measurement plan.</p>
+<p><strong>The recurring lesson (module-level):</strong> Fin is the reference architecture for production LLM products: <em>compose small, verified pieces; ground everything in retrieval; keep a human in the loop where stakes are high; measure before you scale.</em> The best memos also notice the business-model echo — outcome pricing (pay per resolution) aligns vendor and customer, a preview of Module 15's packaging discussion.</p>
+<hr />
+<h1 id="case-c-duolingo-max-when-ai-succeeds-margins-compress">CASE C — Duolingo Max: "When AI Succeeds, Margins Compress"</h1>
+<p><strong>Prepared for PROD 260 · Module 15 (Cost, Latency &amp; Model Selection)</strong>
+<strong>Sources:</strong> Duolingo public announcements and SEC filings; press coverage of Q4/FY25 shareholder communications (as reported, 2025–2026).</p>
+<h2 id="background_2">Background</h2>
+<p>Duolingo runs a two-layer AI system. The first layer is <strong>Birdbrain</strong>, a proprietary model refined over years that estimates, for every exercise, both its difficulty across the user base and the individual learner's proficiency — powering personalization at ~1 billion exercises per day. The second layer is generative: <strong>Duolingo Max</strong>, launched <strong>March 14, 2023</strong>, powered by GPT-4, adding Roleplay (conversations with AI characters) and Explain My Answer. Earlier experiments with GPT-3 had failed — the model couldn't sustain unscripted conversation.</p>
+<p>The company then went all-in: an "AI-first" mandate in early 2024 (CEO memo; AI proficiency factored into hiring and reviews), ~10% of contract workforce cut, and content generation automated to nearly 100%. By end of 2025: <strong>~50M daily active users</strong>, <strong>$1B+ in annual bookings</strong>.</p>
+<p>But the financials tell the other half of the story. <strong>Gross margin compressed from 73.0% to 71.1%</strong>, attributed in SEC filings to generative-AI compute costs. Analysts responded harshly — Morgan Stanley cut its price target from $245 to $100, flagging growth-vs-revenue prioritization. Max penetration stayed low (~5% of paid subscribers at end of 2025, on a ~$30/month tier, vs. the cheaper Super tier), and Duolingo began moving features down-tier (Video Call moving from Max to Super).</p>
+<p><strong>Exhibit C — the tension:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Signal</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Birdbrain scale</td>
+<td>~1B exercises/day</td>
+</tr>
+<tr>
+<td>Max launch</td>
+<td>Mar 14, 2023 (GPT-4; Roleplay + Explain My Answer)</td>
+</tr>
+<tr>
+<td>DAU (end 2025)</td>
+<td>~50M</td>
+</tr>
+<tr>
+<td>Annual bookings (FY25)</td>
+<td>$1B+</td>
+</tr>
+<tr>
+<td>Gross margin change</td>
+<td>73.0% → 71.1% (GenAI compute costs, per SEC filings)</td>
+</tr>
+<tr>
+<td>Max share of paid subs</td>
+<td>~5%</td>
+</tr>
+<tr>
+<td>Wall Street reaction</td>
+<td>Price target cut $245 → $100 (Morgan Stanley)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-decision_2">The decision</h2>
+<p>You are the PM for Duolingo's generative-AI features. The classical trade-off has arrived with force: <strong>AI features succeed, usage grows, and the compute bill grows with success — compressing margins that a subscription business was built to protect.</strong> Your decisions: (1) <em>Model selection</em> — frontier (GPT-4-class) for Roleplay/Video Call vs. cheaper models elsewhere; what's the cost/quality/latency frontier, and where does Birdbrain (classical ML) remain the right tool? (2) <em>Packaging &amp; pricing</em> — Max at ~$30/month with ~5% penetration; what pricing/feature structure aligns revenue with cost? (3) <em>The margin conversation</em> — how do you defend AI investment to a board watching margins compress and the stock fall?</p>
+<p><strong>Your memo (1 page):</strong> A cost and packaging strategy for Duolingo's generative features. Build a token-cost model for one feature (Roleplay: speech-to-text + LLM + text-to-speech per session — estimate tokens and cost per session using current pricing), recommend a model tiering strategy (which features get frontier models, which get cheap ones), and propose a pricing/packaging change with a rationale. Address the margin conversation head-on.</p>
+<h2 id="discussion-questions_2">Discussion questions</h2>
+<ol>
+<li>"If your AI features succeed, your compute bill grows with them." What pricing structures survive that reality, and which break?</li>
+<li>Why is Birdbrain — not GPT-4 — still the engine of the core product? What does that say about when to use frontier models at all?</li>
+<li>Analysts punished margin compression despite growth. Is the market wrong, or is there a real strategy problem in AI-era economics?</li>
+</ol>
+<hr />
+<h3 id="teaching-note-case-c">Teaching note — Case C</h3>
+<p><strong>What to look for in a strong memo:</strong> (1) A real cost model — tokens per session (Roleplay is a long multi-turn session with STT/TTS on top), cost per session, monthly cost at scale, and a tiering recommendation that keeps frontier models only where the experience demands them. (2) Recognition that classical ML (Birdbrain) carries the core experience at near-zero marginal cost — the lesson that "AI" isn't one technology and the cheapest model is often the right one. (3) A packaging proposal with logic: e.g., outcome-based value (language outcomes), tiered features by cost profile, or hybrid pricing — and an acknowledgment that the ~5% penetration suggests the $30 tier is mispriced or mispositioned. (4) A board-level framing: margin compression as an investment in a defensible data/moats flywheel vs. as a structural cost disease — the memo should take a side. Red flags: no cost math; "use the best model everywhere"; ignoring Birdbrain; no pricing proposal.</p>
+<p><strong>The recurring lesson (module-level):</strong> success has a cost curve. Budget for your own success before launch — model tiering, caching, and packaging that aligns revenue with compute are not optimizations, they are the product strategy.</p>
+<hr />
+<h1 id="case-d-klarna-ai-assistant-vendor-claims-as-data">CASE D — Klarna AI Assistant: "Vendor Claims as Data"</h1>
+<p><strong>Prepared for PROD 260 · Module 16 (Risk, Safety &amp; Go-to-Market)</strong>
+<strong>Sources:</strong> Klarna press release (Feb 2024); OpenAI customer story (2024). <em>Both are vendor-published — that is the case.</em></p>
+<h2 id="background_3">Background</h2>
+<p>In February 2024, Klarna — a global payments and shopping network with ~150M consumers — launched an OpenAI-powered customer-service assistant inside its app. The numbers, published by Klarna and OpenAI within the first month:</p>
+<p><strong>Exhibit D — the claims:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Value</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Conversations handled (month 1)</td>
+<td>2.3M — two-thirds of all customer-service chats</td>
+<td>Klarna press release / OpenAI story</td>
+</tr>
+<tr>
+<td>Agent-equivalent work</td>
+<td>700 full-time agents</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Customer satisfaction</td>
+<td>"On par with human agents"</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Repeat inquiries</td>
+<td>−25%</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Resolution time</td>
+<td>&lt;2 min vs. 11 min previously</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Markets / languages</td>
+<td>23 markets, 35+ languages, 24/7</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Projected profit improvement (2024)</td>
+<td>~$40M</td>
+<td>Same</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-decision_3">The decision</h2>
+<p>You are (a) the PM at a fintech reviewing this case to decide whether to replicate it; or (b) the PM at Klarna defending the numbers to a skeptical board. Both readings are the same exercise: <strong>separate signal from marketing.</strong> The claims are vendor-published — Klarna has an incentive to frame aggressively (and a history of AI-forward PR), and OpenAI has an incentive to showcase customers. The metrics themselves are a mixed bag: resolution time (an <em>efficiency</em> metric) and repeat inquiries (a <em>quality</em> metric) are the strongest; "on par with human agents" on CSAT is plausible but under-specified (sample, selection, survey mechanics); "work of 700 agents" is a rhetorical unit, not a measurement; the $40M is a projection. And this is <em>fintech</em>: refunds, account access, PII, regulated markets — the risk surface is severe. What would you verify, how, and what would you build to keep this safe at scale?</p>
+<p><strong>Your memo (1 page):</strong> A verification and risk plan. (1) For each headline claim: what would you need to see to believe it, and what would you measure yourself? (2) A risk register for a fintech support agent: hallucination, bias, privacy, security (prompt injection on a financial chatbot), compliance — with mitigations and <em>detection</em> mechanisms. (3) The human-in-the-loop design: which actions may the agent take unassisted, which require escalation, and how do you make that legible to customers?</p>
+<h2 id="discussion-questions_3">Discussion questions</h2>
+<ol>
+<li>"Resolution time down from 11 to 2 minutes" — what could make that number flattering beyond reality? (Routing of easy queries to AI, definition of "resolution," cherry-picked markets…)</li>
+<li>If you were Klarna's CTO, which of your own numbers would you refuse to repeat externally?</li>
+<li>What is the prompt-injection risk profile of a chatbot that can process refunds? What is the worst case you can construct?</li>
+</ol>
+<hr />
+<h3 id="teaching-note-case-d">Teaching note — Case D</h3>
+<p><strong>What to look for in a strong memo:</strong> (1) Epistemological discipline: the memo classifies each claim by verifiability — efficiency metrics (resolution time) are most credible; equivalence claims (CSAT) need methodology; "700 agents" is rhetoric; $40M is a projection — and proposes its own measurement for each. (2) A fintech-grade risk register: hallucinated refund policies, PII exposure in prompts, prompt injection with financial consequences, bias in credit/collections-adjacent content, GDPR/regulatory exposure — each with detection (sampled human review, injection test suites, red-team drills) not just mitigation. (3) Escalation design: an explicit list of actions the agent may and may not take, and the UX of handing off. Red flags: quoting the vendor numbers as fact; no injection threat model; agent allowed to perform irreversible actions without a human gate; no compliance mention in a regulated industry.</p>
+<p><strong>The recurring lesson (module-level):</strong> the AI PM's relationship to numbers is adversarial-by-default and constructive-by-design. Every vendor-published metric is a hypothesis until you can reproduce it; the risk register is the deliverable that turns "this is risky" into "here is how we detect it."</p>
+<hr />
+<h2 id="case-grading-rubric-applies-to-memos-14">Case grading rubric (applies to memos 1–4)</h2>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>A (18–20)</th>
+<th>B (15–17)</th>
+<th>C (12–14)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Position</td>
+<td>Clear, specific decision; no hedging</td>
+<td>Position present, somewhat general</td>
+<td>No clear position</td>
+</tr>
+<tr>
+<td>Evidence</td>
+<td>Uses case data correctly; separates vendor claims from verified facts; cites sources</td>
+<td>Mostly correct use of data</td>
+<td>Ignores or misreads data</td>
+</tr>
+<tr>
+<td>Framework</td>
+<td>Applies course frameworks (feasibility, evals, RICE, risk register) explicitly</td>
+<td>Frameworks implied</td>
+<td>No frameworks</td>
+</tr>
+<tr>
+<td>AI-use declaration</td>
+<td>Present and honest</td>
+<td>Present</td>
+<td>Missing</td>
+</tr>
+</tbody>
+</table>
+<p><em>Each memo: 1 page, ~500 words. Grade yourself before reading the teaching note; the delta between your grade and the note's assessment is the learning.</em></p>
+    <div class="pagefoot">
+      <a href="index.html">← Back to the program</a>
+      <span>Markdown source: <code>case-packets.md</code></span>
+    </div>
+  </main>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement, sb=document.getElementById("sidebar");
+  var KEY="fm-theme";
+  try{var saved=localStorage.getItem(KEY); if(saved) root.setAttribute("data-theme",saved);}catch(e){}
+  document.getElementById("themebtn").addEventListener("click",function(){
+    var cur=root.getAttribute("data-theme");
+    var dark=cur?cur==="dark":matchMedia("(prefers-color-scheme:dark)").matches;
+    var next=dark?"light":"dark";
+    root.setAttribute("data-theme",next);
+    try{localStorage.setItem(KEY,next);}catch(e){}
+  });
+  document.getElementById("printbtn").addEventListener("click",function(){window.print();});
+  document.querySelectorAll(".main table").forEach(function(t){
+    if(t.parentElement.classList.contains("tablewrap"))return;
+    var w=document.createElement("div");w.className="tablewrap";
+    t.parentNode.insertBefore(w,t);w.appendChild(t);
+  });
+  document.getElementById("navtoggle").addEventListener("click",function(){sb.classList.toggle("open");});
+  sb.addEventListener("click",function(e){if(e.target.tagName==="A")sb.classList.remove("open");});
+  var search=document.getElementById("navsearch");
+  search.addEventListener("input",function(){
+    var q=search.value.trim().toLowerCase();
+    document.querySelectorAll(".navgroup").forEach(function(g){
+      var shown=0;
+      g.querySelectorAll(".nava").forEach(function(a){
+        var hit=!q||a.textContent.toLowerCase().indexOf(q)>-1;
+        a.style.display=hit?"":"none"; if(hit)shown++;
+      });
+      var gl=g.querySelector(".glabel");
+      var glhit=!q||(gl&&gl.textContent.toLowerCase().indexOf(q)>-1);
+      g.style.display=(shown||glhit)?"":"none";
+    });
+  });
+  var links={};
+  document.querySelectorAll(".nava").forEach(function(a){links[a.getAttribute("data-nav")]=a;});
+  var targets=[].slice.call(document.querySelectorAll(".main h1[id],.main h2[id],.main h3[id]"));
+  var current=null;
+  function activate(id){
+    if(current===id)return;
+    if(links[current])links[current].classList.remove("active");
+    current=id;
+    var el=links[id];
+    if(el){
+      el.classList.add("active");
+      var r=el.getBoundingClientRect(), sr=sb.getBoundingClientRect();
+      if(r.top<sr.top||r.bottom>sr.bottom){ sb.scrollTop+=(r.top-sr.top)-sr.height/2+r.height/2; }
+    }
+  }
+  if("IntersectionObserver" in window){
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if(en.isIntersecting) activate(en.target.id); });
+    },{rootMargin:"-52px 0px -72% 0px",threshold:0});
+    targets.forEach(function(t){io.observe(t);});
+  }
+  document.addEventListener("keydown",function(e){
+    if(e.key==="/"&&document.activeElement!==search){e.preventDefault();search.focus();}
+    if(e.key==="Escape"&&document.activeElement===search){search.value="";search.dispatchEvent(new Event("input"));search.blur();}
+  });
+})();
+</script>
+</body>
+</html>

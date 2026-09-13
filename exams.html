@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>PROD 260 — Exam Book · AI-PM Training Guide</title>
+<style>
+/* ─────────────────────────────────────────────────────────────
+   AI-PM Training Guide — design system
+   Single source of truth. Inlined into every page at build time so
+   each output remains a self-contained, dependency-free HTML file.
+   ───────────────────────────────────────────────────────────── */
+:root{
+  --bg:#ffffff; --bg-2:#f5f5f7; --bg-3:#fbfbfd;
+  --text:#1d1d1f; --text-2:#6e6e73; --text-3:#86868b;
+  --sep:rgba(0,0,0,.10); --sep-2:rgba(0,0,0,.06);
+  --accent:#0071e3; --accent-soft:rgba(0,113,227,.09);
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --r:18px; --r-sm:12px; --bar:52px; --maxw:820px;
+  --shadow:0 1px 3px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.04);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#000000; --bg-2:#1d1d1f; --bg-3:#161617;
+  --text:#f5f5f7; --text-2:#a1a1a6; --text-3:#86868b;
+  --sep:rgba(255,255,255,.14); --sep-2:rgba(255,255,255,.08);
+  --accent:#2997ff; --accent-soft:rgba(41,151,255,.14);
+  --shadow:0 1px 3px rgba(0,0,0,.5),0 8px 24px rgba(0,0,0,.4);
+}}
+html[data-theme="dark"]{
+  --bg:#000000; --bg-2:#1d1d1f; --bg-3:#161617;
+  --text:#f5f5f7; --text-2:#a1a1a6; --text-3:#86868b;
+  --sep:rgba(255,255,255,.14); --sep-2:rgba(255,255,255,.08);
+  --accent:#2997ff; --accent-soft:rgba(41,151,255,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{
+  font-family:var(--sans);background:var(--bg);color:var(--text);
+  font-size:17px;line-height:1.6;letter-spacing:-.011em;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:4px solid var(--accent-soft);outline-offset:2px;border-radius:6px}
+
+/* ── top bar ───────────────────────────────────────────────── */
+.topbar{
+  position:fixed;top:0;left:0;right:0;height:var(--bar);z-index:60;
+  display:flex;align-items:center;gap:14px;padding:0 22px;
+  background:color-mix(in srgb,var(--bg) 72%,transparent);
+  -webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);
+  border-bottom:1px solid var(--sep);
+}
+.topbar .mark{font-size:14px;font-weight:600;letter-spacing:-.01em;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topbar .spacer{flex:1}
+.iconbtn{
+  font:500 13px var(--sans);color:var(--text-2);background:transparent;border:1px solid var(--sep);
+  border-radius:980px;padding:6px 13px;cursor:pointer;white-space:nowrap;transition:background .2s,color .2s,border-color .2s;
+  text-decoration:none;display:inline-flex;align-items:center;
+}
+.iconbtn:hover{background:var(--bg-2);color:var(--text);border-color:var(--sep-2);text-decoration:none}
+.nowrap{white-space:nowrap}
+#navtoggle{display:none}
+.backlink{color:var(--text-2);font-size:13px;text-decoration:none;white-space:nowrap}
+.backlink:hover{color:var(--accent);text-decoration:none}
+
+/* ── shell ─────────────────────────────────────────────────── */
+.shell{display:grid;grid-template-columns:286px minmax(0,1fr);max-width:1440px;margin:0 auto;padding-top:var(--bar)}
+.shell.nonav{grid-template-columns:minmax(0,1fr)}
+.sidebar{
+  position:sticky;top:var(--bar);height:calc(100vh - var(--bar));overflow-y:auto;
+  padding:26px 18px 80px 22px;border-right:1px solid var(--sep);overscroll-behavior:contain;
+}
+.sidebar::-webkit-scrollbar{width:8px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--sep);border-radius:4px}
+.navsearch{
+  width:100%;padding:8px 12px;margin-bottom:20px;border:1px solid var(--sep);border-radius:10px;
+  background:var(--bg-2);color:var(--text);font:500 13.5px var(--sans);letter-spacing:-.01em;
+}
+.navsearch::placeholder{color:var(--text-3)}
+.navsearch:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft);background:var(--bg)}
+.navgroup{margin-bottom:20px}
+.glabel{
+  display:block;font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--text-3);margin:0 0 7px 10px;text-decoration:none;
+}
+a.glabel:hover{color:var(--accent);text-decoration:none}
+.nava{
+  display:block;font-size:13.5px;line-height:1.34;letter-spacing:-.01em;
+  padding:5px 10px;border-radius:8px;color:var(--text-2);text-decoration:none;
+  transition:background .15s,color .15s;
+}
+.nava:hover{background:var(--bg-2);color:var(--text);text-decoration:none}
+.nava.lvl3{padding-left:22px;font-size:12.5px;color:var(--text-3)}
+.nava.active{background:var(--accent-soft);color:var(--accent);font-weight:600}
+
+/* ── article ───────────────────────────────────────────────── */
+.main{padding:0 56px 140px;max-width:calc(var(--maxw) + 112px)}
+.hero{padding:76px 0 44px;border-bottom:1px solid var(--sep);margin-bottom:46px}
+.kicker{font-size:12px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.hero h1{font-size:clamp(36px,5.2vw,58px);line-height:1.05;letter-spacing:-.028em;font-weight:700}
+.hero .sub{font-size:clamp(19px,2.2vw,24px);line-height:1.32;letter-spacing:-.017em;color:var(--text-2);margin-top:16px;max-width:30ch;font-weight:400}
+.hero .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.hero .meta span{
+  font-size:12.5px;color:var(--text-2);background:var(--bg-2);
+  border-radius:980px;padding:5px 13px;letter-spacing:-.01em;white-space:nowrap;
+}
+.main h1{
+  font-size:clamp(30px,3.6vw,42px);line-height:1.08;letter-spacing:-.024em;font-weight:700;
+  margin:70px 0 10px;scroll-margin-top:calc(var(--bar) + 20px);
+}
+.main h1:first-of-type{margin-top:10px}
+.main h2{
+  font-size:clamp(22px,2.5vw,29px);line-height:1.16;letter-spacing:-.019em;font-weight:700;
+  margin:46px 0 14px;scroll-margin-top:calc(var(--bar) + 20px);
+}
+.main h3{
+  font-size:19px;line-height:1.28;letter-spacing:-.013em;font-weight:600;
+  margin:32px 0 10px;scroll-margin-top:calc(var(--bar) + 20px);
+}
+.main h4{font-size:17px;font-weight:600;margin:24px 0 8px;scroll-margin-top:calc(var(--bar) + 20px)}
+.main p{font-size:17px;line-height:1.62;margin:0 0 15px;max-width:74ch}
+.main ul,.main ol{margin:0 0 17px 23px;font-size:17px;line-height:1.6}
+.main li{margin-bottom:7px}
+.main li>ul,.main li>ol{margin-top:7px}
+.main strong{font-weight:600}
+.main em{font-style:italic}
+.main hr{border:none;border-top:1px solid var(--sep);margin:60px 0}
+
+/* tables — hairline, no vertical rules */
+.tablewrap{overflow-x:auto;margin:20px 0 26px;border:1px solid var(--sep);border-radius:var(--r-sm);-webkit-overflow-scrolling:touch}
+.main table{width:100%;border-collapse:collapse;font-size:14.5px;letter-spacing:-.006em;min-width:540px;background:var(--bg)}
+.main th{
+  text-align:left;font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--text-2);background:var(--bg-2);padding:12px 15px;white-space:nowrap;
+  position:sticky;top:0;z-index:1;border-bottom:1px solid var(--sep);
+}
+.main td{padding:12px 15px;border-top:1px solid var(--sep-2);vertical-align:top;line-height:1.5}
+.main tbody tr:first-child td{border-top:none}
+.main td strong{font-weight:600;color:var(--text)}
+
+/* code + diagram blocks */
+.main pre{
+  background:var(--bg-2);border-radius:var(--r-sm);padding:20px 22px;margin:20px 0 26px;
+  overflow-x:auto;font-family:var(--mono);font-size:12.5px;line-height:1.52;letter-spacing:0;
+  color:var(--text);-webkit-overflow-scrolling:touch;
+}
+.main pre code{background:none;padding:0;font-size:inherit}
+.main code{font-family:var(--mono);font-size:.88em;background:var(--bg-2);padding:2px 6px;border-radius:6px;letter-spacing:0}
+
+/* callouts */
+.main blockquote{background:var(--bg-2);border-radius:var(--r);padding:20px 24px;margin:22px 0 28px;max-width:74ch}
+.main blockquote p{font-size:16px;line-height:1.58;margin:0;color:var(--text-2)}
+.main blockquote p+p{margin-top:10px}
+.main blockquote strong{color:var(--text);font-weight:600}
+
+/* footer */
+.pagefoot{margin-top:72px;padding-top:26px;border-top:1px solid var(--sep);font-size:13px;color:var(--text-3);display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center}
+.pagefoot a{color:var(--text-2)}
+.pagefoot a:hover{color:var(--accent)}
+
+@media (max-width:980px){
+  .shell{grid-template-columns:1fr}
+  #navtoggle{display:inline-flex;align-items:center}
+  .sidebar{
+    position:fixed;top:var(--bar);left:0;right:0;bottom:0;height:auto;width:100%;max-width:none;
+    background:var(--bg);border-right:none;z-index:55;padding:20px 22px 80px;
+    transform:translateX(-100%);transition:transform .34s cubic-bezier(.32,.72,0,1);
+  }
+  .sidebar.open{transform:none}
+  .main{padding:0 22px 110px;max-width:none}
+  .hero{padding:44px 0 32px;margin-bottom:34px}
+  .main h1{margin-top:52px}
+}
+@media print{
+  .topbar,.sidebar,.navsearch,.pagefoot{display:none!important}
+  .shell{display:block;padding-top:0;max-width:none}
+  .main{max-width:none;padding:0}
+  body{font-size:10.5pt;background:#fff;color:#000}
+  .hero{padding-top:0;border-color:#ccc}
+  .main h1{page-break-before:always;page-break-after:avoid;font-size:20pt}
+  .main h1:first-of-type{page-break-before:avoid}
+  .main h2,.main h3{page-break-after:avoid}
+  .main pre,.tablewrap,.main blockquote{page-break-inside:avoid}
+  .main pre,.main blockquote,.main th{background:#f2f2f2}
+  a{color:#000;text-decoration:none}
+  .hero .meta span{border:1px solid #ddd;background:none}
+}
+
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <button class="iconbtn" id="navtoggle" aria-label="Contents">Contents</button>
+  <a class="backlink" href="index.html">← AI-PM Training Guide</a>
+  <span class="spacer"></span>
+  <button class="iconbtn nowrap" id="themebtn" aria-label="Toggle appearance">Appearance</button>
+  <button class="iconbtn nowrap" id="printbtn">Print</button>
+</div>
+
+<div class="shell">
+  <nav class="sidebar" id="sidebar" aria-label="Contents">
+    <input class="navsearch" id="navsearch" type="search" placeholder="Filter sections" autocomplete="off" aria-label="Filter sections">
+    <div class="navgroup"><a class="glabel" href="#program-midterm-examination">PROGRAM MIDTERM EXAMINATION</a>
+<a class="nava" href="#question-1-design-product-sense" data-nav="question-1-design-product-sense">Question 1 — Design (product sense)</a>
+<a class="nava" href="#question-2-measurement-data-metrics" data-nav="question-2-measurement-data-metrics">Question 2 — Measurement (data &amp; metrics)</a>
+<a class="nava" href="#question-3-prioritization-judgment" data-nav="question-3-prioritization-judgment">Question 3 — Prioritization (judgment)</a>
+<a class="nava" href="#midterm-rubric" data-nav="midterm-rubric">Midterm rubric</a>
+</div>
+<div class="navgroup"><a class="glabel" href="#final-examination-capstone-thesis-defense">FINAL EXAMINATION — Capstone Thesis &amp; Defense</a>
+<a class="nava" href="#part-1-written-thesis-1012-pages" data-nav="part-1-written-thesis-1012-pages">Part 1 — Written thesis (10–12 pages)</a>
+<a class="nava" href="#part-2-recorded-defense-15-minutes" data-nav="part-2-recorded-defense-15-minutes">Part 2 — Recorded defense (15 minutes)</a>
+<a class="nava" href="#part-3-portfolio-review" data-nav="part-3-portfolio-review">Part 3 — Portfolio review</a>
+<a class="nava" href="#final-rubric" data-nav="final-rubric">Final rubric</a>
+</div>
+<div class="navgroup"><a class="glabel" href="#grading-protocol-how-to-be-a-fair-examiner">Grading protocol (how to be a fair examiner)</a>
+</div>
+  </nav>
+
+  <main class="main">
+    <header class="hero">
+      <div class="kicker">Exam book</div>
+      <h1>PROD 260 — Exam Book</h1>
+      <p class="sub">Midterm, capstone thesis, defense, rubrics</p>
+    </header>
+<p>Take-home examinations, rubrics, and grading protocol. All exams are self-graded under the course honor code (see the program guide): complete them in the stated time, with only the allowed materials, and grade yourself honestly. If you cannot defend an answer out loud, it does not count.</p>
+<p><strong>Structure of examination in this program:</strong>
+- <strong>Course finals</strong> — every course in the program has a take-home final (~2 hours) specified at the bottom of its syllabus page (courses/). Open-book: the syllabus, your portfolio, the allowed readings.
+- <strong>Program midterm</strong> — a cross-course integration exam, sat after Term 2 (after DATA 530). Below.
+- <strong>Answer guide</strong> — after writing your midterm answers, grade yourself against the frameworks and the worked RICE model answer in <code>answer-guide.md</code> (same folder). Your Q3 ranking must match its arithmetic exactly; your judgment calls may differ only with a defended reason.
+- <strong>Final: capstone thesis &amp; defense</strong> — sat after Term 4. Below.</p>
+<hr />
+<h1 id="program-midterm-examination">PROGRAM MIDTERM EXAMINATION</h1>
+<p><strong>Sits after Term 2 (after DATA 530). Time: ~3 hours, take-home. Open-book: this program's syllabi, your portfolio, the case packets. No web research beyond pricing/API docs.</strong></p>
+<p>Answer all three questions. Each answer: 500–700 words. Grade per the rubric at the end of this section.</p>
+<hr />
+<h2 id="question-1-design-product-sense">Question 1 — Design (product sense)</h2>
+<p><strong>Scenario.</strong> FieldService Co., a 4,000-employee HVAC and appliance repair company, has 250 field technicians. Their internal support line fields ~2,000 calls/week from technicians needing: part compatibility checks, warranty status, safety procedures, and "how do I fix X" guidance. Calls average 9 minutes; the 12-person support desk is backlogged; technician wait times run 15–40 minutes, and technicians bill by the job.</p>
+<p>The VP of Operations wants an AI assistant for the technicians. The CEO has asked you — the AI PM — for a recommendation.</p>
+<p><strong>Your task.</strong> Design the feature. Cover, explicitly: (1) the problem and who it serves (evidence you'd want before building); (2) a feasibility judgment — what the AI should and should not do, and where rules or humans stay in the loop; (3) the success metrics (north star + 3 guardrails, including model-quality metrics); (4) the evaluation design you'd stand up before and after launch; (5) the top 3 risks and how you'd detect each. You may make reasonable assumptions about the domain — state them.</p>
+<p><strong>Grading weight: 35% of midterm.</strong></p>
+<hr />
+<h2 id="question-2-measurement-data-metrics">Question 2 — Measurement (data &amp; metrics)</h2>
+<p><strong>Scenario.</strong> Six months after launch, your support bot resolves 60% of conversations and executives are celebrating. Your own data says something else: (1) the reported "accuracy" on the internal dashboard is 94%, computed as the share of bot responses that received no explicit thumbs-down; (2) only 8% of users rate responses at all; (3) repeat-contact rate is up 12% since launch; (4) sentiment analysis on open-ended feedback shows rising frustration with "the bot's confident wrong answers"; (5) the 60% "resolution" figure counts a conversation resolved when the user stops replying — including users who gave up.</p>
+<p><strong>Your task.</strong> Diagnose the measurement failure and fix it. (1) Identify at least three ways the current metrics mislead, with the specific mechanism of each (e.g., selection bias in the rating sample). (2) Redefine the measurement system: what is the real north star for this feature, what are the guardrails, and what instrumentation would you add? (3) Explain how you would communicate the corrected picture to the executives without losing credibility.</p>
+<p><strong>Grading weight: 35% of midterm.</strong></p>
+<hr />
+<h2 id="question-3-prioritization-judgment">Question 3 — Prioritization (judgment)</h2>
+<p><strong>Scenario.</strong> Your company's AI copilot for accountants has 10,000 paying customers. Candidates for the next quarter (RICE inputs estimated with your team):</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Feature</th>
+<th>Reach (users/quarter)</th>
+<th>Impact (0–3)</th>
+<th>Confidence (0–100%)</th>
+<th>Effort (person-weeks)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>Multi-entity support</td>
+<td>4,000</td>
+<td>3</td>
+<td>70%</td>
+<td>8</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Voice dictation of notes</td>
+<td>6,000</td>
+<td>1</td>
+<td>60%</td>
+<td>4</td>
+</tr>
+<tr>
+<td>C</td>
+<td>AI audit-trail export</td>
+<td>1,500</td>
+<td>3</td>
+<td>40%</td>
+<td>12</td>
+</tr>
+<tr>
+<td>D</td>
+<td>Fix hallucination on tax codes (quality)</td>
+<td>10,000</td>
+<td>3</td>
+<td>90%</td>
+<td>3</td>
+</tr>
+<tr>
+<td>E</td>
+<td>Mobile companion app</td>
+<td>7,000</td>
+<td>2</td>
+<td>50%</td>
+<td>20</td>
+</tr>
+<tr>
+<td>F</td>
+<td>Bulk import from Excel</td>
+<td>5,000</td>
+<td>2</td>
+<td>80%</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Your task.</strong> (1) Compute RICE for all six (show the arithmetic). (2) Rank, and build a quarter roadmap as themes, not features. (3) Pick the single feature you would <em>not</em> ship even if the score says otherwise, and defend that call — consider the AI-specific risks (quality, trust, cost). (4) State the "won't do" list with reasons.</p>
+<p><strong>Grading weight: 30% of midterm.</strong></p>
+<hr />
+<h2 id="midterm-rubric">Midterm rubric</h2>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Framework use</td>
+<td>Applies course frameworks precisely (feasibility, guardrails, RICE, risk)</td>
+<td>Frameworks present, imprecise</td>
+<td>Frameworks absent</td>
+</tr>
+<tr>
+<td>Numbers</td>
+<td>Correct arithmetic; metrics critiqued with mechanisms, not vibes</td>
+<td>Mostly correct</td>
+<td>Errors or hand-waving</td>
+</tr>
+<tr>
+<td>Judgment</td>
+<td>Takes positions; AI-specific risks addressed; assumptions stated</td>
+<td>Position soft</td>
+<td>No position</td>
+</tr>
+<tr>
+<td>Communication</td>
+<td>Answer could be shown to an exec as-is</td>
+<td>Needs editing</td>
+<td>Rambling</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="final-examination-capstone-thesis-defense">FINAL EXAMINATION — Capstone Thesis &amp; Defense</h1>
+<p><strong>Sits after Term 4 (CAP 600). Weight: 30% of program grade. Structure: written thesis + recorded defense + portfolio review.</strong></p>
+<hr />
+<h2 id="part-1-written-thesis-1012-pages">Part 1 — Written thesis (10–12 pages)</h2>
+<p>A proper thesis makes the case that you can run an AI product end-to-end. Structure (each section cites the corresponding portfolio artifact):</p>
+<ol>
+<li><strong>Problem &amp; evidence</strong> (1–2 pp) — the problem, who it serves, and the discovery evidence. A stranger must believe the problem is real before you mention AI.</li>
+<li><strong>Product design</strong> (1–2 pp) — users, scope in/out, success metrics, PRD v2.</li>
+<li><strong>Feasibility &amp; architecture</strong> (1–2 pp) — why AI, why this shape (retrieval, guardrails, human-in-the-loop), and the alternative you rejected.</li>
+<li><strong>Evaluation</strong> (2 pp) — the golden set, scoring method, results before/after, failure analysis, drift plan. Include your eval report's headline numbers.</li>
+<li><strong>Economics</strong> (1 p) — cost per interaction, monthly model, tiering/caching decisions, sensitivity.</li>
+<li><strong>Risk &amp; responsible AI</strong> (1–2 pp) — the risk register with detection mechanisms; the worst case and your mitigation.</li>
+<li><strong>Retrospective</strong> (1 p) — what you'd do differently; what you'd do with two more weeks; what this taught you about AI product management.</li>
+<li><strong>AI-use declaration</strong> — what AI wrote, what you rewrote, and your defense of every claim.</li>
+</ol>
+<h2 id="part-2-recorded-defense-15-minutes">Part 2 — Recorded defense (15 minutes)</h2>
+<p>Record a 15-minute presentation (Loom or screen recording): 5 minutes on the problem and design, 5 on the evaluation and numbers, 5 on risks and what you'd do next. Then answer these five questions out loud, on the recording:</p>
+<ol>
+<li>"Walk me through how you decided this feature should use AI — and what would have disqualified it."</li>
+<li>"How do you know it's working? Show me the numbers and the failure cases."</li>
+<li>"What is the most likely way this product fails in production, and how would you detect it?"</li>
+<li>"If compute costs doubled, what would you do?"</li>
+<li>"What did you get wrong, and what did you learn from it?"</li>
+</ol>
+<h2 id="part-3-portfolio-review">Part 3 — Portfolio review</h2>
+<p>Submit the portfolio index. The five starred artifacts in the master syllabus (eval suite, feasibility framework, production eval plan, cost model, capstone eval report) are graded for external comprehensibility: <em>could a stranger understand each without you in the room?</em> The external reviewer's read (CAP 600 M3) is incorporated here.</p>
+<hr />
+<h2 id="final-rubric">Final rubric</h2>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Problem &amp; evidence</td>
+<td>Real problem, cited evidence, AI earns its place</td>
+<td>Problem real, evidence thin</td>
+<td>AI-first, problem afterthought</td>
+</tr>
+<tr>
+<td>Evaluation</td>
+<td>Golden set, before/after numbers, honest failure analysis</td>
+<td>Eval present, results thin</td>
+<td>No measurement</td>
+</tr>
+<tr>
+<td>Economics</td>
+<td>Cost model with tiering and sensitivity</td>
+<td>Cost estimate, no depth</td>
+<td>No cost math</td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Register with detection, worst case addressed</td>
+<td>Risks listed, no detection</td>
+<td>Risk ignored</td>
+</tr>
+<tr>
+<td>Defense</td>
+<td>Frameworked answers, owns mistakes, numbers from memory</td>
+<td>Answerable but vague</td>
+<td>Defensive or vague</td>
+</tr>
+<tr>
+<td>External comprehensibility</td>
+<td>Stranger understands in 3 minutes</td>
+<td>Mostly clear</td>
+<td>Requires explanation</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="grading-protocol-how-to-be-a-fair-examiner">Grading protocol (how to be a fair examiner)</h1>
+<ol>
+<li><strong>Grade immediately after completing</strong> — memory of effort is freshest; grade the output, not the hours.</li>
+<li><strong>Read the rubric dimension by dimension</strong>, not holistically — holistic grading rewards writing quality and punishes honesty about failure, which is backwards for this course.</li>
+<li><strong>Be merciless on "evidence."</strong> Any claim without a source in a case memo, or any number in the thesis that isn't traceable to the eval report, drops a full letter band. Fabricating evidence is the one unforgivable error.</li>
+<li><strong>Be generous on "judgment."</strong> The goal is a defensible position, not the "right" one — there often isn't one.</li>
+<li><strong>Log the score and one sentence of feedback per dimension</strong> in your portfolio tracker — the log is the transcript of your calibration.</li>
+<li><strong>An "A" requires external confirmation</strong> (the CAP 600 external reviewer). Until then, the highest honest grade is A−.</li>
+</ol>
+<p><em>— Exam Book, AI-PM Graduate Program, August 2026.</em></p>
+    <div class="pagefoot">
+      <a href="index.html">← Back to the program</a>
+      <span>Markdown source: <code>exams.md</code></span>
+    </div>
+  </main>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement, sb=document.getElementById("sidebar");
+  var KEY="fm-theme";
+  try{var saved=localStorage.getItem(KEY); if(saved) root.setAttribute("data-theme",saved);}catch(e){}
+  document.getElementById("themebtn").addEventListener("click",function(){
+    var cur=root.getAttribute("data-theme");
+    var dark=cur?cur==="dark":matchMedia("(prefers-color-scheme:dark)").matches;
+    var next=dark?"light":"dark";
+    root.setAttribute("data-theme",next);
+    try{localStorage.setItem(KEY,next);}catch(e){}
+  });
+  document.getElementById("printbtn").addEventListener("click",function(){window.print();});
+  document.querySelectorAll(".main table").forEach(function(t){
+    if(t.parentElement.classList.contains("tablewrap"))return;
+    var w=document.createElement("div");w.className="tablewrap";
+    t.parentNode.insertBefore(w,t);w.appendChild(t);
+  });
+  document.getElementById("navtoggle").addEventListener("click",function(){sb.classList.toggle("open");});
+  sb.addEventListener("click",function(e){if(e.target.tagName==="A")sb.classList.remove("open");});
+  var search=document.getElementById("navsearch");
+  search.addEventListener("input",function(){
+    var q=search.value.trim().toLowerCase();
+    document.querySelectorAll(".navgroup").forEach(function(g){
+      var shown=0;
+      g.querySelectorAll(".nava").forEach(function(a){
+        var hit=!q||a.textContent.toLowerCase().indexOf(q)>-1;
+        a.style.display=hit?"":"none"; if(hit)shown++;
+      });
+      var gl=g.querySelector(".glabel");
+      var glhit=!q||(gl&&gl.textContent.toLowerCase().indexOf(q)>-1);
+      g.style.display=(shown||glhit)?"":"none";
+    });
+  });
+  var links={};
+  document.querySelectorAll(".nava").forEach(function(a){links[a.getAttribute("data-nav")]=a;});
+  var targets=[].slice.call(document.querySelectorAll(".main h1[id],.main h2[id],.main h3[id]"));
+  var current=null;
+  function activate(id){
+    if(current===id)return;
+    if(links[current])links[current].classList.remove("active");
+    current=id;
+    var el=links[id];
+    if(el){
+      el.classList.add("active");
+      var r=el.getBoundingClientRect(), sr=sb.getBoundingClientRect();
+      if(r.top<sr.top||r.bottom>sr.bottom){ sb.scrollTop+=(r.top-sr.top)-sr.height/2+r.height/2; }
+    }
+  }
+  if("IntersectionObserver" in window){
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if(en.isIntersecting) activate(en.target.id); });
+    },{rootMargin:"-52px 0px -72% 0px",threshold:0});
+    targets.forEach(function(t){io.observe(t);});
+  }
+  document.addEventListener("keydown",function(e){
+    if(e.key==="/"&&document.activeElement!==search){e.preventDefault();search.focus();}
+    if(e.key==="Escape"&&document.activeElement===search){search.value="";search.dispatchEvent(new Event("input"));search.blur();}
+  });
+})();
+</script>
+</body>
+</html>
