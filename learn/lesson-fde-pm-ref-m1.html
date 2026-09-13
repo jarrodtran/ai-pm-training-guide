@@ -6,125 +6,198 @@
 <title>FDE-PM Reference — Module 1 (Textbook)</title>
 <style>
   :root {
-    --bg: #f7f5f0;
-    --ink: #141414;
-    --muted: #5c5c5c;
-    --line: #ddd6c8;
-    --card: #fff;
-    --accent: #0b3d2e;
-    --banner: #0b3d2e;
-    --th: #eef4f1;
+    --bg: #f3f1ec;
+    --bg-accent: #e8f0ec;
+    --ink: #1a1f1c;
+    --muted: #5a635e;
+    --faint: #8a928c;
+    --line: #d5ddd7;
+    --card: #ffffff;
+    --accent: #0f5c45;
+    --accent-2: #1a7a5c;
+    --accent-soft: #e4f2eb;
+    --accent-ink: #0a3d2e;
+    --banner-from: #0f5c45;
+    --banner-to: #164e63;
+    --th: #eef6f2;
+    --shadow: 0 1px 2px rgba(15, 40, 30, 0.04), 0 8px 24px rgba(15, 40, 30, 0.06);
+    --radius: 14px;
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body {
     margin: 0;
-    font: 17.5px/1.68 "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    font: 17.5px/1.7 "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
     color: var(--ink);
-    background: var(--bg);
+    background:
+      radial-gradient(1200px 600px at 10% -10%, #e7f3ee 0%, transparent 55%),
+      radial-gradient(900px 500px at 100% 0%, #e8eef5 0%, transparent 50%),
+      var(--bg);
   }
-  .wrap { max-width: 48rem; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+  .wrap { max-width: 48rem; margin: 0 auto; padding: 2.25rem 1.25rem 5rem; }
   .banner {
-    font: 0.88rem/1.45 system-ui, -apple-system, sans-serif;
-    background: var(--banner);
-    color: #f2f8f5;
-    border-radius: 10px;
-    padding: 0.9rem 1.15rem;
+    font: 0.9rem/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: linear-gradient(135deg, var(--banner-from), var(--banner-to));
+    color: #f4faf7;
+    border-radius: var(--radius);
+    padding: 1rem 1.2rem;
     margin: 0 0 1.75rem;
+    box-shadow: var(--shadow);
   }
-  .banner strong { font-weight: 700; }
+  .banner strong { font-weight: 700; color: #fff; }
+  header { margin-bottom: 1.5rem; }
+  .edition {
+    font: 0.72rem/1 system-ui, -apple-system, sans-serif;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent-2);
+    margin: 0 0 0.55rem;
+    font-weight: 650;
+  }
   header h1 {
-    font-size: 1.75rem;
+    font-size: clamp(1.55rem, 3.5vw, 1.9rem);
     letter-spacing: -0.03em;
-    margin: 0 0 0.4rem;
+    margin: 0 0 0.45rem;
     line-height: 1.2;
+    color: var(--accent-ink);
   }
   header .sub {
-    margin: 0 0 1.25rem;
+    margin: 0;
     color: var(--muted);
-    font: 0.95rem/1.45 system-ui, -apple-system, sans-serif;
-  }
-  .edition {
-    font: 0.75rem/1 system-ui, -apple-system, sans-serif;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin: 0 0 0.5rem;
+    font: 0.98rem/1.5 system-ui, -apple-system, sans-serif;
+    max-width: 42rem;
   }
   nav.toc {
     background: var(--card);
     border: 1px solid var(--line);
-    border-radius: 10px;
-    padding: 1rem 1.2rem;
-    margin-bottom: 2rem;
-    font: 0.9rem/1.45 system-ui, -apple-system, sans-serif;
+    border-radius: var(--radius);
+    padding: 1.05rem 1.25rem 1.15rem;
+    margin-bottom: 1.75rem;
+    font: 0.92rem/1.5 system-ui, -apple-system, sans-serif;
+    box-shadow: var(--shadow);
   }
   nav.toc h2 {
-    margin: 0 0 0.5rem;
-    font-size: 0.72rem;
-    letter-spacing: 0.08em;
+    margin: 0 0 0.55rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--muted);
+    color: var(--faint);
+    font-weight: 700;
   }
-  nav.toc ol { margin: 0; padding-left: 1.2rem; }
-  nav.toc a { color: var(--accent); text-decoration: none; }
-  nav.toc a:hover { text-decoration: underline; }
+  nav.toc ol {
+    margin: 0;
+    padding-left: 1.15rem;
+    display: grid;
+    gap: 0.35rem;
+  }
+  nav.toc a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+  }
+  nav.toc a:hover { border-bottom-color: var(--accent-2); color: var(--accent-2); }
   section {
     background: var(--card);
     border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 1.5rem 1.5rem 1.65rem;
+    border-radius: var(--radius);
+    padding: 1.55rem 1.55rem 1.7rem;
     margin-bottom: 1.35rem;
+    box-shadow: var(--shadow);
   }
   section h2 {
-    margin: 0 0 0.9rem;
+    margin: 0 0 0.95rem;
     font-size: 1.22rem;
-    color: var(--accent);
+    color: var(--accent-ink);
     letter-spacing: -0.02em;
     line-height: 1.3;
+    padding-bottom: 0.65rem;
+    border-bottom: 2px solid var(--accent-soft);
   }
   section h3 {
-    margin: 1.4rem 0 0.55rem;
+    margin: 1.45rem 0 0.55rem;
     font-size: 1.05rem;
     letter-spacing: -0.01em;
+    color: var(--accent);
   }
   p { margin: 0 0 0.9rem; }
   ul, ol { margin: 0 0 1rem; padding-left: 1.25rem; }
-  li { margin-bottom: 0.4rem; }
-  strong { font-weight: 700; }
+  li { margin-bottom: 0.42rem; }
+  li::marker { color: var(--accent-2); }
+  strong { font-weight: 700; color: var(--ink); }
   code {
     font: 0.86em/1.3 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    background: #f0ebe3;
-    padding: 0.1em 0.35em;
-    border-radius: 4px;
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+    padding: 0.12em 0.4em;
+    border-radius: 5px;
+  }
+  .table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    margin: 0.85rem 0 1.15rem;
+    border-radius: 10px;
+    border: 1px solid var(--line);
   }
   table {
     width: 100%;
     border-collapse: collapse;
-    margin: 0.85rem 0 1.15rem;
+    margin: 0;
     font: 0.86rem/1.45 system-ui, -apple-system, sans-serif;
+    min-width: 520px;
   }
   th, td {
-    border: 1px solid var(--line);
-    padding: 0.6rem 0.7rem;
+    border-bottom: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+    padding: 0.65rem 0.75rem;
     text-align: left;
     vertical-align: top;
   }
-  th { background: var(--th); font-weight: 650; color: var(--accent); }
-  .sources {
-    font: 0.8rem/1.45 system-ui, -apple-system, sans-serif;
-    color: var(--muted);
-    margin-top: 0.85rem;
+  th:last-child, td:last-child { border-right: none; }
+  tr:last-child td { border-bottom: none; }
+  th {
+    background: var(--th);
+    font-weight: 700;
+    color: var(--accent-ink);
+    font-size: 0.78rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
   }
-  .sources summary { cursor: pointer; list-style: none; }
-  .sources summary::-webkit-details-marker { display: none; }
-  .sources summary::before { content: "Sources · "; font-weight: 650; }
-  .sources ul { margin: 0.4rem 0 0; padding-left: 1.1rem; }
-  .sources a { color: var(--accent); word-break: break-all; }
-  footer {
-    margin-top: 1.5rem;
-    font: 0.8rem/1.4 system-ui, -apple-system, sans-serif;
+  tr:nth-child(even) td { background: #fafcfb; }
+  .sources {
+    font: 0.82rem/1.5 system-ui, -apple-system, sans-serif;
     color: var(--muted);
+    margin-top: 1rem;
+    padding-top: 0.85rem;
+    border-top: 1px dashed var(--line);
+  }
+  .sources summary {
+    cursor: pointer;
+    list-style: none;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .sources summary::-webkit-details-marker { display: none; }
+  .sources summary::before { content: "Sources · "; font-weight: 700; color: var(--faint); }
+  .sources[open] summary { margin-bottom: 0.45rem; }
+  .sources ul { margin: 0.35rem 0 0; padding-left: 1.1rem; }
+  .sources a { color: var(--accent-2); word-break: break-all; text-decoration: none; }
+  .sources a:hover { text-decoration: underline; }
+  footer {
+    margin-top: 1.75rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line);
+    font: 0.8rem/1.45 system-ui, -apple-system, sans-serif;
+    color: var(--faint);
+  }
+  @media (max-width: 640px) {
+    .wrap { padding: 1.5rem 1rem 3.5rem; }
+    section, nav.toc { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { min-width: 460px; }
+  }
+  @media print {
+    body { background: #fff; }
+    .banner, section, nav.toc { box-shadow: none; }
+    section { break-inside: avoid; }
   }
 </style>
 </head>
@@ -153,7 +226,7 @@
 </ol>
 <p>You do <strong>not</strong> specify algorithms, schemas, or frameworks unless they are true one-way doors the business is buying (e.g., “must run air-gapped,” “must use customer IdP”).</p>
 <h3>Ownership map</h3>
-<table>
+<div class="table-wrap"><table>
 <thead><tr>
 <th>Decision</th>
 <th>You (PM)</th>
@@ -202,10 +275,10 @@
 <td>Extracts pattern to core</td>
 <td>Consents if their bespoke becomes product</td>
 </tr>
-</tbody></table>
+</tbody></table></div>
 <h3>SVPG frame: four big risks (discovery, not delivery theater)</h3>
 <p>Before you fund a solution, force the work through four risks (<strong>SVPG — four big risks</strong>):</p>
-<table>
+<div class="table-wrap"><table>
 <thead><tr>
 <th>Risk</th>
 <th>Question</th>
@@ -231,7 +304,7 @@
 <td>Does it work for the business (margin, risk, support)?</td>
 <td>Bespoke forever destroys margin (S-1-shaped risk)</td>
 </tr>
-</tbody></table>
+</tbody></table></div>
 <p><strong>Continuous discovery</strong> (SVPG product discovery) is not a workshop you run once before a SOW. It is a habit: every engagement produces evidence that updates the opportunity, not just tickets that update a board. If your calendar is 100% delivery coordination, you are in <strong>delivery theater</strong> — related to <strong>product-management theater</strong> (title says PM; job is backlog/coordination).</p>
 <p><strong>Opportunity assessment</strong> before solutions: write the opportunity as who struggles, what they do today, what “better” means in a number, and why now — *then* entertain instruments. Solution-first discovery is how you buy a model for a SQL join problem.</p>
 <p><strong>Empowered vs feature/delivery teams:</strong> When you lead FDEs, the gravitational pull is “build what the client asked.” Empowered product work means your team owns outcomes and says no (with a price). Feature/delivery mode means your team is a high-cost implementation arm.</p>
@@ -268,7 +341,7 @@
 <p>---</p>
 </section><section id="s1-3"><h2>1.2 PRD vs technical spec vs SOW</h2>
 <p>These artifacts answer different questions. Collapsing them is how disputes appear at the fragile moment (pilot acceptance, change orders, “but the demo worked”).</p>
-<table>
+<div class="table-wrap"><table>
 <thead><tr>
 <th>Artifact</th>
 <th>Primary author</th>
@@ -305,7 +378,7 @@
 <td>One durable choice + <strong>consequences</strong></td>
 <td>Decision record, not a schedule</td>
 </tr>
-</tbody></table>
+</tbody></table></div>
 <h3>Analytical rules</h3>
 <ol>
 <li>1. <strong>Ambiguity in a SOW is not flexibility.</strong> It is dispute inventory timed for when trust is thinnest.</li>
@@ -327,7 +400,7 @@
 <h3>Ask ≠ problem</h3>
 <p>“We want an AI assistant” is a <strong>request</strong>. Behind it is a process, a queue, a cost, a person’s week. Practice: never leave discovery without a sentence containing a <strong>number</strong> and a <strong>name</strong> (“claims intake spends 14 hours/week re-keying faxes; Maria owns that queue”).</p>
 <h3>Three diagnoses (first meeting) — folded M6</h3>
-<table>
+<div class="table-wrap"><table>
 <thead><tr>
 <th>Diagnosis</th>
 <th>Signals</th>
@@ -348,12 +421,12 @@
 <td>Tool exists; adoption is the issue</td>
 <td>No new system — sponsorship, process, incentives (<strong>Kotter</strong> anatomy)</td>
 </tr>
-</tbody></table>
+</tbody></table></div>
 <p>Most enterprise “AI projects” are two of three stacked. <strong>Name and price each layer separately.</strong></p>
 <h3>JTBD and shadowing</h3>
 <p><strong>Jobs to be Done:</strong> the real job is often a spreadsheet or chat workaround, not the official SOP. Shadow the work. The gap between documented process and real process is where integration complexity *and* adoption risk live.</p>
 <h3>Constraint hunt (commit-blockers)</h3>
-<table>
+<div class="table-wrap"><table>
 <thead><tr>
 <th>Domain</th>
 <th>What to uncover before commit</th>
@@ -384,7 +457,7 @@
 <td>Completeness, duplication, label noise</td>
 <td>Model blamed for data sins</td>
 </tr>
-</tbody></table>
+</tbody></table></div>
 <h3>Climb buy → adapt → build</h3>
 <p>Configure an existing product; extend; integrate; only then build. Building is justified when the pattern is core differentiation, nothing credible exists, or integration cost dominates — not because it is more fun.</p>
 <p><strong>Artifacts path:</strong> Discovery workshop → <strong>Discovery RFC</strong> → feasibility → <strong>SOW</strong>. Instrument triage on the whiteboard.</p>
@@ -396,7 +469,7 @@
 </ul></details>
 <p>---</p>
 </section><section id="s1-5"><h2>1.4 Backlog health: customization vs platform generalization</h2>
-<table>
+<div class="table-wrap"><table>
 <thead><tr>
 <th>Pressure</th>
 <th>If unmanaged</th>
@@ -422,7 +495,7 @@
 <td>Still bespoke</td>
 <td><strong>Three-client rule</strong> → pattern ledger + productization memo</td>
 </tr>
-</tbody></table>
+</tbody></table></div>
 <p><strong>Reuse rate</strong> (with quality and satisfaction guardrails) beats utilization as the team KPI. Bespoke is <strong>inventory with carrying cost</strong> — legitimate for logos and learning, expensive if never harvested (folded <strong>M9–M11</strong>).</p>
 <details class="sources"><summary>3 citations</summary><ul>
 <li>** SVPG product-vs-feature</li>
