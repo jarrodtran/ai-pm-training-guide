@@ -6,125 +6,198 @@
 <title>FDE-PM Reference — Module 2 (Textbook)</title>
 <style>
   :root {
-    --bg: #f7f5f0;
-    --ink: #141414;
-    --muted: #5c5c5c;
-    --line: #ddd6c8;
-    --card: #fff;
-    --accent: #0b3d2e;
-    --banner: #0b3d2e;
-    --th: #eef4f1;
+    --bg: #f3f1ec;
+    --bg-accent: #e8f0ec;
+    --ink: #1a1f1c;
+    --muted: #5a635e;
+    --faint: #8a928c;
+    --line: #d5ddd7;
+    --card: #ffffff;
+    --accent: #0f5c45;
+    --accent-2: #1a7a5c;
+    --accent-soft: #e4f2eb;
+    --accent-ink: #0a3d2e;
+    --banner-from: #0f5c45;
+    --banner-to: #164e63;
+    --th: #eef6f2;
+    --shadow: 0 1px 2px rgba(15, 40, 30, 0.04), 0 8px 24px rgba(15, 40, 30, 0.06);
+    --radius: 14px;
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body {
     margin: 0;
-    font: 17.5px/1.68 "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    font: 17.5px/1.7 "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
     color: var(--ink);
-    background: var(--bg);
+    background:
+      radial-gradient(1200px 600px at 10% -10%, #e7f3ee 0%, transparent 55%),
+      radial-gradient(900px 500px at 100% 0%, #e8eef5 0%, transparent 50%),
+      var(--bg);
   }
-  .wrap { max-width: 48rem; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+  .wrap { max-width: 48rem; margin: 0 auto; padding: 2.25rem 1.25rem 5rem; }
   .banner {
-    font: 0.88rem/1.45 system-ui, -apple-system, sans-serif;
-    background: var(--banner);
-    color: #f2f8f5;
-    border-radius: 10px;
-    padding: 0.9rem 1.15rem;
+    font: 0.9rem/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: linear-gradient(135deg, var(--banner-from), var(--banner-to));
+    color: #f4faf7;
+    border-radius: var(--radius);
+    padding: 1rem 1.2rem;
     margin: 0 0 1.75rem;
+    box-shadow: var(--shadow);
   }
-  .banner strong { font-weight: 700; }
+  .banner strong { font-weight: 700; color: #fff; }
+  header { margin-bottom: 1.5rem; }
+  .edition {
+    font: 0.72rem/1 system-ui, -apple-system, sans-serif;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent-2);
+    margin: 0 0 0.55rem;
+    font-weight: 650;
+  }
   header h1 {
-    font-size: 1.75rem;
+    font-size: clamp(1.55rem, 3.5vw, 1.9rem);
     letter-spacing: -0.03em;
-    margin: 0 0 0.4rem;
+    margin: 0 0 0.45rem;
     line-height: 1.2;
+    color: var(--accent-ink);
   }
   header .sub {
-    margin: 0 0 1.25rem;
+    margin: 0;
     color: var(--muted);
-    font: 0.95rem/1.45 system-ui, -apple-system, sans-serif;
-  }
-  .edition {
-    font: 0.75rem/1 system-ui, -apple-system, sans-serif;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin: 0 0 0.5rem;
+    font: 0.98rem/1.5 system-ui, -apple-system, sans-serif;
+    max-width: 42rem;
   }
   nav.toc {
     background: var(--card);
     border: 1px solid var(--line);
-    border-radius: 10px;
-    padding: 1rem 1.2rem;
-    margin-bottom: 2rem;
-    font: 0.9rem/1.45 system-ui, -apple-system, sans-serif;
+    border-radius: var(--radius);
+    padding: 1.05rem 1.25rem 1.15rem;
+    margin-bottom: 1.75rem;
+    font: 0.92rem/1.5 system-ui, -apple-system, sans-serif;
+    box-shadow: var(--shadow);
   }
   nav.toc h2 {
-    margin: 0 0 0.5rem;
-    font-size: 0.72rem;
-    letter-spacing: 0.08em;
+    margin: 0 0 0.55rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--muted);
+    color: var(--faint);
+    font-weight: 700;
   }
-  nav.toc ol { margin: 0; padding-left: 1.2rem; }
-  nav.toc a { color: var(--accent); text-decoration: none; }
-  nav.toc a:hover { text-decoration: underline; }
+  nav.toc ol {
+    margin: 0;
+    padding-left: 1.15rem;
+    display: grid;
+    gap: 0.35rem;
+  }
+  nav.toc a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+  }
+  nav.toc a:hover { border-bottom-color: var(--accent-2); color: var(--accent-2); }
   section {
     background: var(--card);
     border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 1.5rem 1.5rem 1.65rem;
+    border-radius: var(--radius);
+    padding: 1.55rem 1.55rem 1.7rem;
     margin-bottom: 1.35rem;
+    box-shadow: var(--shadow);
   }
   section h2 {
-    margin: 0 0 0.9rem;
+    margin: 0 0 0.95rem;
     font-size: 1.22rem;
-    color: var(--accent);
+    color: var(--accent-ink);
     letter-spacing: -0.02em;
     line-height: 1.3;
+    padding-bottom: 0.65rem;
+    border-bottom: 2px solid var(--accent-soft);
   }
   section h3 {
-    margin: 1.4rem 0 0.55rem;
+    margin: 1.45rem 0 0.55rem;
     font-size: 1.05rem;
     letter-spacing: -0.01em;
+    color: var(--accent);
   }
   p { margin: 0 0 0.9rem; }
   ul, ol { margin: 0 0 1rem; padding-left: 1.25rem; }
-  li { margin-bottom: 0.4rem; }
-  strong { font-weight: 700; }
+  li { margin-bottom: 0.42rem; }
+  li::marker { color: var(--accent-2); }
+  strong { font-weight: 700; color: var(--ink); }
   code {
     font: 0.86em/1.3 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    background: #f0ebe3;
-    padding: 0.1em 0.35em;
-    border-radius: 4px;
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+    padding: 0.12em 0.4em;
+    border-radius: 5px;
+  }
+  .table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    margin: 0.85rem 0 1.15rem;
+    border-radius: 10px;
+    border: 1px solid var(--line);
   }
   table {
     width: 100%;
     border-collapse: collapse;
-    margin: 0.85rem 0 1.15rem;
+    margin: 0;
     font: 0.86rem/1.45 system-ui, -apple-system, sans-serif;
+    min-width: 520px;
   }
   th, td {
-    border: 1px solid var(--line);
-    padding: 0.6rem 0.7rem;
+    border-bottom: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+    padding: 0.65rem 0.75rem;
     text-align: left;
     vertical-align: top;
   }
-  th { background: var(--th); font-weight: 650; color: var(--accent); }
-  .sources {
-    font: 0.8rem/1.45 system-ui, -apple-system, sans-serif;
-    color: var(--muted);
-    margin-top: 0.85rem;
+  th:last-child, td:last-child { border-right: none; }
+  tr:last-child td { border-bottom: none; }
+  th {
+    background: var(--th);
+    font-weight: 700;
+    color: var(--accent-ink);
+    font-size: 0.78rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
   }
-  .sources summary { cursor: pointer; list-style: none; }
-  .sources summary::-webkit-details-marker { display: none; }
-  .sources summary::before { content: "Sources · "; font-weight: 650; }
-  .sources ul { margin: 0.4rem 0 0; padding-left: 1.1rem; }
-  .sources a { color: var(--accent); word-break: break-all; }
-  footer {
-    margin-top: 1.5rem;
-    font: 0.8rem/1.4 system-ui, -apple-system, sans-serif;
+  tr:nth-child(even) td { background: #fafcfb; }
+  .sources {
+    font: 0.82rem/1.5 system-ui, -apple-system, sans-serif;
     color: var(--muted);
+    margin-top: 1rem;
+    padding-top: 0.85rem;
+    border-top: 1px dashed var(--line);
+  }
+  .sources summary {
+    cursor: pointer;
+    list-style: none;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .sources summary::-webkit-details-marker { display: none; }
+  .sources summary::before { content: "Sources · "; font-weight: 700; color: var(--faint); }
+  .sources[open] summary { margin-bottom: 0.45rem; }
+  .sources ul { margin: 0.35rem 0 0; padding-left: 1.1rem; }
+  .sources a { color: var(--accent-2); word-break: break-all; text-decoration: none; }
+  .sources a:hover { text-decoration: underline; }
+  footer {
+    margin-top: 1.75rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line);
+    font: 0.8rem/1.45 system-ui, -apple-system, sans-serif;
+    color: var(--faint);
+  }
+  @media (max-width: 640px) {
+    .wrap { padding: 1.5rem 1rem 3.5rem; }
+    section, nav.toc { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { min-width: 460px; }
+  }
+  @media print {
+    body { background: #fff; }
+    .banner, section, nav.toc { box-shadow: none; }
+    section { break-inside: avoid; }
   }
 </style>
 </head>
@@ -149,7 +222,7 @@
 <p>---</p>
 </section><section id="s2-2"><h2>2.1 Core architectural concepts</h2>
 <h3>Client-server, monolith, microservices, distributed systems</h3>
-<table>
+<div class="table-wrap"><table>
 <thead><tr>
 <th>Shape</th>
 <th>Strength</th>
@@ -170,11 +243,11 @@
 <td>Scale and isolation</td>
 <td>Partial failure is normal → <strong>SLOs</strong>, retries, <strong>idempotency</strong></td>
 </tr>
-</tbody></table>
+</tbody></table></div>
 <p><strong>Monolith first</strong> (Fowler) is often rational. Microservices are a *premium* paid for independent teams/releases — not a maturity badge. Unbounded service graphs become unownable (<strong>Conway</strong>; Uber domain architecture). Demand <strong>bounded contexts</strong>.</p>
 <p><strong>C4 model:</strong> Force shared altitude — context vs container vs component — in every architecture conversation.</p>
 <h3>Sync vs async execution</h3>
-<table>
+<div class="table-wrap"><table>
 <thead><tr>
 <th>Style</th>
 <th>Mechanisms</th>
@@ -195,12 +268,12 @@
 <td>Routing, transformation, <strong>dead-letter</strong>, competing consumers (<strong>EIP</strong>)</td>
 <td>Failure handling is a requirement: who retries, who alerts, what the user sees</td>
 </tr>
-</tbody></table>
+</tbody></table></div>
 <p>When an engineer says “the REST call failed,” decode with HTTP semantics: 4xx (client/contract), 5xx (server), timeouts (budget), 429 (rate limit — UX policy required).</p>
 <h3>CAP and distributed trade-offs</h3>
 <p><strong>CAP</strong> (Brewer; “twelve years later” InfoQ): in a partition, you trade <strong>consistency</strong> vs <strong>availability</strong>. You do not “pick all three” under partition. For PMs: when a client demands “always up” *and* “always perfectly consistent across regions,” you are being asked to deny physics — reframe as SLO + conflict policy.</p>
 <h3>Data persistence</h3>
-<table>
+<div class="table-wrap"><table>
 <thead><tr>
 <th>Store</th>
 <th>Use when</th>
@@ -226,7 +299,7 @@
 <td>Analytics</td>
 <td>Never put the assistant’s hot path on the warehouse</td>
 </tr>
-</tbody></table>
+</tbody></table></div>
 <p>**Kleppmann (*Designing Data-Intensive Applications*)** remains the credibility text for serious data conversations.</p>
 <h3>AI overlay (folded M1–M3)</h3>
 <ul>
@@ -269,7 +342,7 @@
 <li><strong>Overload / risk</strong> (<strong>SRE handling overload; embracing risk</strong>): error budgets are how you negotiate features vs reliability without endless argument</li>
 </ul>
 <h3>Security lexicon (decision altitude)</h3>
-<table>
+<div class="table-wrap"><table>
 <thead><tr>
 <th>Term</th>
 <th>Meaning for the PM</th>
@@ -298,7 +371,7 @@
 <td><strong>Zero Trust (SP 800-207)</strong></td>
 <td>Never trust network location alone</td>
 </tr>
-</tbody></table>
+</tbody></table></div>
 <p><strong>Enterprise trust (folded M8):</strong> Map <strong>OWASP LLM Top 10</strong> and <strong>NIST AI RMF</strong> (govern / map / measure / manage) to design decisions *before* security review. Questionnaire answers come from architecture, not “ask eng later.”</p>
 <details class="sources"><summary>12 citations</summary><ul>
 <li>** SRE SLOs</li>
@@ -318,7 +391,7 @@
 </section><section id="s2-4"><h2>2.3 Technical debt &amp; engineering overhead</h2>
 <p><strong>Technical debt</strong> (Fowler <strong>Technical Debt Quadrant</strong>): deferred cost with interest — reckless/prudent × deliberate/inadvertent. Not “engineers want to polish.”</p>
 <p><strong>Toil</strong> (SRE): manual, repetitive, automatable work that creates no enduring value. High toil on an FDE team is a <strong>productization signal</strong>.</p>
-<table>
+<div class="table-wrap"><table>
 <thead><tr>
 <th>Negotiation</th>
 <th>Bad PM move</th>
@@ -339,7 +412,7 @@
 <td>100% billable</td>
 <td>Dual allocation: deploy / harvest / core</td>
 </tr>
-</tbody></table>
+</tbody></table></div>
 <details class="sources"><summary>3 citations</summary><ul>
 <li>** Fowler TechnicalDebtQuadrant</li>
 <li>SRE eliminating toil</li>
