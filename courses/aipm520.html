@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AIPM 520 — AI Product Craft · AI-PM Graduate Program</title>
+<link rel="stylesheet" href="course.css">
+</head><body>
+<header class="chead"><div class="wrap">
+<a class="back" href="../index.html">← AI-PM Graduate Program</a>
+<div class="kicker">Core · 3 credits · Term 2 · Weeks 13–18 · Prerequisites: AI 510 + PM 501</div>
+<h1>AIPM 520 — AI Product Craft: Feasibility, Evals &amp; Delivery</h1>
+<p class="sub">The signature judgments of the AI PM: when AI is the right tool, how the system should be shaped, how quality is operated in production, what it costs, and what could go wrong. Three of the program's four cases live here.</p>
+</div></header>
+<main class="wrap">
+
+<section>
+<div class="overline">Course objectives</div>
+<div class="objs">
+<div class="obj"><b>Judge</b> feasibility — AI vs. rules vs. human vs. nothing — with a repeatable drill.</div>
+<div class="obj"><b>Sketch</b> a composable AI architecture: retrieval, guardrails, human-in-the-loop.</div>
+<div class="obj"><b>Design</b> a production eval system — golden sets, regression gates, drift.</div>
+<div class="obj"><b>Model</b> cost and latency, and select models with explicit trade-offs.</div>
+<div class="obj"><b>Produce</b> a risk register and a go-to-market one-pager.</div>
+</div>
+</section>
+
+<section>
+<div class="overline">Modules</div>
+
+<div class="mod"><div class="mh"><span class="no">M1</span><span class="mt">Feasibility &amp; system design · Case B: Intercom Fin</span></div>
+<div class="lec">
+<p>Feasibility is the AI PM's signature judgment: <b>should this use AI at all?</b> The test is comparative — AI vs. a rules-based system vs. a human vs. nothing — scored on five dimensions: input/output clarity, error tolerance (what happens when it's wrong?), data availability, cost per interaction, and latency. AI wins when the task is high-volume, language-shaped, and error-tolerant; it loses when answers must be deterministic, when the cost of being wrong is catastrophic, or when the problem is actually about process, not intelligence. An "AI-powered toaster" is not a product; it's a gimmick with a transformer inside.</p>
+<p>When AI is right, the architecture should be boring: <b>model + retrieval + tools + guardrails + a human in the loop</b> where stakes demand it. The Fin case (packet B) is the masterclass: retrieval-only answers (no improvisation from training knowledge), source links (verifiable answers), policy checks as separate model calls rather than one giant prompt, an explicit human handoff for high-stakes actions, and a phased rollout (customers like Rocket Money started at 10% of conversations with tightly scoped workflows). The lesson from Anthropic's <i>Building Effective Agents</i>: the most successful systems are <b>simple, composable patterns</b>, not complex frameworks — because simple is how you keep a probabilistic system debuggable.</p>
+</div>
+<div class="ideas"><span class="idea">comparative feasibility</span><span class="idea">compose small, verified pieces</span><span class="idea">HITL where stakes are high</span></div>
+<div class="ps"><div class="ph">Problem set</div><ol>
+<li>The feasibility drill: 5 product ideas (3 real, 2 deliberately bad) × (what AI would do, input/output, error tolerance, data needs, cost, non-AI alternative).</li>
+<li>Sketch one architecture in boxes-and-arrows: model + retrieval + tools + guardrails + HITL.</li>
+<li>Read case packet B. Write case memo 2 (1 page): feasibility + architecture + eval design + rollout path for a Fin-style agent in a domain of your choice.</li>
+</ol></div>
+<div class="sem"><div class="ph">Seminar</div><ul>
+<li>Fin's launch post said the failure mode changed from "irrelevant" to "incorrect." Why is that a harder product problem?</li>
+<li>Where should the human-in-the-loop sit in a support product — and where should it never sit?</li>
+</ul></div>
+<div class="sc"><div class="ph">Self-check</div><ul>
+<li>☐ I can name 3 cases where AI is the wrong tool and why</li>
+<li>☐ I can sketch model + retrieval + tools + guardrails + HITL for a problem</li>
+<li>☐ I can explain "simple, composable" and why it matters</li>
+<li>☐ My case memo takes a position</li>
+</ul></div>
+<div class="rdgs"><b>Readings</b> · <a href="https://www.anthropic.com/engineering/building-effective-agents">Anthropic — Building Effective Agents</a> · <a href="../case-packets.md">Case B packet + teaching note</a> · a16z essay on AI products</div>
+</div>
+
+<div class="mod"><div class="mh"><span class="no">M2</span><span class="mt">Architecture: retrieval, guardrails, tool use</span></div>
+<div class="lec">
+<p>The architecture canvas for an LLM product has four load-bearing parts. <b>Retrieval</b> grounds answers in your documents — never the model's memory — and defines what the system may know (AI 510 M4). <b>Guardrails</b> constrain behavior: scope (what topics are allowed), format (structured output), refusal behavior (what it must decline), and — the Fin lesson — <b>policy checks as separate model calls</b> ("verify this answer against the policy before sending") rather than one giant prompt, because separate calls are separately measurable and debuggable. <b>Tools</b> let the model act — search, compute, APIs — through function calling, with least-privilege access (a support agent doesn't hold the refund API until a human approves). <b>Human-in-the-loop</b> sits wherever an irreversible or high-stakes action happens.</p>
+<p>The failure modes you must be able to name, because you will see them in production: retrieval misses (the right chunk didn't surface), context-position effects (Lost in the Middle), tool misuse (wrong tool, hallucinated arguments, loops), guardrail gaps (an out-of-scope question slips through), and silent degradation over time (M4 of this course). The drawing — boxes and arrows, with the human handoff marked — is the product spec. If you cannot draw it, you do not understand the system, and neither does anyone else.</p>
+</div>
+<div class="ideas"><span class="idea">retrieval over improvisation</span><span class="idea">guardrails as separate checks</span><span class="idea">tools = action, least privilege</span></div>
+<div class="ps"><div class="ph">Problem set</div><ol>
+<li>Draw the architecture for your capstone idea: retrieval, guardrails, tools (if any), HITL, and the escalation path.</li>
+<li>Write the guardrail spec: allowed topics, refusal behavior, policy-check calls, structured output schema.</li>
+<li>List the tools the system would need, with least-privilege justification for each.</li>
+</ol></div>
+<div class="sem"><div class="ph">Seminar</div><ul>
+<li>Why build 15–20 subcomponents with separate models instead of one long prompt? What breaks as a single prompt grows?</li>
+<li>Pick one failure mode from the list and design its detection — what signal tells you it's happening?</li>
+</ul></div>
+<div class="sc"><div class="ph">Self-check</div><ul>
+<li>☐ I can draw model + retrieval + tools + guardrails + HITL from memory</li>
+<li>☐ I can name five failure modes and a detection for each</li>
+<li>☐ My architecture sketch exists and is defensible</li>
+</ul></div>
+<div class="rdgs"><b>Readings</b> · <a href="https://www.anthropic.com/engineering/building-effective-agents">Anthropic — Building Effective Agents (re-read)</a> · a function-calling / tool-use explainer</div>
+</div>
+
+<div class="mod"><div class="mh"><span class="no">M3</span><span class="mt">Data: the fuel</span></div>
+<div class="lec">
+<p>Every AI product runs on data, and most product failures trace back to a data assumption made early and never revisited. Three distinctions organize the subject. First, <b>quality vs. quantity</b>: 1,000 clean, labeled examples beat 100,000 messy ones — the model learns the pattern, not the noise, and noise costs more than absence. Second, <b>retrieval data vs. fine-tuning data</b>: retrieval data is the corpus your RAG system looks up — you maintain it like documentation, and it is the default lever; fine-tuning data changes the model itself — expensive, riskier, and it carries the burden of proof. The default architecture is retrieval; fine-tuning is the exception you must argue for.</p>
+<p>Third, the <b>data flywheel</b>: product usage generates data — queries, corrections, ratings, eval cases — that improves the product and its evaluation, which attracts more usage. The flywheel is the compounding strategic asset of an AI product; it is also why data governance is strategy, not compliance (full treatment in DATA 530). Privacy is the constraint that shapes all of it: know what PII is, know that user data is not yours to train on without consent, and know the vocabulary of GDPR and the EU AI Act even if you're not in Europe — they govern what global products may do.</p>
+</div>
+<div class="ideas"><span class="idea">clean beats big</span><span class="idea">retrieval first, fine-tuning last</span><span class="idea">the flywheel compounds</span></div>
+<div class="ps"><div class="ph">Problem set</div><ol>
+<li>Map your capstone's data plan: what data exists, what's missing, suspected quality issues, how you'd collect it ethically.</li>
+<li>Assess each data source for PII exposure and note what that means for the design.</li>
+<li>Sketch the flywheel: what feedback from usage would improve your product, and how would you capture it?</li>
+</ol></div>
+<div class="sem"><div class="ph">Seminar</div><ul>
+<li>When does fine-tuning actually win over retrieval? Construct the case where the burden of proof is met.</li>
+<li>What does "data quality" mean concretely for a RAG product — and who owns it?</li>
+</ul></div>
+<div class="sc"><div class="ph">Self-check</div><ul>
+<li>☐ I can explain why clean beats big</li>
+<li>☐ I can argue the retrieval-first default and name when fine-tuning earns its cost</li>
+<li>☐ I can spot privacy red flags in a feature idea</li>
+</ul></div>
+<div class="rdgs"><b>Readings</b> · data quality explainer · data flywheel explainer · PII/GDPR primer</div>
+</div>
+
+<div class="mod"><div class="mh"><span class="no">M4</span><span class="mt">Evals in production</span></div>
+<div class="lec">
+<p>AI 510 M6 taught you to measure; this module teaches you to <b>operate</b>. A shipped AI product degrades — the world changes, users find new edge cases, the distribution of inputs drifts — so quality is an ongoing operating problem, not a launch-day checkbox. The production system has five parts:</p>
+<p>(1) A <b>golden set</b> — fixed cases that never change, so you can compare across model versions and catch regressions. (2) A <b>scoring method</b> — human review for high-stakes slices, LLM-as-judge for volume, with the discipline to spot-check the judge (judges have biases too). (3) <b>Regression gates</b> — "we do not ship a model version that scores below X" — the mechanism that turns evals into governance. (4) <b>Drift monitoring</b> — live signals (thumbs-down rate, "I don't know" rate, cost per session, rolling eval scores) that trigger a re-eval. (5) The <b>feedback loop</b> — bad answers from production become new eval cases, so the eval set learns with the product.</p>
+<p>The speech to internalize and repeat to executives: <i>"it worked in the demo" is not "it works in production."</i> The demo is a single sample; production is a distribution. The person who owns the eval system owns the quality conversation — which is why this document is one of the five that carries the most weight in interviews.</p>
+</div>
+<div class="ideas"><span class="idea">golden set · regression gates · drift</span><span class="idea">the eval set learns</span><span class="idea">demo ≠ production</span></div>
+<div class="ps"><div class="ph">Problem set</div><ol>
+<li>Design the production eval system for your capstone: golden set (start from your AI 510 suite), scoring method with trade-offs, regression thresholds, drift signals with triggers, feedback loop.</li>
+<li>Write the "we do not ship" gate as a concrete statement with numbers.</li>
+</ol></div>
+<div class="sem"><div class="ph">Seminar</div><ul>
+<li>What live signal would make you re-eval this week, not next sprint? How do you know it's signal, not noise?</li>
+<li>LLM-as-judge: where does it lie, and how do you catch it?</li>
+</ul></div>
+<div class="sc"><div class="ph">Self-check</div><ul>
+<li>☐ I can design an eval pipeline for a live feature</li>
+<li>☐ I can explain golden set, LLM-as-judge and when it lies, regression, drift, feedback loop</li>
+<li>☐ I can give the "demo vs. production" speech</li>
+</ul></div>
+<div class="rdgs"><b>Readings</b> · OpenAI evals guide (search "OpenAI evals") · Anthropic evaluating-AI-systems guide · model drift explainer</div>
+</div>
+
+<div class="mod"><div class="mh"><span class="no">M5</span><span class="mt">Cost, latency &amp; model selection · Case C: Duolingo Max</span></div>
+<div class="lec">
+<p>AI breaks the software assumption that marginal cost is ~zero: every interaction burns tokens, and your bill scales with success. The toolkit: <b>cost per interaction</b> = (input tokens × input price + output tokens × output price) + retrieval/storage; × expected usage = monthly bill. <b>Latency</b> is a product constraint — a "personal assistant" that takes ten seconds to respond is not a personal assistant — so set the latency budget before choosing the model. <b>Model tiers</b> are the trade-off engine: frontier models (better, slower, dearer) vs. small/cheap models (fast, cheap, good-enough on most cases) — and the professional move is to find where the cheap model is good enough, using <i>your</i> eval set, not the leaderboard. <b>Caching</b>, shorter contexts, and cheaper models for routine calls are the levers; fine-tuning is the expensive last resort.</p>
+<p>The Duolingo case (packet C) is the cautionary tale that defines this module: AI features <i>worked</i> — Roleplay and Explain My Answer on GPT-4, with Birdbrain (classical ML) carrying the core experience — and yet gross margin compressed from 73.0% to 71.1% because compute scaled with success, while analysts cut the price target anyway. The lesson: <b>budget for your own success before you launch</b> — model tiering, caching, and packaging that aligns revenue with compute are not optimizations; they are the product strategy.</p>
+</div>
+<div class="ideas"><span class="idea">tokens × price = cost</span><span class="idea">your eval, not the leaderboard</span><span class="idea">success scales the bill</span></div>
+<div class="ps"><div class="ph">Problem set</div><ol>
+<li>Build the cost model for your capstone: tokens per action, cost per interaction, monthly bill at projected usage.</li>
+<li>Compare 2–3 model tiers on cost/latency/quality using your own eval set; make a recommendation with trade-offs.</li>
+<li>Write the sensitivity: "if usage doubles…; if we switch to model Y…"</li>
+<li>Read case packet C. Write case memo 3 (1 page): cost + packaging strategy for Duolingo's generative features.</li>
+</ol></div>
+<div class="sem"><div class="ph">Seminar</div><ul>
+<li>When is a frontier model worth 3× the price? Construct the case where it isn't.</li>
+<li>"If your AI features succeed, your compute bill grows with them." What pricing structures survive that reality?</li>
+</ul></div>
+<div class="sc"><div class="ph">Self-check</div><ul>
+<li>☐ I can estimate cost per interaction and per month</li>
+<li>☐ I can compare models on cost/latency/quality and make a call</li>
+<li>☐ I can explain the "AI success compresses margins" dynamic</li>
+</ul></div>
+<div class="rdgs"><b>Readings</b> · <a href="https://openai.com/api/pricing/">OpenAI pricing</a> · <a href="https://www.anthropic.com/pricing">Anthropic pricing</a> (check current) · model-selection guide · <a href="../case-packets.md">Case C packet + teaching note</a></div>
+</div>
+
+<div class="mod"><div class="mh"><span class="no">M6</span><span class="mt">Risk, safety &amp; go-to-market · Case D: Klarna</span></div>
+<div class="lec">
+<p>The risk taxonomy for AI products: <b>hallucination</b> (wrong confident output), <b>bias</b> (skewed training data producing skewed outcomes), <b>privacy</b> (PII leakage in prompts, training, and logs), <b>security</b> (prompt injection — attacker text hijacking the model's instructions), and <b>compliance</b> (GDPR, EU AI Act, sector rules). The instrument is the <b>risk register</b>: for each risk — likelihood, impact, mitigation, <b>detection</b>, owner. Detection is what turns "this is risky" into governance: "we mitigate hallucinations with retrieval" is a plan; "we sample 2% of sessions weekly against the golden set" is a system. (RSK 550 will go deep; this module gives you the working version.)</p>
+<p>Go-to-market completes the picture: <b>positioning</b> — "the fastest way to resolve a refund" beats "AI-powered refund agent" — and <b>pricing</b>, where usage-based cost argues for usage-based price, hybrid tiers, or outcome pricing (Fin's "pay per resolution"). The Klarna case (packet D) teaches the epistemological layer: every headline number — 2.3M conversations, "the work of 700 agents," $40M — is <b>vendor-published</b>, and your job as a PM is the adversarial, constructive read: which claims would you trust, which would you discount, and what would you measure yourself. The AI PM's relationship to numbers is adversarial-by-default and constructive-by-design.</p>
+</div>
+<div class="ideas"><span class="idea">five risks, five detections</span><span class="idea">vendor claims = hypotheses</span><span class="idea">price follows cost</span></div>
+<div class="ps"><div class="ph">Problem set</div><ol>
+<li>Build the risk register for your capstone: the five risks, each with likelihood, impact, mitigation, detection, owner.</li>
+<li>Write the GTM one-pager: who it's for, positioning line, pricing logic, three expected objections and answers.</li>
+<li>Read case packet D. Write case memo 4 (1 page): verification + risk plan for the Klarna-style agent.</li>
+</ol></div>
+<div class="sem"><div class="ph">Seminar</div><ul>
+<li>How would you verify Klarna's numbers if you were their CTO? If you were their competitor?</li>
+<li>What is the prompt-injection risk profile of a chatbot that can process refunds? Construct the worst case.</li>
+</ul></div>
+<div class="sc"><div class="ph">Self-check</div><ul>
+<li>☐ I can explain prompt injection and one mitigation</li>
+<li>☐ My risk register has five risks, each with detection</li>
+<li>☐ I can position a product without the word-salad</li>
+<li>☐ I can explain why per-token pricing creates a packaging problem</li>
+</ul></div>
+<div class="rdgs"><b>Readings</b> · prompt injection explainer · responsible AI primer · EU AI Act primer · <a href="../case-packets.md">Case D packet + teaching note</a></div>
+</div>
+</section>
+
+<section>
+<div class="overline">Deliverables</div>
+<div class="deliv"><h2>Course portfolio</h2>
+<ul>
+<li>Feasibility drill (5 cases) + reusable one-page template</li>
+<li>Architecture sketch + guardrail spec for your capstone idea</li>
+<li>Data plan — inventory, quality, collection, PII exposure</li>
+<li>Production eval plan — golden set, gates, drift signals, feedback loop</li>
+<li>Cost &amp; latency model — tiers compared, sensitivity analysis</li>
+<li>Risk register + GTM one-pager · <b>Case memos 2, 3, 4</b></li>
+</ul></div>
+</section>
+
+<section>
+<div class="overline">Assessment</div>
+<table class="assess">
+<tr><th>Component</th><th>Weight</th><th>Note</th></tr>
+<tr><td>Problem sets</td><td>30%</td><td>Six exercises</td></tr>
+<tr><td>Case memos 2–4</td><td>30%</td><td>10% each · 1 page each</td></tr>
+<tr><td>Course project (eval + cost + risk)</td><td>30%</td><td>The three documents that prove production judgment</td></tr>
+<tr><td>Self-assessment</td><td>10%</td><td>Weekly</td></tr>
+</table>
+</section>
+
+<section>
+<div class="overline">Final · rubric · key terms</div>
+<h2>Course final</h2>
+<p style="font-size:13.5px;color:var(--muted)">Take-home, ~2 hours, after Module 6. Open-book: this syllabus, your portfolio, the case packets. Graded within the Course project component.</p>
+<div class="ps"><div class="ph">Final examination</div><ol>
+<li>Walk through how you'd decide whether a customer-support assistant should be AI-powered — a framework, not vibes: comparative feasibility, architecture (retrieval, guardrails, HITL), evaluation design, cost, risk. 700 words. Include one case where you'd say no and why.</li>
+<li>Given a RAG assistant that resolves 56% of conversations: design its production eval system (golden set, regression gates, drift signals, feedback loop) and its cost model (tokens per session, monthly bill at 1M sessions, one model-tiering decision with the trade-off stated).</li>
+<li>A vendor publishes: "our AI handled 2.3M conversations in month one — the work of 700 agents." What do you verify, what do you discount, and what would you measure yourself before believing it?</li>
+</ol></div>
+<h2>Deliverable rubric — production eval plan + cost model (course project)</h2>
+<table class="assess">
+<tr><th>Level</th><th>What it looks like</th></tr>
+<tr><td><b>A</b></td><td>Golden set defined and pre-registered; gates with numbers; drift signals with triggers; feedback loop specified; cost math traceable to current pricing with sensitivity; tiering decision argued from your own evals</td></tr>
+<tr><td><b>B</b></td><td>Solid parts; gates or sensitivity missing</td></tr>
+<tr><td><b>C</b></td><td>Concepts named but no numbers, or no detection mechanisms</td></tr>
+</table>
+<h2>Key terms · <a href="../glossary.html" style="font-size:12px;font-weight:600;letter-spacing:.04em">full glossary →</a></h2>
+<p style="font-size:13.5px">comparative feasibility · composable architecture · human-in-the-loop · guardrails · policy checks · least privilege · retrieval data vs. fine-tuning data · data flywheel · golden set · regression gate · model drift · feedback loop · cost per interaction · model tiers · token economics · caching · risk register · prompt injection · outcome pricing · vendor claims</p>
+</section>
+
+<footer><div class="wrap">
+<div class="next">Next: DATA 530 — Data, Metrics &amp; Experimentation →</div>
+<a href="data530.html">DATA 530 syllabus</a> · <a href="../index.html">Program home</a> · <a href="../ai-pm-training-guide.md">Master syllabus</a>
+</div></footer>
+</main>
+<script src="course.js"></script>
+</body></html>

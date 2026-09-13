@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI 510 — AI &amp; LLM Literacy · AI-PM Graduate Program</title>
+<link rel="stylesheet" href="course.css">
+</head><body>
+<header class="chead"><div class="wrap">
+<a class="back" href="../index.html">← AI-PM Graduate Program</a>
+<div class="kicker">Core · 3 credits · Term 1 · Weeks 1–6 · Prerequisites: none</div>
+<h1>AI 510 — AI &amp; LLM Literacy</h1>
+<p class="sub">The technology, taught at PM depth: how large language models work and fail, plus the hands-on instruments — prompting, retrieval, APIs, evals — an AI PM uses daily. Six modules, six problem sets, one case memo.</p>
+</div></header>
+<main class="wrap">
+
+<section>
+<div class="overline">Course objectives</div>
+<div class="objs">
+<div class="obj"><b>Explain</b> how LLMs work in plain English — training as lossy compression, attention, tokens, context.</div>
+<div class="obj"><b>Design</b> prompts systematically and build a reusable prompt library.</div>
+<div class="obj"><b>Build</b> a retrieval-augmented (RAG) product with no-code tools.</div>
+<div class="obj"><b>Call</b> an LLM API and read a small Python script.</div>
+<div class="obj"><b>Measure</b> model quality with an eval suite — and write a case memo.</div>
+</div>
+</section>
+
+<section>
+<div class="overline">Modules</div>
+
+<div class="mod"><div class="mh"><span class="no">M1</span><span class="mt">The Transformer: how LLMs work</span></div>
+<div class="lec">
+<p>A language model is a statistical machine trained to predict the next token — a word fragment — given everything before it. That sentence is the entire technical foundation of this program; everything else is consequences. Training is the expensive process: the model reads internet-scale text and adjusts billions of parameters so its predictions get better, which is best understood as <b>lossy compression</b> — the model absorbs patterns, not the text itself. It "knows" the statistical shape of the world's writing; it does not store a database of facts. This single idea explains both the capability (fluent, knowledgeable-sounding generation) and the failure (hallucination: patterns confidently mis-assembled into falsehood).</p>
+<p><b>Attention</b> is the mechanism that lets each token weigh the relevance of every other token in the context — it is what makes long-range meaning possible, and it is the reason the 2017 transformer paper (<i>Attention Is All You Need</i>) changed the field: attention-only architecture, no recurrence, massively parallel. <b>Inference</b> is the cheap operation you pay for per token: feed tokens in, sample the next, repeat until done. Two properties follow and will recur all program: <b>capability is not reliability</b> (what it can do in a demo is not what it will do in production), and the <b>context window</b> is the model's only working memory — what is not in context does not exist for it.</p>
+</div>
+<div class="ideas"><span class="idea">training = lossy compression</span><span class="idea">capability ≠ reliability</span><span class="idea">context window = working memory</span></div>
+<div class="ps"><div class="ph">Problem set</div><ol>
+<li>Watch Karpathy's <i>Intro to LLMs</i> in one sitting; take notes in your own words, not his.</li>
+<li>Write the first 15 glossary terms (Appendix C of the master syllabus) from memory; check against the glossary and correct.</li>
+<li>Explain "training as lossy compression" out loud to a non-technical person — record yourself if useful.</li>
+<li>List three product implications of the context-window limit (what breaks when a user's input exceeds it?).</li>
+</ol></div>
+<div class="sem"><div class="ph">Seminar</div><ul>
+<li>If an LLM "knows" only what it compressed, what does that imply for building products on the model's internal knowledge vs. on retrieved documents?</li>
+<li>Where does "it's just predicting the next word" fail as an explanation of what you observe in a product demo?</li>
+</ul></div>
+<div class="sc"><div class="ph">Self-check</div><ul>
+<li>☐ I can define: token, context window, hallucination, inference, fine-tuning, attention</li>
+<li>☐ I can explain why a model confidently states false facts</li>
+<li>☐ I can say what the 2017 transformer paper did and why it mattered</li>
+<li>☐ I can explain capability vs. reliability in one minute</li>
+</ul></div>
+<div class="rdgs"><b>Readings</b> · <a href="https://www.youtube.com/watch?v=zjkBMFhNj_g">Karpathy — Intro to LLMs (video)</a> · <a href="https://writings.stephenwolfram.com/2023/02/what-is-chatgpt-doing-and-why-does-it-work">Wolfram — What Is ChatGPT Doing… (first third)</a> · <a href="https://www.3blue1brown.com/lessons/">3Blue1Brown — attention (video)</a> · <a href="https://arxiv.org/abs/1706.03762">Vaswani et al. 2017 (abstract + intro)</a></div>
+</div>
+
+<div class="mod"><div class="mh"><span class="no">M2</span><span class="mt">Tokens, context &amp; inference</span></div>
+<div class="lec">
+<p>Tokens are the unit the model reads and writes — roughly word fragments, but irregular: "unbelievable" might be two tokens, and 100 words is roughly 130–140 tokens depending on language and vocabulary. Tokens matter to a PM because <b>everything is priced and constrained in them</b>: the context window, the bill, and latency all scale with token counts. Get fluent at estimating: a page of text ≈ 500 words ≈ ~650 tokens.</p>
+<p><b>Temperature</b> is the randomness knob: low values make output deterministic and repetitive; high values make it creative and erratic. Products that need consistency (extraction, classification, structured data) run low temperatures — but note that temperature 0 is not a guarantee of identical outputs, only of high probability. <b>Hallucination</b> is the load-bearing failure: it is not a bug to be "fixed" out of existence but a <b>property to design around</b> — via retrieval (M4), evals (M6), guardrails, and human-in-the-loop. The professional stance: treat every model output as plausible until verified, and design the product so that verification is cheap.</p>
+</div>
+<div class="ideas"><span class="idea">tokens = the currency</span><span class="idea">hallucination = property, not bug</span><span class="idea">temperature = determinism knob</span></div>
+<div class="ps"><div class="ph">Problem set</div><ol>
+<li>Paste three different inputs (a paragraph, a support ticket, a contract clause) into a tokenizer or the API and record token counts; build an intuition for words→tokens.</li>
+<li>Run the same prompt at temperature 0, 0.7, and 1.2 — note what changes and what doesn't.</li>
+<li>Draft the outline of your "AI 101" explainer (deliverable): the five ideas a non-technical reader must walk away with.</li>
+</ol></div>
+<div class="sem"><div class="ph">Seminar</div><ul>
+<li>Which product decisions require determinism, and which are fine with variation? What does that imply for temperature by use case?</li>
+<li>If a customer complains the bot "made something up," what does the AI PM actually owe them — an apology, a fix, or an explanation of the property?</li>
+</ul></div>
+<div class="sc"><div class="ph">Self-check</div><ul>
+<li>☐ I can estimate token counts for typical inputs</li>
+<li>☐ I can explain temperature and when to lower it</li>
+<li>☐ I can explain why hallucination is designed around, not "fixed"</li>
+</ul></div>
+<div class="rdgs"><b>Readings</b> · <a href="https://arxiv.org/abs/2005.14165">Brown et al. 2020 — Language Models are Few-Shot Learners (abstract)</a> · Appendix C glossary (master syllabus)</div>
+</div>
+
+<div class="mod"><div class="mh"><span class="no">M3</span><span class="mt">Prompting as an interface</span></div>
+<div class="lec">
+<p>The prompt is the product's interface to the model — which makes prompt design interface design. The core pattern: <b>role</b> (who the model is: "you are a senior support agent for X"), <b>context</b> (the situation and constraints), <b>task</b> (what to do), and <b>format</b> (how to output). Add <b>few-shot examples</b> when behavior matters more than prose — two or three worked examples beat a paragraph of instruction — and <b>structured output</b> (JSON with a schema) whenever a machine consumes the result. Serious products force structure; free prose is for chat, not for pipelines.</p>
+<p>Two deeper truths. First, prompt engineering <b>shifts</b> behavior; it does not rebuild the model. When a prompt grows past a page, you are fighting the model — the design, not the prompt, is the problem. Second, prompts are <b>attack surface</b>: the model follows instructions it finds anywhere in its input, including user-supplied text — the security hole called prompt injection (full treatment in RSK 550; for now, know it exists and that your prompts are not a wall). Version your prompts, test them, and measure them like any interface.</p>
+</div>
+<div class="ideas"><span class="idea">role · context · task · format</span><span class="idea">few-shot beats prose</span><span class="idea">structured output for pipelines</span></div>
+<div class="ps"><div class="ph">Problem set</div><ol>
+<li>The 20-prompt challenge: pick one high-value use case (client status updates, vendor proposal summaries, FDE scoping questions). Build 20 prompts testing variations: role/context/task/format, few-shot vs. no-shot, "ask clarifying questions first," structured output.</li>
+<li>For each prompt, record: the prompt, why it works, and one bad variant with its failure mode.</li>
+<li>Save the 15 best as your prompt library (<code>prompts/</code>).</li>
+</ol></div>
+<div class="sem"><div class="ph">Seminar</div><ul>
+<li>Where does prompt engineering end and product design begin? What's the smell that a team is prompting its way around a design gap?</li>
+<li>What breaks first when a prompt library grows to 200 prompts?</li>
+</ul></div>
+<div class="sc"><div class="ph">Self-check</div><ul>
+<li>☐ I can explain system vs. user prompts, few-shot, temperature, structured output</li>
+<li>☐ I have 15+ tested prompts saved with failure notes</li>
+<li>☐ I can explain prompt injection in one sentence</li>
+</ul></div>
+<div class="rdgs"><b>Readings</b> · <a href="https://www.deeplearning.ai/courses/chatgpt-prompt-eng">DeepLearning.AI — ChatGPT Prompt Engineering for Developers (free)</a> · <a href="https://simonwillison.net">Simon Willison's blog (llms tag)</a></div>
+</div>
+
+<div class="mod"><div class="mh"><span class="no">M4</span><span class="mt">Retrieval &amp; no-code building (RAG)</span></div>
+<div class="lec">
+<p>A model's parameters are its <i>trained</i> knowledge — frozen at training time, unreliable for your documents. Retrieval-augmented generation gives the model a working memory: chunk your documents, convert each chunk into an <b>embedding</b> (a vector where similar meanings sit nearby), store them in a vector index, and at query time fetch the most relevant chunks into the context window. The model then answers from what is in front of it — which is why RAG reduces hallucination and keeps answers current: update the documents and the answers update. The Lewis et al. 2020 paper that named the pattern frames it as <b>parametric memory</b> (the model) plus <b>non-parametric memory</b> (the retrieval index).</p>
+<p>The architecture you must be able to draw from memory: documents → chunking → embeddings → vector store → (query → retrieve top-k → stuff into context) → model → grounded answer. The failure modes are measurable and yours to own: <b>bad retrieval</b> (the right chunk didn't make top-k), <b>bad chunking</b> (the answer straddled two chunks), and <i>Lost in the Middle</i> — the Liu et al. 2023 finding that models use information at the ends of long contexts far better than the middle, which means where you place retrieved content is a design decision, not a detail. Retrieval quality is product quality.</p>
+</div>
+<div class="ideas"><span class="idea">parametric vs. non-parametric memory</span><span class="idea">grounding beats improvisation</span><span class="idea">retrieval quality = product quality</span></div>
+<div class="ps"><div class="ph">Problem set</div><ol>
+<li>Build a document-Q&amp;A bot with a free-tier builder (Claude/Google AI Studio projects, Flowise, or n8n). Upload 3–5 real documents.</li>
+<li>Test 25 questions across difficulty levels; record pass/fail and the failure cases.</li>
+<li>Write the 1-page architecture write-up: draw the pipeline, note where retrieval, context, and generation sit, and diagnose three failures with hypotheses about <i>why</i> they failed.</li>
+</ol></div>
+<div class="sem"><div class="ph">Seminar</div><ul>
+<li>Why does RAG beat fine-tuning for most products? (You'll get the full answer in AIPM 520 M3 — form your hypothesis now.)</li>
+<li>What happens to a RAG system when the source documents contain contradictions? How would you detect it?</li>
+</ul></div>
+<div class="sc"><div class="ph">Self-check</div><ul>
+<li>☐ I can explain RAG and draw its pipeline from memory</li>
+<li>☐ I can explain what "Lost in the Middle" means for design</li>
+<li>☐ I have a working bot and three diagnosed failures</li>
+</ul></div>
+<div class="rdgs"><b>Readings</b> · <a href="https://arxiv.org/abs/2005.11401">Lewis et al. 2020 — RAG (abstract + conclusion)</a> · <a href="https://arxiv.org/abs/2307.03172">Liu et al. 2023 — Lost in the Middle (abstract + findings)</a> · <a href="https://simonwillison.net">Simon Willison on retrieval/search</a></div>
+</div>
+
+<div class="mod"><div class="mh"><span class="no">M5</span><span class="mt">Python &amp; the API layer</span></div>
+<div class="lec">
+<p>Why does an AI PM learn Python? Not to ship production code — to <b>verify, evaluate, and estimate</b>. Three recurring uses: run evaluation scripts that score model outputs; read the code engineers and data scientists write well enough to ask good questions; and build prototypes that test feasibility before anyone commits engineering time. You are not becoming a developer; you are becoming fluent enough to be dangerous in meetings and honest in estimates.</p>
+<p>The pattern to internalize: an <b>endpoint</b> is a URL that accepts a <b>request</b> (your prompt + parameters, authenticated by an <b>API key</b>) and returns a <b>response</b> (the model's output plus <b>usage</b> — tokens in and out). Cost flows from usage: price per million input tokens plus price per million output tokens (output typically costs 3–5× input — always check current pricing). Your first script: prompt → response → print token usage. Your second: a <b>chain</b> — call one summarizes, call two extracts bullet points, call three grades them. That three-call chain is the seed of every agent architecture you will ever discuss. Use Google Colab for zero setup, or Ollama locally for zero cost.</p>
+</div>
+<div class="ideas"><span class="idea">endpoint · request · response · key</span><span class="idea">tokens in/out = cost</span><span class="idea">chains seed agents</span></div>
+<div class="ps"><div class="ph">Problem set</div><ol>
+<li>Make the call: Ollama (free) or ~$5 of hosted credits (OpenAI/Anthropic). Script 1: prompt → response → usage.</li>
+<li>Script 2: the 3-call chain (summarize → bullets → grade).</li>
+<li>Comment every line yourself — the commenting is the learning.</li>
+<li>Write the API README: endpoint, key, request/response, token, rough cost of one call.</li>
+</ol></div>
+<div class="sem"><div class="ph">Seminar</div><ul>
+<li>What should a PM never use code for — where does the boundary sit between "verify with a script" and "build the product"?</li>
+<li>When a teammate says "it's a simple API integration," what do you now know to ask?</li>
+</ul></div>
+<div class="sc"><div class="ph">Self-check</div><ul>
+<li>☐ I can run a <code>.py</code> file</li>
+<li>☐ I can explain endpoint, request, response, API key, token</li>
+<li>☐ I can read a 30-line script and say what it does</li>
+<li>☐ I can estimate the cost of one API call</li>
+</ul></div>
+<div class="rdgs"><b>Readings</b> · <a href="https://www.youtube.com/watch?v=rfscVS0vtbw">freeCodeCamp — Learn Python (first ~2.5h)</a> · <a href="https://www.freecodecamp.org/news/the-python-handbook/">The Python Handbook</a> · <a href="https://ollama.com">Ollama</a> · <a href="https://colab.research.google.com/">Google Colab</a></div>
+</div>
+
+<div class="mod"><div class="mh"><span class="no">M6</span><span class="mt">Measurement: evals &amp; metrics · Case A: GitHub Copilot</span></div>
+<div class="lec">
+<p>The accuracy trap: a model that answers "yes" to everything scores 90% "accuracy" on skewed data while being useless. The discipline of evals exists to defeat this. An <b>eval set</b> is a fixed collection of cases with expected behaviors; a run scores the model against it. For classification: <b>precision</b> = of the things the model flagged, how many were right; <b>recall</b> = of the things that should have been flagged, how many it caught. They trade off, and your threshold is a <i>product</i> decision — medical screening wants recall; spam filtering wants precision. For generative output, scoring is fuzzier: rubric-based human review, <b>LLM-as-judge</b> (fast and cheap, but biased — spot-check it against humans), or <b>functional tests</b> — the HumanEval insight from Chen et al. 2021, where code is graded by whether it passes tests (Codex solved 28.8% on first sample; 70.2% with 100 samples — the birth of evaluation-by-execution).</p>
+<p>The Copilot case (case packet A) is the meta-lesson: when the artifact is open-ended — code, prose, plans — <b>measurement is a design problem</b>. GitHub's controlled experiment found 55% faster task completion (n=95, P=.0017); an independent field study later found no significant effect on weekly activity; and "share of code written by AI" is an input metric, not an outcome. The PM who defines the metric system controls the strategy conversation — this module is where you start owning that.</p>
+</div>
+<div class="ideas"><span class="idea">accuracy trap</span><span class="idea">precision vs. recall</span><span class="idea">golden sets</span><span class="idea">measurement = design problem</span></div>
+<div class="ps"><div class="ph">Problem set</div><ol>
+<li>Build an eval suite for your M4 bot: 25 cases (easy, edge, adversarial, out-of-scope) with expected behaviors.</li>
+<li>Run it, score it, find the failure patterns. Fix the worst pattern (document, instructions, retrieval). Re-run. Record before/after.</li>
+<li>Read case packet A. Write case memo 1 (1 page): how you would measure Copilot's value — north star, guardrails, which vendor claims you'd trust and which you'd discount.</li>
+</ol></div>
+<div class="sem"><div class="ph">Seminar</div><ul>
+<li>What does HumanEval not test — and what would you add for a production developer tool?</li>
+<li>What does the gap between GitHub's controlled experiment and the independent field study teach you about AI measurement in general?</li>
+</ul></div>
+<div class="sc"><div class="ph">Self-check</div><ul>
+<li>☐ I can define precision, recall, accuracy, hallucination rate</li>
+<li>☐ I can explain why accuracy alone misleads for LLMs</li>
+<li>☐ I ran a fix-and-re-run eval cycle with recorded results</li>
+<li>☐ My case memo takes a position</li>
+</ul></div>
+<div class="rdgs"><b>Readings</b> · <a href="https://simonwillison.net">Simon Willison on evals</a> · <a href="https://arxiv.org/abs/2107.03374">Chen et al. 2021 — Evaluating LLMs Trained on Code (abstract + HumanEval)</a> · <a href="../case-packets.md">Case A packet + teaching note</a></div>
+</div>
+</section>
+
+<section>
+<div class="overline">Deliverables</div>
+<div class="deliv"><h2>Course portfolio</h2>
+<ul>
+<li>"AI 101" plain-English explainer · glossary (first 15 terms)</li>
+<li>Prompt library — 15+ tested prompts with failure notes</li>
+<li>Working RAG bot + architecture write-up with 3 diagnosed failures</li>
+<li>Python scripts (single call + 3-call chain) + API README</li>
+<li>Eval suite + results report · <b>Case memo 1 (GitHub Copilot)</b></li>
+</ul></div>
+</section>
+
+<section>
+<div class="overline">Assessment</div>
+<table class="assess">
+<tr><th>Component</th><th>Weight</th><th>Note</th></tr>
+<tr><td>Problem sets</td><td>40%</td><td>Six exercises, completion + evident learning</td></tr>
+<tr><td>Case memo 1</td><td>20%</td><td>1 page, written before reading the teaching note</td></tr>
+<tr><td>Course project (eval suite)</td><td>30%</td><td>Graded on design and honest failure analysis</td></tr>
+<tr><td>Self-assessment</td><td>10%</td><td>Weekly "you can now" checklist</td></tr>
+</table>
+</section>
+
+<section>
+<div class="overline">Final · rubric · key terms</div>
+<h2>Course final</h2>
+<p style="font-size:13.5px;color:var(--muted)">Take-home, ~2 hours, after Module 6. Open-book: this syllabus, your portfolio, the allowed readings. Graded within the Course project component.</p>
+<div class="ps"><div class="ph">Final examination</div><ol>
+<li>Explain how an LLM works to a smart non-technical executive in 400 words: training, tokens, context window, hallucination — and why capability is not reliability. You may use your AI 101 explainer as a starting point; the final version must be better than it.</li>
+<li>Given a support bot that answers from a 200-article help center, design its eval system: the 20-case golden set (list the categories and three example cases), the scoring method, and the regression gate ("we do not ship…"). Show the precision/recall trade-off with one concrete example.</li>
+<li>Your CEO wants to demo a chatbot that answers from the company's internal Slack history. Name three reasons this is risky and what you'd propose instead.</li>
+</ol></div>
+<h2>Deliverable rubric — eval suite (course project)</h2>
+<table class="assess">
+<tr><th>Level</th><th>What it looks like</th></tr>
+<tr><td><b>A</b></td><td>25+ cases across easy/edge/adversarial/out-of-scope; expected behaviors defined; failure patterns diagnosed with hypotheses; fix-and-re-run with before/after numbers</td></tr>
+<tr><td><b>B</b></td><td>Solid suite and honest results, but failure analysis is thin or no re-run</td></tr>
+<tr><td><b>C</b></td><td>Cases without expected behaviors, or results without analysis</td></tr>
+</table>
+<h2>Key terms · <a href="../glossary.html" style="font-size:12px;font-weight:600;letter-spacing:.04em">full glossary →</a></h2>
+<p style="font-size:13.5px">token · context window · training as lossy compression · inference · fine-tuning · temperature · hallucination · few-shot · structured output · RAG · embedding · vector store · precision · recall · eval set · golden set · LLM-as-judge · functional evaluation · capability vs. reliability</p>
+</section>
+
+<footer><div class="wrap">
+<div class="next">Next: PM 501 — Product Management Fundamentals →</div>
+<a href="pm501.html">PM 501 syllabus</a> · <a href="../index.html">Program home</a> · <a href="../ai-pm-training-guide.md">Master syllabus</a>
+</div></footer>
+</main>
+<script src="course.js"></script>
+</body></html>

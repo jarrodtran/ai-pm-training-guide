@@ -1,0 +1,22 @@
+# macOS
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+
+# editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# scratch
+*.tmp
+*.bak
+*~

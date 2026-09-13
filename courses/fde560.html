@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FDE 560 — Forward Deployed Engineering &amp; Applied AI · AI-PM Graduate Program</title>
+<link rel="stylesheet" href="course.css">
+</head><body>
+<header class="chead"><div class="wrap">
+<a class="back" href="../index.html">← AI-PM Graduate Program</a>
+<div class="kicker">Elective · 2 credits · 4 weeks · Prerequisites: AI 510 + PM 501</div>
+<h1>FDE 560 — Forward Deployed Engineering &amp; Applied AI</h1>
+<p class="sub">Built for this student's world: the Forward Deployed Engineering operating model, and how AI changes it. Scoping client AI engagements, discovery for external customers, feasibility for sales, and the consultant-to-product transition.</p>
+<p class="sub" style="margin-top:12px"><b>Deeper technical companion:</b> the <a href="../field-manual.html">FDE-PM Field Manual &amp; Technical Study Guide</a> — 5 modules (~90 h) covering the technical substrate, discovery and architecture trade-offs, enterprise integration and compliance, evals and ROI, and the productization engine, with 17 architecture blueprints and 9 field artifacts. Read it alongside this course; the field manual is the reference you keep open in the room.</p>
+</div></header>
+<main class="wrap">
+
+<section>
+<div class="overline">Course objectives</div>
+<div class="objs">
+<div class="obj"><b>Explain</b> the FDE operating model and the engagement lifecycle.</div>
+<div class="obj"><b>Scope</b> a client AI engagement — discovery, feasibility, statement of work.</div>
+<div class="obj"><b>Design</b> field evals: client-specific golden sets, rollout, human-in-the-loop.</div>
+<div class="obj"><b>Productize</b>: turn repeated engagements into a product — and into a PM career.</div>
+</div>
+</section>
+
+<section>
+<div class="overline">Modules</div>
+
+<div class="mod"><div class="mh"><span class="no">M1</span><span class="mt">The FDE operating model</span></div>
+<div class="lec">
+<p>Forward Deployed Engineering teams — the model Palantir originated and the industry has adopted — put engineers and operators <i>inside the customer's world</i>. They solve problems the standard product doesn't, they learn the domain by immersion, and they feed what they learn back into the product. The engagement lifecycle: <b>land</b> (find the real problem behind the request), <b>scope</b> (define what will and won't be built), <b>build</b> (deliver fast, in the customer's environment), <b>deploy</b> (roll out to real users with real workflows), <b>scale</b> (expand usage and value), <b>harvest</b> (turn the repeated pattern into product).</p>
+<p>For an operator launching such a team, the PM-shaped roles are everywhere — the FDE lead is a product manager with a client attached: discovery, scoping, prioritization, stakeholder management, delivery, and risk, all in a customer room. AI multiplies both sides of the coin: the <b>leverage</b> — custom AI systems can now be built in weeks, not quarters, and the FDE team with AI literacy can deliver what used to take a product org — and the <b>hype risk</b> — every client wants AI, few have a problem that needs it, and the team that says yes to everything builds demos, not systems. This module builds the vocabulary and maps where judgment is required.</p>
+</div>
+<div class="ideas"><span class="idea">land · scope · build · deploy · scale · harvest</span><span class="idea">AI leverage + AI hype risk</span></div>
+<div class="ps"><div class="ph">Problem set</div><ol>
+<li>Map the engagement lifecycle for your own FDE team: for each stage, name the decisions, the artifacts, and where AI changes the play.</li>
+<li>Interview someone who runs or has worked in an FDE team (or find a written account); capture three lessons you'd apply.</li>
+<li>Write your team's operating principles — five statements that will guide how you say yes and no.</li>
+</ol></div>
+<div class="sem"><div class="ph">Seminar</div><ul>
+<li>What does AI actually change about FDE — and what doesn't change at all?</li>
+<li>Where does the FDE lead act as a PM, and where as something else?</li>
+</ul></div>
+<div class="sc"><div class="ph">Self-check</div><ul>
+<li>☐ I can explain the lifecycle and name the PM-shaped decisions at each stage</li>
+<li>☐ I have three externally-sourced lessons</li>
+<li>☐ My operating principles exist and are defensible</li>
+</ul></div>
+<div class="rdgs"><b>Readings</b> · FDE operating-model essays · Palantir deployment methodology (public sources) · your own launch context</div>
+</div>
+
+<div class="mod"><div class="mh"><span class="no">M2</span><span class="mt">Scoping client AI engagements</span></div>
+<div class="lec">
+<p>The client says "we want an AI assistant." Your job is discovery <i>for an external customer</i>: find the actual problem behind the ask, quantify its cost today, and test whether AI is the right instrument — the AIPM 520 feasibility drill, run in a client room, with the client's numbers. The scoping instruments: the <b>discovery workshop</b> agenda (who's in the room, what questions surface the real problem, what "done" means to them), the <b>feasibility memo</b> — written <i>before</i> the SOW so expectations are set before the price is — and the <b>statement of work</b>: scope in/out, data access and security, eval criteria, success metrics, the human-in-the-loop design, and the operating handoff.</p>
+<p>Three disciplines matter most. First, <b>measurement in the contract</b>: a scope that promises quality without defining how quality is measured is a lawsuit with a demo attached — the golden set and success bar belong in the SOW, not in a slide. Second, <b>the out-of-scope section is the whole game</b>: AI engagements live on scope creep — "can it also…" — and the SOW's explicit won't-list is your only defense that doesn't damage the relationship. Third, <b>say no in the room</b>: the client who wants AI without a problem gets told, with the evidence, early. The no is the deliverable that builds trust.</p>
+</div>
+<div class="ideas"><span class="idea">problem before ask</span><span class="idea">feasibility memo before SOW</span><span class="idea">measurement in the contract</span></div>
+<div class="ps"><div class="ph">Problem set</div><ol>
+<li>Build the discovery workshop agenda: objectives, attendees, the questions that surface the real problem, and the "done" definition.</li>
+<li>Write a feasibility memo for a real or imagined client engagement: the problem, the AI-vs.-alternative judgment, what AI will and won't do, the risks.</li>
+<li>Draft the SOW outline: scope in/out, data access, eval criteria, success metrics, HITL design, handoff — with the out-of-scope list explicit.</li>
+</ol></div>
+<div class="sem"><div class="ph">Seminar</div><ul>
+<li>How do you say "this doesn't need AI" in a sales room without killing the deal — and when should you kill the deal anyway?</li>
+<li>What does "measurement in the contract" protect you from — concretely?</li>
+</ul></div>
+<div class="sc"><div class="ph">Self-check</div><ul>
+<li>☐ My feasibility memo precedes the SOW in my process</li>
+<li>☐ My SOW defines success metrics and eval criteria, not just deliverables</li>
+<li>☐ My out-of-scope list exists and I can defend each line</li>
+</ul></div>
+<div class="rdgs"><b>Readings</b> · SOW templates · discovery workshop guides · your PM 501 discovery notes</div>
+</div>
+
+<div class="mod"><div class="mh"><span class="no">M3</span><span class="mt">Delivery &amp; evals in the field</span></div>
+<div class="lec">
+<p>Field delivery differs from product delivery in four ways. The client's data is <b>messy and owned by them</b> — quality issues you'd fix in a product org are negotiation items here. Their <b>golden set doesn't exist yet</b> — you build it in week one, from their cases, in their vocabulary, with their definition of "right." Their team must <b>live with the system after you leave</b> — which makes the handoff the deliverable. And the rollout is <b>change management</b>: the AI changes workflows, and adoption is a product problem with the client's employees as the users — training, feedback channels, and a champion inside the client org.</p>
+<p>The field eval discipline: agree the <b>success bar before the first demo</b> (a demo can always be made to look good; a pre-agreed bar cannot be moved after the fact), design the <b>human-in-the-loop</b> for their operations — who reviews what, at what stakes, with what escalation — and produce the <b>operating manual</b>: how the system is measured, monitored, and maintained after handoff, with owners named on the client side. If the client can't operate it, you built a demo, not a system — and the reference call you didn't earn will tell you so.</p>
+</div>
+<div class="ideas"><span class="idea">their golden set, their bar</span><span class="idea">adoption = product problem</span><span class="idea">the operating manual is the deliverable</span></div>
+<div class="ps"><div class="ph">Problem set</div><ol>
+<li>Design the field eval plan for your engagement: client golden set (20+ cases), scoring method, success bar, drift signals after handoff.</li>
+<li>Design the HITL: what the client team reviews, at what stakes, with what escalation path.</li>
+<li>Write the operating manual skeleton: monitoring, maintenance, owners, and the "what to do when it degrades" runbook.</li>
+</ol></div>
+<div class="sem"><div class="ph">Seminar</div><ul>
+<li>Who owns the system's quality six months after handoff — and what does the contract say about it?</li>
+<li>What does adoption failure look like in a client deployment, and how do you detect it early?</li>
+</ul></div>
+<div class="sc"><div class="ph">Self-check</div><ul>
+<li>☐ My success bar is agreed before the demo, in writing</li>
+<li>☐ My HITL design names the reviewer and the stakes</li>
+<li>☐ My operating manual answers "what happens when it degrades"</li>
+</ul></div>
+<div class="rdgs"><b>Readings</b> · production eval guides (AIPM 520 re-read) · change-management primers</div>
+</div>
+
+<div class="mod"><div class="mh"><span class="no">M4</span><span class="mt">From consultant to product</span></div>
+<div class="lec">
+<p>The endgame of FDE is <b>productization</b>: the third client who asks for the same thing is a market signal, not a project. The harvest discipline: what pattern repeats across engagements — the same architecture, the same eval templates, the same integration pain? What would a product version remove — the bespoke parts, the client-specific data plumbing, the custom UI? Where does the data flywheel live across clients — can anonymized patterns improve every deployment (with consent and governance, per DATA 530 and RSK 550)? The product is the pattern, minus the bespoke.</p>
+<p>This is also the personal transition. The FDE lead who can spot the repeated pattern, scope the product version, and argue its economics is the AI PM — the same judgment, one level up: from client to market. Your capstone can be the first productized artifact of your own practice — a working prototype that embodies the pattern your engagements keep hitting. That is the difference between a consultant who delivers and a leader who builds: the consultant sells hours, the leader harvests patterns.</p>
+</div>
+<div class="ideas"><span class="idea">third client = market signal</span><span class="idea">product = the pattern, minus the bespoke</span><span class="idea">FDE lead → AI PM</span></div>
+<div class="ps"><div class="ph">Problem set</div><ol>
+<li>Write the productization memo: the repeated pattern across engagements, the product it implies, what it removes, and who'd buy it.</li>
+<li>Sketch the cross-client flywheel: what data flows back, with what governance.</li>
+<li>Align your capstone: is there a version of it that embodies this pattern? Adjust scope if so.</li>
+</ol></div>
+<div class="sem"><div class="ph">Seminar</div><ul>
+<li>When exactly does the third client become a product — what evidence makes it a signal and not a coincidence?</li>
+<li>What dies in the consultant-to-product transition — and what survives?</li>
+</ul></div>
+<div class="sc"><div class="ph">Self-check</div><ul>
+<li>☐ I have named the repeated pattern and the product it implies</li>
+<li>☐ My flywheel sketch has a governance answer</li>
+<li>☐ I can tell the consultant-to-PM story with my own examples</li>
+</ul></div>
+<div class="rdgs"><b>Readings</b> · productization essays · STRAT 540 M3–M4 re-read (moats, vendor risk)</div>
+</div>
+</section>
+
+<section>
+<div class="overline">Deliverables</div>
+<div class="deliv"><h2>Elective portfolio</h2>
+<ul>
+<li>Engagement lifecycle map for your own FDE team</li>
+<li>Discovery workshop agenda + feasibility memo template (client-ready)</li>
+<li>Field eval plan — client golden set, success bar, operating manual skeleton</li>
+<li>Productization memo — the repeated pattern and the product it implies</li>
+</ul></div>
+</section>
+
+<section>
+<div class="overline">Assessment</div>
+<table class="assess">
+<tr><th>Component</th><th>Weight</th><th>Note</th></tr>
+<tr><td>Problem sets</td><td>40%</td><td>Four exercises</td></tr>
+<tr><td>Course project (feasibility memo + productization memo)</td><td>40%</td><td>Client-room quality</td></tr>
+<tr><td>Self-assessment</td><td>20%</td><td>Weekly</td></tr>
+</table>
+</section>
+
+<section>
+<div class="overline">Final · rubric · key terms</div>
+<h2>Course final</h2>
+<p style="font-size:13.5px;color:var(--muted)">Take-home, ~2 hours, after Module 4. Open-book: this syllabus, your portfolio. Graded within the Course project component.</p>
+<div class="ps"><div class="ph">Final examination</div><ol>
+<li>In the kickoff call, the client says "we want an AI assistant." Write your discovery workshop agenda (objectives, attendees, questions that surface the real problem) and the feasibility memo plan — including the two places you'd say no and how you'd say it.</li>
+<li>Design the field eval for a four-week engagement: client golden set (20+ cases), the success bar you'd agree before the first demo, the HITL design, and the operating manual skeleton.</li>
+<li>Two clients have now asked for the same capability. Write the productization memo: the repeated pattern, the product it implies, what it removes, and who'd buy it.</li>
+</ol></div>
+<h2>Deliverable rubric — feasibility memo (course project)</h2>
+<table class="assess">
+<tr><th>Level</th><th>What it looks like</th></tr>
+<tr><td><b>A</b></td><td>Problem quantified with client numbers; AI-vs-alternative judgment argued; what AI will and won't do explicit; risks named; usable in a client room as-is</td></tr>
+<tr><td><b>B</b></td><td>Solid; numbers or the "won't do" explicit</td></tr>
+<tr><td><b>C</b></td><td>Promises AI without the feasibility argument</td></tr>
+</table>
+<h2>Key terms · <a href="../glossary.html" style="font-size:12px;font-weight:600;letter-spacing:.04em">full glossary →</a></h2>
+<p style="font-size:13.5px">FDE operating model · engagement lifecycle · land · scope · build · deploy · scale · harvest · discovery workshop · statement of work · out-of-scope · measurement in the contract · client golden set · success bar · human-in-the-loop · operating manual · change management · productization · repeated pattern · client champion</p>
+</section>
+
+<footer><div class="wrap">
+<div class="next">Other electives: AI 570 · GTH 580 →</div>
+<a href="ai570.html">AI 570</a> · <a href="gth580.html">GTH 580</a> · <a href="../index.html">Program home</a>
+</div></footer>
+</main>
+<script src="course.js"></script>
+</body></html>

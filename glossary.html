@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Glossary — AI-PM Graduate Program</title>
+<style>
+  :root{--ink:#1b1b1b;--muted:#6b6b66;--faint:#8f8f88;--line:#e4e4e0;--line-strong:#d2d2cc;
+    --accent:#3d5a80;--accent-ink:#2c4259;--accent-soft:#edf1f6;--accent-line:#c9d5e4;
+    --amber:#9a7b2d;--amber-soft:#f6f2e6;--amber-line:#e2d5b0;
+    --serif:Georgia,"Times New Roman",serif;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;--mono:"SF Mono",ui-monospace,Menlo,Consolas,monospace}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);color:var(--ink);background:#fafaf9;line-height:1.55;font-size:15px}
+  .wrap{max-width:860px;margin:0 auto;padding:0 24px}
+  header{padding:32px 0 18px;border-bottom:1px solid var(--line);margin-bottom:20px}
+  .back{font-size:13px;font-weight:600;color:var(--muted);text-decoration:none}
+  h1{font-family:var(--serif);font-size:25px;margin-top:10px;letter-spacing:-.01em}
+  .sub{color:var(--muted);font-size:14px;margin-top:6px;max-width:70ch}
+  input[type=search]{width:100%;padding:10px 14px;border:1px solid var(--line-strong);border-radius:9px;font:600 14.5px var(--sans);margin:16px 0 20px;background:#fff}
+  .cnt{font-size:12px;color:var(--faint);margin-bottom:14px}
+  .g{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:0 30px}
+  .e{padding:9px 0;border-bottom:1px dashed var(--line)}
+  .e .t{font-weight:700;font-size:14px}
+  .e .tag{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--accent-ink);background:var(--accent-soft);border:1px solid var(--accent-line);border-radius:4px;padding:1px 5px;margin-left:7px;vertical-align:1px}
+  .e .d{display:block;font-size:13px;color:var(--muted);margin-top:2px}
+  .no{color:var(--faint);font-style:italic;padding:20px 0}
+  footer{margin-top:26px;padding:16px 0 44px;border-top:1px solid var(--line);color:var(--faint);font-size:12.5px}
+  @media(max-width:700px){.g{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <a class="back" href="index.html">← AI-PM Graduate Program</a>
+  <h1>Glossary — every term in the program</h1>
+  <p class="sub">Definitions at PM depth, tagged by the course that owns them. Type to filter.</p>
+  <input type="search" id="q" placeholder="Search terms and definitions…" autocomplete="off">
+  <div class="cnt" id="cnt"></div>
+</header>
+<div class="g" id="list"></div>
+<footer><p>Glossary · AI-PM Graduate Program · The terms are examinable; the definitions are yours to deepen.</p></footer>
+</div>
+
+<script>
+var TERMS = [
+{t:"token",d:"The text unit (roughly a word fragment) the model reads and writes; prices and context windows are measured in tokens.",c:"AI 510"},
+{t:"context window",d:"The maximum tokens a model can see in one call; the model's only working memory.",c:"AI 510"},
+{t:"training (lossy compression)",d:"The expensive process of compressing internet-scale text into the model's parameters — patterns, not text.",c:"AI 510"},
+{t:"inference",d:"Running a trained model to produce an answer; the cheap per-token operation you pay for.",c:"AI 510"},
+{t:"fine-tuning",d:"Extra training on a small curated dataset to change behavior; usually the last resort vs. retrieval.",c:"AI 510"},
+{t:"temperature",d:"The randomness knob; low = deterministic, high = creative.",c:"AI 510"},
+{t:"hallucination",d:"A confident, false output; a property to design around (evals, retrieval, guardrails), not a bug to fix.",c:"AI 510"},
+{t:"prompt",d:"Your input; system prompt sets behavior, user prompt is the request, few-shot includes examples.",c:"AI 510"},
+{t:"few-shot",d:"Including worked examples in the prompt; beats prose instructions for shaping behavior.",c:"AI 510"},
+{t:"structured output",d:"Forcing the model to emit JSON/schema so downstream systems can parse reliably.",c:"AI 510"},
+{t:"RAG",d:"Retrieval-augmented generation: fetch relevant documents, stuff into context, answer grounded in them.",c:"AI 510"},
+{t:"embedding",d:"A vector representing text; similar meanings sit nearby in vector space.",c:"AI 510"},
+{t:"vector database",d:"Storage optimized for embedding search — 'find the 5 most similar chunks.'",c:"AI 510"},
+{t:"precision",d:"Of the things the model flagged, how many were right.",c:"AI 510"},
+{t:"recall",d:"Of the things that should have been flagged, how many were caught.",c:"AI 510"},
+{t:"accuracy trap",d:"Judging a model by accuracy on skewed data; a 'yes'-bot can score 90% and be useless.",c:"AI 510"},
+{t:"eval set",d:"A fixed collection of cases with expected behaviors, used to score a model.",c:"AI 510"},
+{t:"golden set",d:"The fixed eval set that never changes, so model versions stay comparable.",c:"AI 510"},
+{t:"LLM-as-judge",d:"A second model grading outputs; fast and cheap, but biased — spot-check with humans.",c:"AI 510"},
+{t:"functional evaluation",d:"Grading output by execution — does the code pass the tests? The HumanEval idea.",c:"AI 510"},
+{t:"capability vs. reliability",d:"What a model can do in a demo vs. what it will do in production; the gap is where PM judgment lives.",c:"AI 510"},
+
+{t:"double diamond",d:"Discover → define → develop → deliver; the shape of good product work.",c:"PM 501"},
+{t:"discovery",d:"Gathering evidence about the problem before building: interviews, behavior, quotes.",c:"PM 501"},
+{t:"JTBD",d:"Jobs-to-be-done: 'when ___, I want ___, so I can ___.'",c:"PM 501"},
+{t:"Mom Test",d:"Interviewing about past behavior, never pitching, never asking 'would you use this?'",c:"PM 501"},
+{t:"PRD",d:"Product requirements document; a decision document with evidence, scope, and requirements.",c:"PM 501"},
+{t:"user story",d:"'As a ___, I want ___, so ___'; the unit of requirements.",c:"PM 501"},
+{t:"acceptance criteria",d:"Testable given/when/then conditions for a story.",c:"PM 501"},
+{t:"out-of-scope",d:"The explicit promise about what you are not doing; where scope creep lives.",c:"PM 501"},
+{t:"RICE",d:"Reach × Impact × Confidence ÷ Effort; forces assumptions into a score.",c:"PM 501"},
+{t:"MoSCoW",d:"Must / Should / Could / Won't; shapes a release.",c:"PM 501"},
+{t:"theme roadmap",d:"A roadmap organized by themes with outcomes, not dated features.",c:"PM 501"},
+{t:"won't-do list",d:"The written list of what you are not shipping, with reasons; the difference between strategy and aspiration.",c:"PM 501"},
+{t:"north star",d:"The one metric that best captures delivered value.",c:"PM 501"},
+{t:"guardrail metric",d:"A metric that must not silently degrade; for AI, always includes model quality.",c:"PM 501"},
+{t:"funnel",d:"The ordered sequence (acquisition → activation → retention) showing where value leaks.",c:"PM 501"},
+{t:"activation",d:"The moment a new user experiences the core value.",c:"PM 501"},
+{t:"retention",d:"Users returning over time; the lagging confirmation of value.",c:"PM 501"},
+{t:"instrumentation",d:"The event log that makes the funnel visible; if it wasn't logged, it didn't happen.",c:"PM 501"},
+{t:"A/B test",d:"Randomly shipping two variants to measure which moves the metric.",c:"PM 501"},
+{t:"leading vs. lagging",d:"Indicators that predict (activation) vs. confirm (retention); a north star needs both.",c:"PM 501"},
+{t:"sprint",d:"A time-boxed iteration of delivery.",c:"PM 501"},
+{t:"definition of done",d:"The shared bar for 'finished'; for AI features, includes the eval gate.",c:"PM 501"},
+
+{t:"feasibility",d:"The comparative judgment: AI vs. rules vs. human vs. nothing.",c:"AIPM 520"},
+{t:"composable architecture",d:"Small, verified, separately measurable parts — not one giant prompt.",c:"AIPM 520"},
+{t:"human-in-the-loop",d:"A human reviews or approves model output where the stakes are high.",c:"AIPM 520"},
+{t:"guardrails",d:"Constraints on model behavior: scope, format, refusal, policy checks.",c:"AIPM 520"},
+{t:"policy checks",d:"Separate model calls that verify output against policy before it ships.",c:"AIPM 520"},
+{t:"least privilege",d:"Giving the model and its tools only the access the task requires.",c:"AIPM 520"},
+{t:"retrieval vs. fine-tuning data",d:"The maintained corpus you look up vs. curated examples that change the model; retrieval first.",c:"AIPM 520"},
+{t:"data flywheel",d:"Usage → feedback → better evals and products → more usage; the compounding moat.",c:"AIPM 520"},
+{t:"model drift",d:"Quality degrading as the world and usage change; needs monitoring and re-evals.",c:"AIPM 520"},
+{t:"regression gate",d:"'We do not ship a model version scoring below X.'",c:"AIPM 520"},
+{t:"feedback loop",d:"Production failures become new eval cases; the eval set learns with the product.",c:"AIPM 520"},
+{t:"cost per interaction",d:"Input tokens × input price + output tokens × output price (+ retrieval/storage).",c:"AIPM 520"},
+{t:"model tiers",d:"Frontier vs. cheap models; choose with your evals, not the leaderboard.",c:"AIPM 520"},
+{t:"token economics",d:"Pricing, caching, and context strategy as product decisions.",c:"AIPM 520"},
+{t:"risk register",d:"Likelihood, impact, mitigation, detection, owner — per risk.",c:"AIPM 520"},
+{t:"prompt injection",d:"Attacker text in the input hijacking the model's instructions.",c:"AIPM 520"},
+{t:"outcome pricing",d:"Pricing on results ('pay per resolution'); aligns incentives, concentrates risk on quality.",c:"AIPM 520"},
+{t:"vendor claims",d:"Published numbers from the company selling the system; hypotheses until verified.",c:"AIPM 520"},
+
+{t:"measurement system",d:"North star + guardrails + taxonomy, with owners and stated failure modes.",c:"DATA 530"},
+{t:"metric failure mode",d:"How a metric could mislead you; if you can't say it, the metric isn't defined.",c:"DATA 530"},
+{t:"model-quality metrics",d:"Eval score, hallucination rate, cost per session — first-class metrics for AI.",c:"DATA 530"},
+{t:"events",d:"The logged primitives: searched, asked, answered, rated.",c:"DATA 530"},
+{t:"properties",d:"Event attributes; always include the model version.",c:"DATA 530"},
+{t:"cohort",d:"A group of users sharing a start time; retention by cohort beats aggregates.",c:"DATA 530"},
+{t:"pre-registration",d:"Writing the hypothesis and guardrails before seeing results.",c:"DATA 530"},
+{t:"sample size / power",d:"Whether your experiment has enough users to detect the effect you care about.",c:"DATA 530"},
+{t:"novelty effect",d:"New AI features get engagement for being new; it decays — measure it.",c:"DATA 530"},
+{t:"PII",d:"Personally identifiable information; the trigger for privacy design.",c:"DATA 530"},
+{t:"consent / purpose limitation",d:"GDPR basics: an explicit basis for using data, and using it only for the stated purpose.",c:"DATA 530"},
+{t:"EU AI Act",d:"Regulation classifying AI systems by risk, with transparency, documentation, and oversight obligations.",c:"DATA 530"},
+{t:"schema drift",d:"Data shapes changing silently; decays eval sets and pipelines.",c:"DATA 530"},
+
+{t:"unit economics",d:"Cost per interaction × usage; the bill scales with success.",c:"STRAT 540"},
+{t:"sensitivity analysis",d:"'If usage doubles / the model switches, here's the curve.'",c:"STRAT 540"},
+{t:"bill shock",d:"Customers surprised by usage-based charges; needs mitigation in the pricing design.",c:"STRAT 540"},
+{t:"AI-native vs. AI-wrapped",d:"Built around model capabilities vs. AI bolted onto a conventional product.",c:"STRAT 540"},
+{t:"moat",d:"The compounding asset — flywheel, data, workflow, distribution; rented model access isn't one.",c:"STRAT 540"},
+{t:"vendor dependence",d:"Your quality inherits their model, roadmap, and outages.",c:"STRAT 540"},
+{t:"switching costs",d:"What it takes to change models; your evals and abstractions keep it low.",c:"STRAT 540"},
+{t:"competitive exposure",d:"Your feature is 'a prompt away' from your vendor shipping it themselves.",c:"STRAT 540"},
+{t:"multi-model strategy",d:"Keeping the option open; your eval suite prices every model.",c:"STRAT 540"},
+
+{t:"detection mechanism",d:"The concrete signal and cadence that reveals a risk is materializing; detection is governance.",c:"RSK 550"},
+{t:"direct injection",d:"Attacker instructions in the user-input channel.",c:"RSK 550"},
+{t:"indirect injection",d:"Instructions smuggled through retrieved content or tool results.",c:"RSK 550"},
+{t:"red-teaming",d:"Systematically attacking your own system; if it survives, you did it wrong.",c:"RSK 550"},
+{t:"threat model",d:"Every place untrusted text enters the system, and where instruction/content separation exists or is missing.",c:"RSK 550"},
+{t:"untrusted output",d:"Treat model output as data; never execute or act on it without validation.",c:"RSK 550"},
+{t:"differential error rate",d:"Error rate by segment, not just the average — where averages hide harm.",c:"RSK 550"},
+{t:"fairness guardrail",d:"Bias as a measured, owned, thresholded metric, like any production metric.",c:"RSK 550"},
+{t:"risk classes",d:"The EU AI Act's tiered obligations by system risk.",c:"RSK 550"},
+{t:"incident response",d:"Severity levels, rollback triggers, disclosure obligations, postmortem.",c:"RSK 550"},
+{t:"review gate",d:"The pre-launch checklist — evals passed, register signed, legal reviewed.",c:"RSK 550"},
+
+{t:"workflow",d:"Fixed, pre-scripted LLM call chains; the default when the path is predictable.",c:"AI 570"},
+{t:"agent",d:"A model in a loop: plan, call tools, observe, continue — capped.",c:"AI 570"},
+{t:"trajectory",d:"The sequence of steps an agent took; where agentic quality lives.",c:"AI 570"},
+{t:"function calling",d:"The model emitting structured tool requests your system executes.",c:"AI 570"},
+{t:"agent-computer interface",d:"Tool names, descriptions, and schemas — the spec that decides tool use.",c:"AI 570"},
+{t:"tool-use accuracy",d:"Right tool, right arguments, no loops; a measurable metric.",c:"AI 570"},
+{t:"task-level success",d:"Did the agent complete the task? The functional test for agents.",c:"AI 570"},
+{t:"loop cap",d:"Max steps and max cost; an unbounded loop is a production incident.",c:"AI 570"},
+{t:"MLOps",d:"Deployment, versioning, monitoring, retraining — the platform you partner with.",c:"AI 570"},
+{t:"rollback",d:"Returning to a previous model version; must be possible in minutes.",c:"AI 570"},
+{t:"eval in CI",d:"Every candidate model runs the golden set before it can ship.",c:"AI 570"},
+{t:"model landscape",d:"The quarterly picture of model tiers — cost, latency, quality; keep it current.",c:"AI 570"},
+
+{t:"FDE",d:"Forward Deployed Engineering: engineers and operators inside the customer's world.",c:"FDE 560"},
+{t:"engagement lifecycle",d:"Land, scope, build, deploy, scale, harvest.",c:"FDE 560"},
+{t:"discovery workshop",d:"The structured session that surfaces the client's real problem behind the ask.",c:"FDE 560"},
+{t:"statement of work",d:"The contract: scope in/out, data access, evals, metrics, HITL, handoff.",c:"FDE 560"},
+{t:"measurement in the contract",d:"Success bar and golden set in the SOW, not in a slide.",c:"FDE 560"},
+{t:"client golden set",d:"Their cases, their vocabulary, their definition of right.",c:"FDE 560"},
+{t:"success bar",d:"The pre-agreed bar set before the first demo; cannot be moved after.",c:"FDE 560"},
+{t:"operating manual",d:"How the client measures, monitors, and maintains the system after handoff.",c:"FDE 560"},
+{t:"change management",d:"Adoption is a product problem with the client's employees as users.",c:"FDE 560"},
+{t:"productization",d:"The repeated pattern minus the bespoke; the third client is a signal, not a project.",c:"FDE 560"},
+{t:"client champion",d:"The person inside the client org who makes adoption happen.",c:"FDE 560"},
+
+{t:"STAR",d:"Situation, Task, Action, Result — stories that end in numbers.",c:"GTH 580"},
+{t:"stranger test",d:"A stranger understands your case study in three minutes.",c:"GTH 580"},
+{t:"product sense",d:"The interview loop: design a feature with structure, assumptions, and risks.",c:"GTH 580"},
+{t:"execution loop",d:"The interview loop: prioritize, measure, de-risk with frameworks.",c:"GTH 580"},
+{t:"behavioral loop",d:"The interview loop: 'tell me about a time…' — STAR, numbered.",c:"GTH 580"},
+{t:"killer question",d:"'Should this feature use AI?' — two minutes, framework, no filler.",c:"GTH 580"},
+{t:"portfolio index",d:"One page: who you are and your five best artifacts with one-line pitches.",c:"GTH 580"},
+{t:"scorecard",d:"Your target-company ranking: role scope, AI maturity, comp, learning surface.",c:"GTH 580"},
+{t:"equity basics",d:"Vesting, strike price, dilution — enough to evaluate an offer honestly.",c:"GTH 580"},
+{t:"30/60/90",d:"30 days learn, 60 own, 90 drive — one page, named people, named metric.",c:"GTH 580"},
+
+{t:"pre-registration",d:"Golden set and success bar published before code; done means measured, not demoed.",c:"CAP 600"},
+{t:"before/after",d:"Eval numbers before and after the fix; the evidence of the loop.",c:"CAP 600"},
+{t:"fix-and-re-run",d:"Score → fix the worst failure → re-run; the operating loop of quality.",c:"CAP 600"},
+{t:"external examiner",d:"A working PM or hiring manager grading your portfolio; honors requires their pass.",c:"CAP 600"},
+{t:"traceability",d:"Every thesis claim linked to a portfolio artifact.",c:"CAP 600"},
+{t:"defense",d:"15 minutes recorded: problem, numbers, risks, five questions.",c:"CAP 600"},
+
+{t:"training as lossy compression",d:"Training as the model absorbing patterns from internet-scale text into its parameters — patterns, not text.",c:"AI 510"},
+{t:"vector store",d:"Storage optimized for embedding search; the same thing as a vector database.",c:"AI 510"},
+{t:"orchestration",d:"Coordinating multiple model calls, tools, and steps into a system; workflows and agents are both orchestration.",c:"AI 570"},
+{t:"validation",d:"Checking every tool call's arguments before execution; hallucinated arguments must never execute.",c:"AI 570"},
+{t:"injection through tool results",d:"Attacker instructions arriving via a tool's output (e.g., a search result) and hijacking the agent.",c:"AI 570"},
+{t:"goal hijacking",d:"An agent's original task displaced by instructions found in retrieved or tool-returned content.",c:"AI 570"},
+{t:"versioning",d:"Tracking which model version is live; the prerequisite for rollback and attribution.",c:"AI 570"},
+{t:"drift monitoring",d:"Watching live signals (eval score, cost, error rates) to catch model degradation.",c:"AI 570"},
+{t:"comparative feasibility",d:"The judgment that AI is the right tool vs. rules, a human, or nothing — scored per intent, not in general.",c:"AIPM 520"},
+{t:"retrieval data vs. fine-tuning data",d:"The maintained corpus you look up vs. curated examples that change the model; retrieval first.",c:"AIPM 520"},
+{t:"caching",d:"Reusing stored responses for repeated queries; one of the biggest cost levers in token economics.",c:"AIPM 520"},
+{t:"fix-and-re-run loop",d:"Score → fix the worst failure → re-run; the operating loop of quality.",c:"CAP 600"},
+{t:"case study",d:"Problem → process → solution → results → retrospective; the portfolio's centerpiece.",c:"CAP 600"},
+{t:"failure question",d:"'What is the most likely way this fails in production, and how would you detect it?' — the defense question that separates the prepared.",c:"CAP 600"},
+{t:"taxonomy",d:"The map of which metrics explain changes in which others; connects the north star to its drivers.",c:"DATA 530"},
+{t:"guardrail metrics",d:"The numbers that must not silently degrade; for AI, includes model quality. (Plural form of guardrail metric.)",c:"DATA 530"},
+{t:"GDPR",d:"The EU regulation governing personal data: consent, purpose limitation, transparency, erasure.",c:"DATA 530 · RSK 550"},
+{t:"FDE operating model",d:"Engineers and operators embedded in the customer's world; the Palantir-originated model.",c:"FDE 560"},
+{t:"build (engagement stage)",d:"The engagement-lifecycle stage: deliver fast, in the customer's environment.",c:"FDE 560"},
+{t:"deploy (engagement stage)",d:"The engagement-lifecycle stage: roll out to real users with real workflows.",c:"FDE 560"},
+{t:"scale (engagement stage)",d:"The engagement-lifecycle stage: expand usage and value across the client.",c:"FDE 560"},
+{t:"harvest (engagement stage)",d:"The engagement-lifecycle stage: turn the repeated pattern into product.",c:"FDE 560"},
+{t:"repeated pattern",d:"The signal that a third client asking for the same thing is a market, not a project.",c:"FDE 560"},
+{t:"framework",d:"A reusable answer structure — the difference between 'use AI' and 'here's how I'd decide.'",c:"GTH 580"},
+{t:"referral",d:"The job-search channel that works; reached with specificity, not spray.",c:"GTH 580"},
+{t:"search funnel",d:"Applications → screens → loops → offers, tracked with conversion data to find the leaky stage.",c:"GTH 580"},
+{t:"vesting",d:"The schedule by which equity becomes yours; part of honest offer math.",c:"GTH 580"},
+{t:"strike price",d:"The price you pay per share at exercise; a high strike on late-stage equity cuts its value.",c:"GTH 580"},
+{t:"total comp",d:"Base + bonus + equity value — the honest number for comparing offers.",c:"GTH 580"},
+{t:"learn",d:"The first 30 days: learn the business, users, metrics, and stack; no changes yet.",c:"GTH 580"},
+{t:"own",d:"The second 30 days: own a small feature end-to-end — discovery, spec, ship, measure.",c:"GTH 580"},
+{t:"drive",d:"The third 30 days: move a metric with evidence and propose the roadmap.",c:"GTH 580"},
+{t:"onboarding interviews",d:"The 10 people you meet in your first 30 days and the 3 questions each.",c:"GTH 580"},
+{t:"demonstrated behavior",d:"What people actually did — the discovery evidence standard, vs. stated desire.",c:"PM 501"},
+{t:"standup",d:"The daily sync: what I did, what's blocked, what's next.",c:"PM 501"},
+{t:"retro",d:"The iteration review: what to keep, what to change, what to try.",c:"PM 501"},
+{t:"bias",d:"Skewed data, evals, or thresholds producing skewed outcomes for some users.",c:"RSK 550"},
+{t:"privacy",d:"PII leaking through prompts, training, or logs; the data-lifecycle risk.",c:"RSK 550"},
+{t:"security",d:"The risk family covering injection, jailbreaks, and model-enabled abuse.",c:"RSK 550"},
+{t:"compliance",d:"GDPR, EU AI Act, and sector rules; naming the obligations is the PM's job.",c:"RSK 550"},
+{t:"jailbreak",d:"A prompt that bypasses safety training; part of your red-team homework.",c:"RSK 550"},
+{t:"segment decomposition",d:"Splitting outcomes by usage segment to find differential error rates.",c:"RSK 550"},
+{t:"EU AI Act risk classes",d:"The Act's tiered obligations by system risk — the combined term.",c:"RSK 550"},
+{t:"cost as design variable",d:"Prompt length, caching, and tiering as product decisions with price tags.",c:"STRAT 540"},
+{t:"subscription",d:"Flat-price pricing; simple, but exposed to heavy users when cost scales with usage.",c:"STRAT 540"},
+{t:"usage pricing",d:"Price tied to consumption; matches cost but taxes adoption and can shock.",c:"STRAT 540"},
+{t:"hybrid",d:"Base tier plus usage; the common answer to AI's cost profile.",c:"STRAT 540"},
+{t:"positioning",d:"'Why you, why now, why this' in one line a customer repeats.",c:"STRAT 540"},
+{t:"repeat-test",d:"Would a customer repeat your positioning line unprompted? The standard.",c:"STRAT 540"},
+{t:"abstraction layer",d:"Isolating model calls behind an interface your team owns; the multi-model enabler.",c:"STRAT 540"}
+];
+
+var list = document.getElementById("list"), cnt = document.getElementById("cnt");
+function render(filter){
+  var q = (filter||"").toLowerCase();
+  var items = TERMS.filter(function(e){ return !q || e.t.toLowerCase().indexOf(q)>=0 || e.d.toLowerCase().indexOf(q)>=0 || e.c.toLowerCase().indexOf(q)>=0; });
+  cnt.textContent = items.length + " of " + TERMS.length + " terms";
+  list.innerHTML = items.map(function(e){
+    return "<div class='e'><span class='t'>"+e.t+"</span><span class='tag'>"+e.c+"</span><span class='d'>"+e.d+"</span></div>";
+  }).join("") || "<div class='no'>No terms match.</div>";
+}
+document.getElementById("q").addEventListener("input", function(){ render(this.value); });
+render();
+</script>
+</body>
+</html>

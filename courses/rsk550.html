@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RSK 550 — Responsible AI, Safety &amp; Governance · AI-PM Graduate Program</title>
+<link rel="stylesheet" href="course.css">
+</head><body>
+<header class="chead"><div class="wrap">
+<a class="back" href="../index.html">← AI-PM Graduate Program</a>
+<div class="kicker">Core · 2 credits · Term 3 · Weeks 27–30 · Prerequisites: AI 510</div>
+<h1>RSK 550 — Responsible AI, Safety &amp; Governance</h1>
+<p class="sub">The risk side done rigorously: the full taxonomy, security and red-teaming, fairness measurement, and the governance structures that let AI ship without harming — and keep shipping when it does.</p>
+</div></header>
+<main class="wrap">
+
+<section>
+<div class="overline">Course objectives</div>
+<div class="objs">
+<div class="obj"><b>Build</b> a complete risk register with detection mechanisms, not just mitigations.</div>
+<div class="obj"><b>Explain</b> and demonstrate prompt injection; run a red-team on your own bot.</div>
+<div class="obj"><b>Measure</b> bias in an AI feature and propose mitigation levers.</div>
+<div class="obj"><b>Draft</b> a governance playbook — review gates, incident response, EU AI Act mapping.</div>
+</div>
+</section>
+
+<section>
+<div class="overline">Modules</div>
+
+<div class="mod"><div class="mh"><span class="no">M1</span><span class="mt">Risk taxonomy &amp; registers</span></div>
+<div class="lec">
+<p>The AI PM's relationship to risk is adversarial-by-default and constructive-by-design. The taxonomy has five families. <b>Hallucination</b> — wrong confident output; the load-bearing failure of generative AI. <b>Bias</b> — skewed training data or thresholds producing skewed outcomes for some users. <b>Privacy</b> — PII leaking through prompts, training data, or logs; conversation data that outlives its purpose. <b>Security</b> — prompt injection and its cousins, where attacker-controlled text becomes executable instruction. <b>Compliance</b> — GDPR, the EU AI Act, sector rules, and the contracts you signed with customers.</p>
+<p>The instrument is the <b>risk register</b>: for each risk — likelihood, impact, mitigation, <b>detection</b>, owner. Detection is the differentiator between a plan and governance. "We mitigate hallucinations with retrieval" is a plan; "we sample 2% of sessions weekly and score them against the golden set, with the trend reported monthly" is governance. "We care about privacy" is a sentiment; "PII is masked before prompts leave the VPC, and retention is 30 days, enforced by a deletion job with an alert" is a system. A register without detection is a list of fears; with detection, it is an operating plan.</p>
+</div>
+<div class="ideas"><span class="idea">five risks · five owners</span><span class="idea">detection turns fear into governance</span></div>
+<div class="ps"><div class="ph">Problem set</div><ol>
+<li>Build the complete risk register for your capstone: the five families, each with likelihood, impact, mitigation, <b>detection mechanism</b>, owner.</li>
+<li>For each risk, write the detection as a concrete mechanism (what signal, what cadence, what threshold triggers action).</li>
+<li>Identify which risk is hardest to detect in your product and why.</li>
+</ol></div>
+<div class="sem"><div class="ph">Seminar</div><ul>
+<li>Which of the five risks is hardest to detect in practice — and what does that imply for where you spend effort?</li>
+<li>Who owns a risk that crosses product, legal, and security? What does "owner" mean then?</li>
+</ul></div>
+<div class="sc"><div class="ph">Self-check</div><ul>
+<li>☐ My register has five families, each with a concrete detection mechanism</li>
+<li>☐ I can distinguish mitigation (plan) from detection (system)</li>
+<li>☐ I have named the hardest-to-detect risk and why</li>
+</ul></div>
+<div class="rdgs"><b>Readings</b> · risk register examples · responsible AI primers (Anthropic, Google)</div>
+</div>
+
+<div class="mod"><div class="mh"><span class="no">M2</span><span class="mt">Security: injection, red-teaming, threat models</span></div>
+<div class="lec">
+<p>Prompt injection is the defining security hole of LLM products: attacker-controlled text smuggled into input hijacks the model's instructions. "Ignore previous instructions and…" is not a parlor trick — it has been demonstrated against real production systems, including ones that can take actions (send email, issue refunds, run code). The threat model differs fundamentally from classic software: the attack surface is <i>every user-supplied string that reaches the model</i>, and the payload is executable <b>instruction</b>, not code — which means your input sanitization story is different, and your output can be weaponized even when your input was clean (indirect injection: a document the bot retrieves contains instructions).</p>
+<p>The mitigations are layered: treat model output as <b>untrusted data</b> (never execute it without validation); <b>isolate instructions from content</b> (delimiters, structured inputs, separate channels for system vs. user text); <b>least-privilege tools</b> (the model doesn't hold the refund API until the human approves); and <b>output filtering</b> for actions (validate the arguments of every tool call). The discipline is <b>red-teaming</b>: attack your own system systematically, document what works, fix it, and re-test. This module you attack your own Module 4 bot — if it survives, you did it wrong.</p>
+</div>
+<div class="ideas"><span class="idea">input = untrusted instructions</span><span class="idea">output = untrusted data</span><span class="idea">least-privilege tools</span></div>
+<div class="ps"><div class="ph">Problem set</div><ol>
+<li>Run a systematic red-team against your RAG bot: direct injection, indirect injection (hostile document), jailbreak-style roleplay, encoded instructions. Record each attempt, the result, and the mechanism.</li>
+<li>Write the red-team report: findings, which mitigations held, which failed, and the fixes.</li>
+<li>Draw the threat model: every place user or retrieved text enters the system, and where instruction/content separation exists or is missing.</li>
+</ol></div>
+<div class="sem"><div class="ph">Seminar</div><ul>
+<li>Construct the worst case for a financial chatbot with refund capability. What's the chain, and where do you break it?</li>
+<li>Indirect injection via retrieved documents — how would you even detect it in production?</li>
+</ul></div>
+<div class="sc"><div class="ph">Self-check</div><ul>
+<li>☐ I can explain direct vs. indirect injection and demonstrate both</li>
+<li>☐ My red-team found real failures — and I fixed at least one</li>
+<li>☐ I can draw the threat model of my own system</li>
+</ul></div>
+<div class="rdgs"><b>Readings</b> · prompt injection explainers and demos · LLM threat-modeling guides (OWASP LLM Top 10 is the reference)</div>
+</div>
+
+<div class="mod"><div class="mh"><span class="no">M3</span><span class="mt">Fairness &amp; bias</span></div>
+<div class="lec">
+<p>Bias enters at every stage of an AI product. In the <b>training data</b> — the model inherits the skew of the world it compressed. In the <b>eval set</b> — if your golden set reflects what the team expected rather than what users ask, you will measure what you expected. In the <b>thresholds</b> — a precision/recall choice that optimizes the average can harm a subgroup (a support bot that routes "standard" users to AI and "complex" users to humans may systematically shortchange the users with the least standard language). And in the <b>feedback loop</b> — biased outputs generate biased usage, which generates biased retraining data; the skew compounds.</p>
+<p>The PM's discipline: bias is <b>measurable</b>, and measurement is the job. Decompose outcomes by segment — demographic where available, otherwise by usage pattern, language, or device class — and check <b>differential error rates</b>, not just averages: a 5% average error rate can hide a 20% error rate for a segment. Then treat fairness as a guardrail metric with an owner (DATA 530), like any production metric: defined, thresholded, monitored. Mitigation levers run from data curation and balanced evals to threshold adjustment and human review for high-impact slices. The goal is not perfection — it is a measured, disclosed, owned posture.</p>
+</div>
+<div class="ideas"><span class="idea">measure outcomes by segment</span><span class="idea">differential error rates, not averages</span><span class="idea">fairness = guardrail with an owner</span></div>
+<div class="ps"><div class="ph">Problem set</div><ol>
+<li>For your capstone, identify the segments that matter (language, usage pattern, access route) and decompose your eval results by segment.</li>
+<li>Compute differential error rates; identify where the average hides a segment problem.</li>
+<li>Write the mitigation plan: data, eval, threshold, or HITL levers — with an owner and a detection mechanism.</li>
+</ol></div>
+<div class="sem"><div class="ph">Seminar</div><ul>
+<li>What does "the average hides the segment" look like in a real product you've used?</li>
+<li>Where does fairness measurement itself introduce bias — and what do you do about it?</li>
+</ul></div>
+<div class="sc"><div class="ph">Self-check</div><ul>
+<li>☐ I can name the four entry points of bias in an AI product</li>
+<li>☐ My bias assessment decomposes by segment and finds differential rates</li>
+<li>☐ Fairness has an owner and a detection in my plan</li>
+</ul></div>
+<div class="rdgs"><b>Readings</b> · AI fairness/bias explainers · fairness measurement guides</div>
+</div>
+
+<div class="mod"><div class="mh"><span class="no">M4</span><span class="mt">Policy &amp; governance</span></div>
+<div class="lec">
+<p>Governance is how an organization ships AI responsibly at scale — and survives when something goes wrong. The elements: an <b>AI review board</b> or risk committee with real authority (not a rubber stamp), a <b>pre-launch review gate</b> (evals passed, risk register signed, legal reviewed where required), <b>incident response</b> — a defined process for when something harmful ships: severity levels, rollback triggers, disclosure obligations, and a postmortem that changes the process — and <b>continuous monitoring</b> commitments that survive the launch celebration.</p>
+<p>Regulation is part of the vocabulary, not a legal annex. The <b>EU AI Act</b> classifies AI systems by risk and imposes transparency, documentation, and human-oversight obligations that scale with risk class; it governs any product sold into the EU. <b>GDPR</b> governs personal data end-to-end — consent, purpose limitation, the right to be forgotten — and conversation data is personal data. You are not a lawyer, and the point is precisely that: a PM who cannot name the obligations and the risk class of their product will not be in the room where those obligations are managed — and the product will pay for it later. The governance playbook you write this module is what "we have this handled" actually means.</p>
+</div>
+<div class="ideas"><span class="idea">review gates · incident response · owners</span><span class="idea">EU AI Act: risk classes</span><span class="idea">GDPR: consent · purpose · transparency</span></div>
+<div class="ps"><div class="ph">Problem set</div><ol>
+<li>Draft the governance playbook for your capstone: review board, pre-launch gate checklist, monitoring commitments.</li>
+<li>Write the incident response runbook: severity levels, rollback triggers, disclosure steps, postmortem template.</li>
+<li>Map your product to the EU AI Act risk classes and GDPR obligations — with the open questions you'd take to legal.</li>
+</ol></div>
+<div class="sem"><div class="ph">Seminar</div><ul>
+<li>What triggers a rollback in your product — what signal, at what threshold, and who can pull the trigger?</li>
+<li>Where does the line sit between "governance theater" and "governance that ships"?</li>
+</ul></div>
+<div class="sc"><div class="ph">Self-check</div><ul>
+<li>☐ I can speak the vocabulary (risk classes, consent, purpose limitation, transparency)</li>
+<li>☐ My incident runbook has severities, triggers, and a postmortem loop</li>
+<li>☐ My pre-launch gate is a checklist, not a meeting</li>
+</ul></div>
+<div class="rdgs"><b>Readings</b> · EU AI Act explainer · GDPR primer · AI governance/incident-response guides</div>
+</div>
+</section>
+
+<section>
+<div class="overline">Deliverables</div>
+<div class="deliv"><h2>Course portfolio</h2>
+<ul>
+<li>Complete risk register — five risks, each with detection and owner</li>
+<li>Red-team report — your own bot, attacked, with findings and fixes</li>
+<li>Bias assessment — segment decomposition with differential error analysis</li>
+<li>Governance playbook — review gates, incident response, EU AI Act mapping</li>
+</ul></div>
+</section>
+
+<section>
+<div class="overline">Assessment</div>
+<table class="assess">
+<tr><th>Component</th><th>Weight</th><th>Note</th></tr>
+<tr><td>Problem sets</td><td>40%</td><td>Four exercises</td></tr>
+<tr><td>Course project (red-team + register)</td><td>40%</td><td>The red-team must find real failures</td></tr>
+<tr><td>Self-assessment</td><td>20%</td><td>Weekly</td></tr>
+</table>
+</section>
+
+<section>
+<div class="overline">Final · rubric · key terms</div>
+<h2>Course final</h2>
+<p style="font-size:13.5px;color:var(--muted)">Take-home, ~2 hours, after Module 4. Open-book: this syllabus, your portfolio, the allowed readings. Graded within the Course project component.</p>
+<div class="ps"><div class="ph">Final examination</div><ol>
+<li>Write the risk register for a fintech assistant that can process refunds: the five risk families, each with likelihood, impact, mitigation, a concrete detection mechanism, and an owner.</li>
+<li>Explain prompt injection to a non-technical executive in 300 words: what it is, one concrete attack against a support bot, and two mitigations. Include indirect injection via retrieved documents.</li>
+<li>Your model's overall error rate is 5% — but 20% for non-English speakers. What do you do? (Assessment, mitigation, owner, detection.)</li>
+</ol></div>
+<h2>Deliverable rubric — red-team report (course project)</h2>
+<table class="assess">
+<tr><th>Level</th><th>What it looks like</th></tr>
+<tr><td><b>A</b></td><td>Systematic attempts across attack classes (direct, indirect, jailbreak, encoded); each with result and mechanism; threat model drawn; at least one real failure found and fixed with a re-test</td></tr>
+<tr><td><b>B</b></td><td>Attempts recorded; analysis thin or no fix/re-test</td></tr>
+<tr><td><b>C</b></td><td>No real failures found — or none attempted</td></tr>
+</table>
+<h2>Key terms · <a href="../glossary.html" style="font-size:12px;font-weight:600;letter-spacing:.04em">full glossary →</a></h2>
+<p style="font-size:13.5px">risk register · detection mechanism · hallucination · bias · privacy · security · compliance · direct injection · indirect injection · jailbreak · red-teaming · threat model · untrusted output · least privilege · differential error rate · segment decomposition · fairness guardrail · EU AI Act risk classes · GDPR · incident response · review gate</p>
+</section>
+
+<footer><div class="wrap">
+<div class="next">Next: CAP 600 — Capstone Studio →</div>
+<a href="cap600.html">CAP 600 syllabus</a> · <a href="../index.html">Program home</a> · <a href="../ai-pm-training-guide.md">Master syllabus</a>
+</div></footer>
+</main>
+<script src="course.js"></script>
+</body></html>

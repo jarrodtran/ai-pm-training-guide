@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-PM Graduate Program — Courses &amp; Materials</title>
+<style>
+  :root{
+    --ink:#1b1b1b; --muted:#6b6b66; --faint:#8f8f88;
+    --line:#e4e4e0; --line-strong:#d2d2cc;
+    --accent:#3d5a80; --accent-ink:#2c4259; --accent-soft:#edf1f6;
+    --serif:Georgia,"Times New Roman",serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    --mono:"SF Mono",ui-monospace,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);color:var(--ink);background:#fafaf9;line-height:1.55;font-size:15px}
+  .wrap{max-width:900px;margin:0 auto;padding:0 24px}
+
+  header{padding:34px 0 20px;border-bottom:1px solid var(--line);margin-bottom:26px}
+  h1{font-family:var(--serif);font-size:26px;letter-spacing:-.01em}
+  .sub{color:var(--muted);font-size:14.5px;margin-top:6px;max-width:70ch}
+  .jump{font-size:13px;margin-top:12px}
+  .jump a{margin-right:14px}
+
+  section{margin-bottom:30px}
+  h2{font-family:var(--serif);font-size:18px;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+
+  table{width:100%;border-collapse:collapse;font-size:14px;background:#fff}
+  th,td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+  th{background:var(--accent-soft);color:var(--accent-ink);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase}
+  td.code{font-family:var(--mono);font-weight:700;color:var(--accent-ink);white-space:nowrap}
+  td.cr{text-align:center;white-space:nowrap;color:var(--muted);font-size:13px}
+  td.wk{white-space:nowrap;color:var(--muted);font-size:13px}
+  td a{font-weight:600}
+  tr.term td{background:#f4f6f9;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-ink)}
+  a{color:var(--accent-ink);text-underline-offset:3px}
+
+  ul.docs{list-style:none}
+  ul.docs li{padding:6px 0;border-bottom:1px dashed var(--line);font-size:14px}
+  ul.docs li:last-child{border-bottom:none}
+  ul.docs .d{display:block;color:var(--faint);font-size:12.5px}
+
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+  .res h3{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:12px 0 6px}
+  .res ul{list-style:none}
+  .res li{font-size:13.5px;padding:3px 0;border-bottom:1px dashed var(--line)}
+  .res li:last-child{border-bottom:none}
+  .res .d{display:block;color:var(--faint);font-size:12px}
+
+  footer{margin-top:30px;padding:16px 0 40px;border-top:1px solid var(--line);color:var(--faint);font-size:12.5px}
+  @media(max-width:700px){.cols{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>AI-PM Graduate Program</h1>
+  <p class="sub">Graduate Certificate in AI Product Management · Catalog 2026 · self-paced, ~9–12 months, under $50 all-in. <a href="ai-pm-training-guide.md">Master syllabus</a> · <a href="case-packets.md">Case packet</a> · <a href="exams.md">Exam book</a></p>
+  <p class="jump"><a href="#courses">Courses</a> · <a href="#documents">Documents</a> · <a href="#resources">Resources</a></p>
+  <p style="font-size:13.5px;margin-top:10px"><b>Start here:</b> generate your <a href="schedule.html">dated schedule</a> → open Term 1 (AI 510, PM 501) → tick deliverables off in the <a href="tracker.html">tracker</a>. Reference: <a href="glossary.html">glossary</a>.</p>
+</header>
+
+<section id="courses">
+  <h2>Courses</h2>
+  <table>
+    <tr><th style="width:86px">Code</th><th>Course</th><th style="width:52px">Credits</th><th style="width:110px">Weeks</th><th style="width:70px">Link</th></tr>
+    <tr class="term"><td colspan="5">Term 1 · Foundations</td></tr>
+    <tr><td class="code">AI 510</td><td>AI &amp; LLM Literacy</td><td class="cr">3</td><td class="wk">1–6</td><td><a href="courses/ai510.html">Syllabus →</a></td></tr>
+    <tr><td class="code">PM 501</td><td>Product Management Fundamentals</td><td class="cr">3</td><td class="wk">7–12</td><td><a href="courses/pm501.html">Syllabus →</a></td></tr>
+    <tr class="term"><td colspan="5">Term 2 · Craft</td></tr>
+    <tr><td class="code">AIPM 520</td><td>AI Product Craft: Feasibility, Evals &amp; Delivery</td><td class="cr">3</td><td class="wk">13–18</td><td><a href="courses/aipm520.html">Syllabus →</a></td></tr>
+    <tr><td class="code">DATA 530</td><td>Data, Metrics &amp; Experimentation for AI Products</td><td class="cr">2</td><td class="wk">19–22</td><td><a href="courses/data530.html">Syllabus →</a></td></tr>
+    <tr class="term"><td colspan="5">Term 3 · Strategy &amp; Risk</td></tr>
+    <tr><td class="code">STRAT 540</td><td>AI Strategy, Economics &amp; Go-to-Market</td><td class="cr">2</td><td class="wk">23–26</td><td><a href="courses/strat540.html">Syllabus →</a></td></tr>
+    <tr><td class="code">RSK 550</td><td>Responsible AI, Safety &amp; Governance</td><td class="cr">2</td><td class="wk">27–30</td><td><a href="courses/rsk550.html">Syllabus →</a></td></tr>
+    <tr class="term"><td colspan="5">Term 4 · Integration</td></tr>
+    <tr><td class="code">CAP 600</td><td>Capstone Studio: Thesis &amp; Defense</td><td class="cr">6</td><td class="wk">31–38</td><td><a href="courses/cap600.html">Syllabus →</a></td></tr>
+    <tr class="term"><td colspan="5">Electives (2 credits · 4 weeks each)</td></tr>
+    <tr><td class="code">FDE 560</td><td>Forward Deployed Engineering &amp; Applied AI</td><td class="cr">2</td><td class="wk">19–22 / 31–34</td><td><a href="courses/fde560.html">Syllabus →</a></td></tr>
+    <tr><td class="code">AI 570</td><td>LLM Systems for Product Managers</td><td class="cr">2</td><td class="wk">19–22 / 31–34</td><td><a href="courses/ai570.html">Syllabus →</a></td></tr>
+    <tr><td class="code">GTH 580</td><td>Career Launch: Portfolio, Interviews &amp; Transition</td><td class="cr">2</td><td class="wk">with capstone</td><td><a href="courses/gth580.html">Syllabus →</a></td></tr>
+  </table>
+</section>
+
+<section id="documents">
+  <h2>Documents &amp; tools</h2>
+  <ul class="docs">
+    <li><a href="field-manual.html">FDE-PM Field Manual &amp; Technical Study Guide</a><span class="d">5 modules, 17 architecture blueprints, 9 field artifacts, verified reference bank — the technical companion to FDE 560 (<a href="fde-pm-field-manual.md">markdown</a>)</span></li>
+    <li><a href="ai-pm-training-guide.md">PROD 260 — Master syllabus</a><span class="d">All 20 modules, full lectures, glossary (Appendix C), portfolio checklist (Appendix B)</span></li>
+    <li><a href="case-packets.md">Case packet</a><span class="d">Copilot · Intercom Fin · Duolingo Max · Klarna — exhibits, memos, teaching notes</span></li>
+    <li><a href="exams.md">Exam book</a><span class="d">Midterm · capstone thesis &amp; defense · rubrics · grading protocol</span></li>
+    <li><a href="schedule.html">Schedule generator</a><span class="d">Turn the calendar into dated weeks + CSV export</span></li>
+    <li><a href="brochure.html">Brochure</a><span class="d">One-page printable program summary (Print / Save as PDF)</span></li>
+    <li><a href="tracker.html">Progress tracker</a><span class="d">Check off all 60+ deliverables; progress persists in your browser</span></li>
+    <li><a href="glossary.html">Glossary</a><span class="d">Every term in the program — searchable, tagged by course</span></li>
+    <li><a href="templates/README.md">Template library</a><span class="d">15 fill-in-the-blank templates for the program's deliverables</span></li>
+    <li><a href="interview-bank.md">Interview question bank</a><span class="d">42 real AI PM questions, each mapped to the course that builds the answer</span></li>
+    <li><a href="answer-guide.md">Midterm answer guide</a><span class="d">Self-grading frameworks + worked RICE model answer</span></li>
+  </ul>
+</section>
+
+<section id="resources">
+  <h2>Resources</h2>
+  <div class="cols">
+    <div class="res">
+      <h3>Video &amp; papers</h3>
+      <ul>
+        <li><a href="https://www.youtube.com/watch?v=zjkBMFhNj_g">Karpathy — Intro to LLMs</a><span class="d">The 60-minute foundation</span></li>
+        <li><a href="https://www.3blue1brown.com/lessons/">3Blue1Brown — Neural networks &amp; attention</a></li>
+        <li><a href="https://www.deeplearning.ai/courses/chatgpt-prompt-eng">DeepLearning.AI — Prompt engineering (free)</a></li>
+        <li><a href="https://arxiv.org/abs/1706.03762">Vaswani et al. 2017 — Attention Is All You Need</a></li>
+        <li><a href="https://arxiv.org/abs/2005.14165">Brown et al. 2020 — GPT-3</a></li>
+        <li><a href="https://arxiv.org/abs/2005.11401">Lewis et al. 2020 — RAG</a></li>
+        <li><a href="https://arxiv.org/abs/2307.03172">Liu et al. 2023 — Lost in the Middle</a></li>
+        <li><a href="https://arxiv.org/abs/2107.03374">Chen et al. 2021 — Codex/HumanEval</a></li>
+        <li><a href="https://hbr.org/2018/07/collaborative-intelligence-humans-and-ai-are-joining-forces">HBR 2018 — Collaborative Intelligence</a></li>
+      </ul>
+      <h3>Practitioner canon</h3>
+      <ul>
+        <li><a href="https://simonwillison.net">Simon Willison's blog</a></li>
+        <li><a href="https://www.anthropic.com/engineering/building-effective-agents">Anthropic — Building Effective Agents</a></li>
+        <li><a href="https://writings.stephenwolfram.com/2023/02/what-is-chatgpt-doing-and-why-does-it-work">Wolfram — What Is ChatGPT Doing…</a></li>
+        <li><a href="https://lennysnewsletter.com">Lenny's Newsletter</a> · <a href="https://firstround.com/review">First Round Review</a></li>
+      </ul>
+    </div>
+    <div class="res">
+      <h3>Tools (free)</h3>
+      <ul>
+        <li><a href="https://ollama.com">Ollama</a><span class="d">Local models, $0 API path</span></li>
+        <li><a href="https://colab.research.google.com/">Google Colab</a><span class="d">Zero-install Python</span></li>
+        <li><a href="https://www.kaggle.com/learn">Kaggle Learn</a> · <a href="https://www.freecodecamp.org/news/the-python-handbook/">Python Handbook</a></li>
+        <li><a href="https://www.youtube.com/watch?v=rfscVS0vtbw">freeCodeCamp — Python for Beginners</a></li>
+        <li><a href="https://openai.com/api/pricing/">OpenAI pricing</a> · <a href="https://www.anthropic.com/pricing">Anthropic pricing</a></li>
+      </ul>
+      <h3>Case sources</h3>
+      <ul>
+        <li><a href="https://www.intercom.com/blog/announcing-intercoms-new-ai-chatbot/">Intercom — Meet Fin</a></li>
+        <li><a href="https://aws.amazon.com/solutions/case-studies/intercom-anthropic/">Intercom × Anthropic × AWS</a></li>
+        <li><a href="https://github.blog/news-insights/research/research-quantifying-github-copilots-impact-on-developer-productivity-and-happiness">GitHub — Quantifying Copilot</a></li>
+        <li><a href="https://openai.com/index/klarna/">OpenAI — Klarna</a> · <a href="https://www.klarna.com/international/press/klarna-ai-assistant-handles-two-thirds-of-customer-service-chats-in-its-first-month/">Klarna press release</a></li>
+      </ul>
+      <h3>Books (the whole budget)</h3>
+      <ul>
+        <li>The Mom Test (~$10) · Cracking the PM Interview (~$15) · Inspired (~$15) — <a href="https://www.amazon.com/s?k=the+mom+test+fitzpatrick">find used</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>AI-PM Graduate Program · Catalog 2026 · Resources verified August 2026; re-verify annually. Modeled on the HBS case method and the Stanford graduate seminar; not affiliated with either institution.</p>
+</footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DATA 530 — Data, Metrics &amp; Experimentation · AI-PM Graduate Program</title>
+<link rel="stylesheet" href="course.css">
+</head><body>
+<header class="chead"><div class="wrap">
+<a class="back" href="../index.html">← AI-PM Graduate Program</a>
+<div class="kicker">Core · 2 credits · Term 2 · Weeks 19–22 · Prerequisites: PM 501</div>
+<h1>DATA 530 — Data, Metrics &amp; Experimentation for AI Products</h1>
+<p class="sub">The measurement spine, done rigorously: designing measurement systems that cannot be gamed, instrumenting them, running experiments that survive AI's quality problem, and governing the data itself.</p>
+</div></header>
+<main class="wrap">
+
+<section>
+<div class="overline">Course objectives</div>
+<div class="objs">
+<div class="obj"><b>Design</b> a measurement system for any AI feature — north star, guardrails, taxonomies.</div>
+<div class="obj"><b>Specify</b> instrumentation: events, properties, funnels, cohorts.</div>
+<div class="obj"><b>Design</b> experiments where the treatment changes quality, not just clicks.</div>
+<div class="obj"><b>Govern</b> data: PII, GDPR/EU AI Act vocabulary, quality operations, the flywheel.</div>
+</div>
+</section>
+
+<section>
+<div class="overline">Modules</div>
+
+<div class="mod"><div class="mh"><span class="no">M1</span><span class="mt">Measurement systems design</span></div>
+<div class="lec">
+<p>A single metric is a hypothesis; a <b>measurement system</b> is a structure. It has three layers: a <b>north star</b> that captures delivered value, <b>guardrails</b> that must not silently degrade, and a <b>taxonomy</b> that connects them — a map of which metrics explain changes in which other metrics, so that when the north star moves you know why. The discipline that makes the whole thing trustworthy: <b>every metric has a definition, an owner, and a stated failure mode</b>. If you cannot say how a metric would mislead you, you have not defined it — "accuracy" misleads on skewed data, "resolution rate" misleads when users give up, "engagement" misleads when it's driven by novelty.</p>
+<p>For AI features the taxonomy gains a dedicated class: <b>model-quality metrics</b> — eval score, hallucination rate, cost per session, latency percentiles — that live alongside product metrics and are treated as first-class, not as engineering details. The artifact is the <b>metrics tree</b>: north star at the top, drivers below, guardrails at the side. It is the document that makes success legible to executives, engineers, and you — and it is the thing you revisit when someone proposes celebrating a metric you know is lying.</p>
+</div>
+<div class="ideas"><span class="idea">a metric without a failure mode isn't defined</span><span class="idea">model-quality metrics are first-class</span></div>
+<div class="ps"><div class="ph">Problem set</div><ol>
+<li>For your capstone: write every metric in the tree with (a) exact definition, (b) owner, (c) its failure mode — how it could mislead.</li>
+<li>Add the model-quality metric class: eval score, hallucination rate, cost per session, latency p95.</li>
+<li>Draw the tree.</li>
+</ol></div>
+<div class="sem"><div class="ph">Seminar</div><ul>
+<li>Which metric in your tree would you game first if you were under pressure — and what guardrail catches it?</li>
+<li>What does a metric with no failure mode cost a company?</li>
+</ul></div>
+<div class="sc"><div class="ph">Self-check</div><ul>
+<li>☐ Every metric I use has a stated failure mode</li>
+<li>☐ My tree includes the model-quality metric class</li>
+<li>☐ I can explain why "resolution rate" can lie</li>
+</ul></div>
+<div class="rdgs"><b>Readings</b> · north star metric (Lenny's Newsletter) · metric taxonomy explainers</div>
+</div>
+
+<div class="mod"><div class="mh"><span class="no">M2</span><span class="mt">Instrumentation &amp; analytics foundations</span></div>
+<div class="lec">
+<p>Instrumentation is where measurement becomes real. The primitives: <b>events</b> (searched, asked, answered, rated, returned), <b>properties</b> on each event (model version, latency, tokens used, route taken), <b>funnels</b> (the ordered sequence showing where value leaks), and <b>cohorts</b> (does the October cohort retain like September's? — the question that funnels can't answer). The rule — "if it wasn't logged, it didn't happen" — makes instrumentation a product decision made <i>before</i> launch, not a post-hoc request to engineers.</p>
+<p>The AI-specific extension: <b>log the model version and eval context with every event</b>. When you change the model, the logs must let you attribute changes in behavior to changes in the model — otherwise your product metrics and your model metrics are two stories that can't be reconciled, and every launch is a confounded experiment. Your deliverable this module is an <b>event spec</b> an engineer can implement verbatim: event names, properties, triggers, and the funnel definitions — build-ready, with no ambiguity about what "rated" means or when it fires.</p>
+</div>
+<div class="ideas"><span class="idea">log the model version with every event</span><span class="idea">funnels + cohorts = the picture</span><span class="idea">build-ready event spec</span></div>
+<div class="ps"><div class="ph">Problem set</div><ol>
+<li>Write the full event spec for your capstone: every event, its properties (including model version), its trigger.</li>
+<li>Define the funnel as an ordered sequence with drop-off points you'd watch.</li>
+<li>Define one cohort question and the query shape that answers it.</li>
+</ol></div>
+<div class="sem"><div class="ph">Seminar</div><ul>
+<li>What breaks when a team skips instrumentation and "launches fast"? Give the concrete debugging story.</li>
+<li>Where does the line sit between enough events and event spam?</li>
+</ul></div>
+<div class="sc"><div class="ph">Self-check</div><ul>
+<li>☐ My event spec is implementable without questions</li>
+<li>☐ Model version is a property on every event</li>
+<li>☐ I can explain funnel vs. cohort and when each is the right lens</li>
+</ul></div>
+<div class="rdgs"><b>Readings</b> · product analytics primers (events/funnels/cohorts) · an instrumentation guide</div>
+</div>
+
+<div class="mod"><div class="mh"><span class="no">M3</span><span class="mt">Experimentation for AI</span></div>
+<div class="lec">
+<p>A/B testing is the cleanest instrument in the toolkit — and the easiest to fool yourself with. The foundations: <b>randomization</b> (treatment and control differ only by the change), <b>pre-registered hypotheses</b> (write down the expected effect and the guardrails <i>before</i> you look at results), <b>sample size and power</b> (you need enough users to see the effect you care about — the smaller the effect, the longer the test), and a minimum duration that covers your usage cycles (a weekly-usage product needs more than a weekend test).</p>
+<p>The AI-specific trap: an AI treatment changes <b>quality</b>, not just clicks. A chatbot that deflects more tickets but angers customers, a recommender that lifts clicks but narrows the world — the primary metrics look great while the guardrails bleed. So every AI experiment treats guardrail metrics (hallucination rate, cost per session, support contacts, retention) as <b>primary outcomes</b>, and pre-registers them. Watch also the <b>novelty effect</b> — new AI features get engagement simply for being new, and the effect decays — and selection effects in who sees the treatment. If the experiment cannot detect harm, it cannot license the feature.</p>
+</div>
+<div class="ideas"><span class="idea">pre-register the hypothesis</span><span class="idea">guardrails are primary in AI tests</span><span class="idea">novelty effects lie</span></div>
+<div class="ps"><div class="ph">Problem set</div><ol>
+<li>Design an experiment for one AI feature of your capstone: hypothesis, primary metric, guardrails (with thresholds), population, duration, and the power consideration.</li>
+<li>Write the pre-registration document — before you "see" any results.</li>
+<li>State the novelty-effect risk and how you'd measure decay.</li>
+</ol></div>
+<div class="sem"><div class="ph">Seminar</div><ul>
+<li>Why can an AI experiment show +10% clicks and still be a loss? Walk through the guardrail data.</li>
+<li>When is an A/B test the wrong instrument entirely — and what replaces it?</li>
+</ul></div>
+<div class="sc"><div class="ph">Self-check</div><ul>
+<li>☐ I can explain randomization, power, pre-registration at PM level</li>
+<li>☐ My experiment pre-registers guardrails as primary outcomes</li>
+<li>☐ I can explain the novelty effect and how to detect it</li>
+</ul></div>
+<div class="rdgs"><b>Readings</b> · A/B testing fundamentals · experimentation pitfalls primer</div>
+</div>
+
+<div class="mod"><div class="mh"><span class="no">M4</span><span class="mt">Data governance &amp; the flywheel</span></div>
+<div class="lec">
+<p>The data layer is an asset and a liability at once. The governance basics every PM needs: know what <b>PII</b> is and where it lives in your product; know the <b>GDPR</b> and <b>EU AI Act</b> vocabulary — consent, purpose limitation, transparency, risk classification — even if you're not in Europe, because they govern what global products may do; and internalize the rule that <b>user data is not yours to train on without an explicit legal basis</b>. Operationally, data quality is an ongoing practice with owners and monitoring like any production system: schema drift, silent gaps, label rot — each needs detection, or your eval set quietly decays.</p>
+<p>The upside is the <b>data flywheel</b>: usage → feedback (ratings, corrections, eval cases) → better eval sets and better products → more usage. The flywheel is the moat that makes an AI product defensible — model capability is rented, but your feedback loop compounds. Governance is what keeps the flywheel legal and trusted; the two are not in tension, they are the same system. The deliverable this module — a governance checklist with a PII map and a flywheel plan — is the document that lets you say "we can scale this" without wincing.</p>
+</div>
+<div class="ideas"><span class="idea">PII · consent · purpose limitation</span><span class="idea">data quality has owners</span><span class="idea">feedback loops are the moat</span></div>
+<div class="ps"><div class="ph">Problem set</div><ol>
+<li>Build the governance checklist for your capstone: PII map, consent basis, retention, access controls.</li>
+<li>Define data-quality ownership: what's monitored, by whom, with what detection.</li>
+<li>Write the flywheel plan: what feedback you capture, how it becomes eval cases, and how it improves the product.</li>
+</ol></div>
+<div class="sem"><div class="ph">Seminar</div><ul>
+<li>What does "consent" mean concretely for an AI product that logs conversations?</li>
+<li>Where does the flywheel break for an enterprise product with 12 customers?</li>
+</ul></div>
+<div class="sc"><div class="ph">Self-check</div><ul>
+<li>☐ I can speak the governance vocabulary (PII, consent, GDPR, EU AI Act)</li>
+<li>☐ My data-quality plan has owners and detection</li>
+<li>☐ I can explain the flywheel and where it breaks</li>
+</ul></div>
+<div class="rdgs"><b>Readings</b> · PII/GDPR primer · EU AI Act explainer · data flywheel explainer</div>
+</div>
+</section>
+
+<section>
+<div class="overline">Deliverables</div>
+<div class="deliv"><h2>Course portfolio</h2>
+<ul>
+<li>Measurement plan — metric definitions with stated failure modes</li>
+<li>Instrumentation spec — full event list with properties, build-ready</li>
+<li>Experiment design — pre-registered hypothesis, guardrails, duration, power notes</li>
+<li>Data governance checklist — PII map, consent basis, quality owners</li>
+</ul></div>
+</section>
+
+<section>
+<div class="overline">Assessment</div>
+<table class="assess">
+<tr><th>Component</th><th>Weight</th><th>Note</th></tr>
+<tr><td>Problem sets</td><td>40%</td><td>Four exercises</td></tr>
+<tr><td>Course project (instrumentation + experiment design)</td><td>40%</td><td>Build-ready quality</td></tr>
+<tr><td>Self-assessment</td><td>20%</td><td>Weekly</td></tr>
+</table>
+</section>
+
+<section>
+<div class="overline">Final · rubric · key terms</div>
+<h2>Course final</h2>
+<p style="font-size:13.5px;color:var(--muted)">Take-home, ~2 hours, after Module 4. Open-book: this syllabus, your portfolio, the allowed readings. Graded within the Course project component.</p>
+<div class="ps"><div class="ph">Final examination</div><ol>
+<li>Your north star is up 15% after shipping an AI feature. Before celebrating, name the three metrics you check and what each could hide — including at least one model-quality metric and one segment decomposition.</li>
+<li>Design the experiment for a model upgrade: pre-registered hypothesis, primary metric, three guardrails with thresholds, population, duration with the power consideration, and how you'd detect the novelty effect.</li>
+<li>Map the data governance for a product that logs customer conversations: where PII lives, the consent basis, retention, and how the logs feed the flywheel without breaking the governance.</li>
+</ol></div>
+<h2>Deliverable rubric — instrumentation spec (course project)</h2>
+<table class="assess">
+<tr><th>Level</th><th>What it looks like</th></tr>
+<tr><td><b>A</b></td><td>Full event list with properties (model version on every event), triggers unambiguous, funnel defined as an ordered sequence, build-ready with no open questions</td></tr>
+<tr><td><b>B</b></td><td>Events defined; properties or triggers vague</td></tr>
+<tr><td><b>C</b></td><td>Events listed without definitions</td></tr>
+</table>
+<h2>Key terms · <a href="../glossary.html" style="font-size:12px;font-weight:600;letter-spacing:.04em">full glossary →</a></h2>
+<p style="font-size:13.5px">measurement system · metric failure mode · taxonomy · model-quality metrics · events · properties · funnel · cohort · instrumentation · pre-registration · sample size · power · novelty effect · guardrail metrics · PII · consent · purpose limitation · GDPR · EU AI Act · data flywheel · schema drift</p>
+</section>
+
+<footer><div class="wrap">
+<div class="next">Next: STRAT 540 — AI Strategy, Economics &amp; Go-to-Market →</div>
+<a href="strat540.html">STRAT 540 syllabus</a> · <a href="../index.html">Program home</a> · <a href="../ai-pm-training-guide.md">Master syllabus</a>
+</div></footer>
+</main>
+<script src="course.js"></script>
+</body></html>

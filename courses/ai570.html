@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI 570 — LLM Systems for Product Managers · AI-PM Graduate Program</title>
+<link rel="stylesheet" href="course.css">
+</head><body>
+<header class="chead"><div class="wrap">
+<a class="back" href="../index.html">← AI-PM Graduate Program</a>
+<div class="kicker">Elective · 2 credits · 4 weeks · Prerequisites: AI 510</div>
+<h1>AI 570 — LLM Systems for Product Managers</h1>
+<p class="sub">The systems layer, at PM depth: agents and orchestration, tool use, evaluating agentic systems, MLOps awareness, and the discipline of staying current in a field that turns over annually.</p>
+</div></header>
+<main class="wrap">
+
+<section>
+<div class="overline">Course objectives</div>
+<div class="objs">
+<div class="obj"><b>Explain</b> what agents are, when they're ready, and how they fail.</div>
+<div class="obj"><b>Design</b> tool use and agent-computer interfaces.</div>
+<div class="obj"><b>Evaluate</b> agentic systems — multi-step evals, trajectory analysis.</div>
+<div class="obj"><b>Stay current</b>: MLOps vocabulary and a personal learning loop.</div>
+</div>
+</section>
+
+<section>
+<div class="overline">Modules</div>
+
+<div class="mod"><div class="mh"><span class="no">M1</span><span class="mt">Agents &amp; orchestration</span></div>
+<div class="lec">
+<p>An agent is a model in a loop: it plans, calls tools, observes the results, and continues — until the task is done or the loop is capped. The field's hard-won lesson, from Anthropic's work with dozens of customer deployments: <b>the most successful implementations use simple, composable patterns, not complex frameworks</b>. The distinction that matters: <b>workflows</b> — fixed, pre-scripted LLM call chains — beat <b>agents</b> — model-directed loops — whenever the path is predictable. Agents earn their complexity only when the path genuinely varies: research tasks, multi-step troubleshooting, tasks where the next step depends on what was just discovered.</p>
+<p>The PM's questions are the load-bearing part: does the task tolerate a wrong tool call, or does one error cascade? What is the loop's worst case — in cost (agents burn tokens), in time (an unbounded loop never ends), in damage (an agent that can act)? Where does the human observe and intervene — and what does the handoff look like mid-task? <b>Transparency is a design requirement</b>: an agent whose steps you can't see is an agent you can't debug, can't evaluate, and can't trust — which makes the "show your work" interface a product feature, not an engineering nicety.</p>
+</div>
+<div class="ideas"><span class="idea">workflow vs. agent</span><span class="idea">simple > complex</span><span class="idea">transparency = trust</span></div>
+<div class="ps"><div class="ph">Problem set</div><ol>
+<li>Pick a use case (research assistant, triage bot, code-repair agent) and write the agent feasibility memo: workflow vs. agent decision, the loop's worst case (cost, time, damage), and the human observation point.</li>
+<li>Sketch the loop: plan → tool call → observe → decide, with the cap (max steps, max cost) marked.</li>
+</ol></div>
+<div class="sem"><div class="ph">Seminar</div><ul>
+<li>When does an agent beat a workflow — what's the tell?</li>
+<li>What does "the loop is capped" mean for product design — what happens when the cap hits?</li>
+</ul></div>
+<div class="sc"><div class="ph">Self-check</div><ul>
+<li>☐ I can explain workflow vs. agent and when each wins</li>
+<li>☐ I have defined my loop's worst case and its cap</li>
+<li>☐ I can explain why transparency is a product feature</li>
+</ul></div>
+<div class="rdgs"><b>Readings</b> · <a href="https://www.anthropic.com/engineering/building-effective-agents">Anthropic — Building Effective Agents</a> (full) · agent pattern explainers</div>
+</div>
+
+<div class="mod"><div class="mh"><span class="no">M2</span><span class="mt">Tools, function calling &amp; interfaces</span></div>
+<div class="lec">
+<p>Tools are how a model acts on the world: search, computation, databases, APIs — exposed through <b>function calling</b>, where the model emits a structured request (function name + arguments) and your system executes it and returns the result into context. Tool design is interface design, and the interface is the spec: the <b>agent-computer interface</b> — clear tool names, unambiguous descriptions, strict argument schemas — is the difference between a tool the model uses well and one it misuses. A tool named "get_customer_info" whose description doesn't say which identifiers it accepts will be called with hallucinated identifiers.</p>
+<p>The failure modes are product-relevant, not engineering trivia: the model calls the <b>wrong tool</b> (schema ambiguity), <b>hallucinates arguments</b> (validation needed — every call must be validated before execution), or <b>loops on a failing tool</b> (budgets and retry caps required). And <b>least privilege</b> applies to models more than humans: a support agent doesn't hold the refund API until a human approves — because the tool set is the agent's power, and power without gates is a security incident waiting for a prompt injection (RSK 550 M2). Your deliverable: a tool set designed and tested with a real model, with the failure log to prove it.</p>
+</div>
+<div class="ideas"><span class="idea">tool = structured action</span><span class="idea">the interface is the spec</span><span class="idea">least privilege + budgets</span></div>
+<div class="ps"><div class="ph">Problem set</div><ol>
+<li>Design a tool set for one use case (3–5 tools): names, descriptions, schemas, and the least-privilege justification for each.</li>
+<li>Test the tools with a real model: which calls succeed, which fail, and why — log the failures.</li>
+<li>Write the validation spec: what gets checked before each tool call executes.</li>
+</ol></div>
+<div class="sem"><div class="ph">Seminar</div><ul>
+<li>What makes a tool call go wrong — and which of those causes can interface design fix?</li>
+<li>Where does the human gate sit between the model and the refund API — and how do you make that legible to users?</li>
+</ul></div>
+<div class="sc"><div class="ph">Self-check</div><ul>
+<li>☐ I can explain function calling and the agent-computer interface</li>
+<li>☐ My tool set is tested with a real model and the failures are logged</li>
+<li>☐ Every tool has a least-privilege justification</li>
+</ul></div>
+<div class="rdgs"><b>Readings</b> · function-calling / tool-use documentation · MCP explainers (current year)</div>
+</div>
+
+<div class="mod"><div class="mh"><span class="no">M3</span><span class="mt">Evals for agentic systems</span></div>
+<div class="lec">
+<p>Single-call evals don't cover agents, because the unit of work is a <b>trajectory</b> — a sequence of tool calls and observations — and quality lives in the path, not just the final answer. Agentic eval design has four tracks. <b>Task-level success</b>: did it complete the task? (The functional test, HumanEval-style, extended to multi-step.) <b>Trajectory quality</b>: did it take a sensible path — or did it waste calls, wander, or attempt dangerous actions even while succeeding? <b>Tool-use accuracy</b>: right tool, right arguments, no loops — measurable and often the earliest signal of trouble. <b>Cost and latency</b>: agentic systems burn tokens; a loop that works but costs 40× a workflow is a product failure, not a success.</p>
+<p>Then the red-team layer (RSK 550 extended): agents have attack surface that single calls don't — <b>prompt injection through tool results</b> (a search result that says "ignore your instructions") and <b>goal hijacking via retrieved content</b>. The eval report for an agent is a different genre — trajectory logs, failure-mode taxonomies, cost curves — and it is a growing one; the PM who can design it is scarce. Your deliverable this module is an agentic eval plan with a real run behind it.</p>
+</div>
+<div class="ideas"><span class="idea">evaluate the trajectory, not the answer</span><span class="idea">tool-use accuracy is a metric</span><span class="idea">agents burn tokens — cap the loop</span></div>
+<div class="ps"><div class="ph">Problem set</div><ol>
+<li>Design the agentic eval plan for your M1 use case: task-level success cases, trajectory quality rubric, tool-use accuracy metrics, cost caps.</li>
+<li>Run it — even a small run (10 tasks) — and write the report: successes, failure modes, cost per task.</li>
+<li>Add the agent-specific red-team: injection through tool results and retrieved content.</li>
+</ol></div>
+<div class="sem"><div class="ph">Seminar</div><ul>
+<li>How do you grade a path when the destination is right? What does trajectory quality actually reward?</li>
+<li>Where does an agent's eval set come from before it has users — and how does it learn after?</li>
+</ul></div>
+<div class="sc"><div class="ph">Self-check</div><ul>
+<li>☐ I can design a four-track agentic eval</li>
+<li>☐ My eval report has a real run with failure modes and cost</li>
+<li>☐ I have attacked my agent through its tools and found something</li>
+</ul></div>
+<div class="rdgs"><b>Readings</b> · agentic eval guides · AIPM 520 M4 re-read (production evals)</div>
+</div>
+
+<div class="mod"><div class="mh"><span class="no">M4</span><span class="mt">MLOps awareness &amp; staying current</span></div>
+<div class="lec">
+<p>You won't run the ML platform — you'll partner with whoever does — but you need the vocabulary and the questions: model <b>deployment</b> and <b>versioning</b> (which version is live, and can you roll back in minutes?), <b>monitoring</b> (drift signals, cost, latency, error rates — the production eval plan from AIPM 520 wired into operations), <b>retraining</b> cadence and triggers (what event justifies it, and who decides?), and the <b>eval pipeline as part of CI</b> (every candidate model runs the golden set before it can ship). The PM's role in MLOps is the same as everywhere else: define what "good" means, and make the definition enforceable.</p>
+<p>And the meta-skill: staying current in a field that turns over quarterly. The loop that works: one primary news source (<i>The Batch</i>), one practitioner you trust (Simon Willison), monthly hands-on time with new model capabilities — and the discipline that compounds: <b>re-run your own evals against new models instead of reading leaderboards</b>. Your portfolio's eval suite is a permanent asset: it prices every future model that ships. That is what "keeping current" means at a professional level — not knowing the latest model name, but knowing what it does to <i>your</i> use case, in <i>your</i> numbers.</p>
+</div>
+<div class="ideas"><span class="idea">versioning · monitoring · rollback</span><span class="idea">eval in CI</span><span class="idea">your eval suite prices future models</span></div>
+<div class="ps"><div class="ph">Problem set</div><ol>
+<li>Write the model landscape brief: the current model tiers, their cost/latency/quality posture, and what changed in the last quarter — in a format you'll update quarterly.</li>
+<li>Re-run your AI 510 eval suite against a model you haven't tested yet (local or hosted). Report the delta and what it means for your capstone.</li>
+<li>Write the deployment questions you'd bring to an MLOps partner: versioning, rollback, monitoring, retraining triggers.</li>
+</ol></div>
+<div class="sem"><div class="ph">Seminar</div><ul>
+<li>"Which model is live?" — why is that question a product decision, not an engineering detail?</li>
+<li>What does your eval suite say about the last three models that shipped — and what would it have to show before you'd switch?</li>
+</ul></div>
+<div class="sc"><div class="ph">Self-check</div><ul>
+<li>☐ I can speak the MLOps vocabulary and ask the deployment questions</li>
+<li>☐ I re-ran my eval on a new model and read the delta</li>
+<li>☐ My quarterly-update loop exists and is scheduled</li>
+</ul></div>
+<div class="rdgs"><b>Readings</b> · MLOps primers · <a href="https://www.deeplearning.ai/the-batch/">The Batch</a> · <a href="https://simonwillison.net">Simon Willison (RSS)</a></div>
+</div>
+</section>
+
+<section>
+<div class="overline">Deliverables</div>
+<div class="deliv"><h2>Elective portfolio</h2>
+<ul>
+<li>Agent feasibility memo — workflow vs. agent decision for a use case</li>
+<li>Tool-set design + test report (function schemas, failure modes)</li>
+<li>Agentic eval plan — task success, trajectory quality, caps, red-teams — with a real run</li>
+<li>Model landscape brief — quarterly update format, using your own eval suite</li>
+</ul></div>
+</section>
+
+<section>
+<div class="overline">Assessment</div>
+<table class="assess">
+<tr><th>Component</th><th>Weight</th><th>Note</th></tr>
+<tr><td>Problem sets</td><td>40%</td><td>Four exercises</td></tr>
+<tr><td>Course project (tool design + agentic eval)</td><td>40%</td><td>Must include a real model test run</td></tr>
+<tr><td>Self-assessment</td><td>20%</td><td>Weekly</td></tr>
+</table>
+</section>
+
+<section>
+<div class="overline">Final · rubric · key terms</div>
+<h2>Course final</h2>
+<p style="font-size:13.5px;color:var(--muted)">Take-home, ~2 hours, after Module 4. Open-book: this syllabus, your portfolio. Graded within the Course project component.</p>
+<div class="ps"><div class="ph">Final examination</div><ol>
+<li>Workflow or agent? Decide for three tasks (a weekly report generator, a multi-step research task, a support-triage bot) — for each: the decision, the tell that made it, the loop's worst case, and its cap.</li>
+<li>Design a tool set for a research agent: four tools with names, descriptions, and argument schemas; the least-privilege justification for each; and the validation checks before any call executes.</li>
+<li>Your agent completes tasks correctly but costs 40× the workflow it replaced. What's your eval redesign — which of the four tracks reveals the problem, and what's the fix?</li>
+</ol></div>
+<h2>Deliverable rubric — agentic eval plan (course project)</h2>
+<table class="assess">
+<tr><th>Level</th><th>What it looks like</th></tr>
+<tr><td><b>A</b></td><td>Four tracks specified (task success, trajectory quality, tool-use accuracy, cost/latency); real run with 10+ tasks; failure modes named; cost caps set; injection-through-tools red-team included</td></tr>
+<tr><td><b>B</b></td><td>Plan solid; run thin or no red-team</td></tr>
+<tr><td><b>C</b></td><td>Concepts listed without a run</td></tr>
+</table>
+<h2>Key terms · <a href="../glossary.html" style="font-size:12px;font-weight:600;letter-spacing:.04em">full glossary →</a></h2>
+<p style="font-size:13.5px">workflow · agent · orchestration · trajectory · function calling · agent-computer interface · tool-use accuracy · task-level success · loop cap · least privilege · validation · injection through tool results · goal hijacking · MLOps · versioning · rollback · drift monitoring · eval in CI · model landscape</p>
+</section>
+
+<footer><div class="wrap">
+<div class="next">Other electives: FDE 560 · GTH 580 →</div>
+<a href="fde560.html">FDE 560</a> · <a href="gth580.html">GTH 580</a> · <a href="../index.html">Program home</a>
+</div></footer>
+</main>
+<script src="course.js"></script>
+</body></html>

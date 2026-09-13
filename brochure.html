@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI-PM Graduate Program — Brochure · Catalog 2026</title>
+<style>
+  :root{--accent:#3d5a80;--accent-ink:#2c4259;--ink:#1b1b1b;--muted:#6b6b66;--line:#d8d8d2;--amber:#9a7b2d;--paper:#ffffff}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Georgia,"Times New Roman",serif;color:var(--ink);background:var(--paper);font-size:13.5px;line-height:1.55}
+  .wrap{max-width:800px;margin:0 auto;padding:0 40px}
+  a{color:var(--accent-ink);text-decoration:none}
+
+  /* cover */
+  .cover{border-bottom:3px double var(--accent);padding:56px 0 34px;text-align:center}
+  .seal{width:64px;height:64px;border:2px solid var(--accent);border-radius:50%;display:grid;place-items:center;margin:0 auto 16px;font-size:26px;font-weight:700;color:var(--accent)}
+  .kicker{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+  h1{font-size:34px;letter-spacing:-.01em}
+  .tagline{color:var(--muted);font-size:16px;font-style:italic;margin-top:10px}
+  .facts{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:30px}
+  .fact{background:#fff;padding:14px 10px;text-align:center}
+  .fact b{display:block;font-size:18px;color:var(--accent-ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+  .fact span{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+
+  h2{font-size:16px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:34px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+  p{margin-bottom:10px}
+  .lede{color:#333}
+
+  table{width:100%;border-collapse:collapse;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:12.5px}
+  th,td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+  th{background:#f4f6f9;color:var(--accent-ink);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase}
+  td.code{font-weight:700;color:var(--accent-ink);white-space:nowrap}
+  td.cr{text-align:center;white-space:nowrap}
+  .term-row td{background:#fafbfc;font-weight:700;color:var(--accent-ink);font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+  ul{margin-left:18px}
+  li{margin-bottom:5px}
+  .note{font-size:11.5px;color:var(--muted);font-style:italic}
+  .btn{display:inline-block;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:12.5px;font-weight:600;color:#fff;background:var(--accent);border:none;border-radius:6px;padding:9px 16px;cursor:pointer;margin-top:8px}
+  .btn:hover{background:var(--accent-ink)}
+  .foot{margin-top:40px;padding:20px 0 40px;border-top:1px solid var(--line);font-size:11px;color:var(--muted);text-align:center}
+
+  @media print{
+    body{font-size:11.5px}
+    .wrap{padding:0 20px}
+    .cover{padding:30px 0 22px}
+    h1{font-size:26px}
+    .btn{display:none}
+    h2{margin:22px 0 8px}
+    .facts{grid-template-columns:repeat(4,1fr)}
+    section{page-break-inside:avoid}
+    table{font-size:11px}
+  }
+  @media(max-width:700px){.facts{grid-template-columns:repeat(2,1fr)}.cols{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="cover">
+    <div class="seal">AI</div>
+    <div class="kicker">Graduate Certificate · Catalog 2026</div>
+    <h1>AI Product Management</h1>
+    <div class="tagline">From first principles to production judgment.</div>
+    <button class="btn" onclick="window.print()">Print / Save as PDF</button>
+    <div class="facts">
+      <div class="fact"><b>10</b><span>Courses</span></div>
+      <div class="fact"><b>23–27</b><span>Credits</span></div>
+      <div class="fact"><b>9–12 mo</b><span>Self-paced</span></div>
+      <div class="fact"><b>&lt;$50</b><span>Tuition</span></div>
+    </div>
+  </div>
+
+  <section>
+    <h2>Program description</h2>
+    <p class="lede">A degree-caliber program in the tradition of the Harvard Business School case method and the Stanford graduate seminar: seven core courses, three electives, four real cases, six primary papers, and a defended capstone thesis. Built for a strategist/operator moving into AI product management — but general enough for any ambitious professional. Students graduate able to run discovery, write specs engineers can build from, judge when AI is the wrong tool, design production eval systems, model cost, own risk, and defend a shipped, measured product.</p>
+  </section>
+
+  <section>
+    <h2>Curriculum</h2>
+    <table>
+      <tr><th style="width:90px">Code</th><th>Course</th><th style="width:52px">Credits</th><th style="width:80px">Term</th></tr>
+      <tr class="term-row"><td colspan="4">Term 1 · Foundations (weeks 1–12)</td></tr>
+      <tr><td class="code">AI 510</td><td>AI &amp; LLM Literacy — the technology at PM depth: transformers, prompting, RAG, APIs, evals</td><td class="cr">3</td><td>Wks 1–6</td></tr>
+      <tr><td class="code">PM 501</td><td>Product Management Fundamentals — discovery, specs, prioritization, metrics, delivery</td><td class="cr">3</td><td>Wks 7–12</td></tr>
+      <tr class="term-row"><td colspan="4">Term 2 · Craft (weeks 13–22)</td></tr>
+      <tr><td class="code">AIPM 520</td><td>AI Product Craft — feasibility, architecture, production evals, cost, risk · cases: Fin, Duolingo, Klarna</td><td class="cr">3</td><td>Wks 13–18</td></tr>
+      <tr><td class="code">DATA 530</td><td>Data, Metrics &amp; Experimentation — measurement systems, instrumentation, A/B for AI</td><td class="cr">2</td><td>Wks 19–22</td></tr>
+      <tr class="term-row"><td colspan="4">Term 3 · Strategy &amp; Risk (weeks 23–30)</td></tr>
+      <tr><td class="code">STRAT 540</td><td>AI Strategy, Economics &amp; Go-to-Market — unit economics, pricing, moats, vendor risk</td><td class="cr">2</td><td>Wks 23–26</td></tr>
+      <tr><td class="code">RSK 550</td><td>Responsible AI, Safety &amp; Governance — risk registers, red-teaming, bias, policy</td><td class="cr">2</td><td>Wks 27–30</td></tr>
+      <tr class="term-row"><td colspan="4">Term 4 · Integration (weeks 31–38)</td></tr>
+      <tr><td class="code">CAP 600</td><td>Capstone Studio — build, measure, thesis, defense, external review</td><td class="cr">6</td><td>Wks 31–38</td></tr>
+      <tr class="term-row"><td colspan="4">Electives (2 credits each · 4 weeks)</td></tr>
+      <tr><td class="code">FDE 560</td><td>Forward Deployed Engineering &amp; Applied AI — scoping, field evals, productization</td><td class="cr">2</td><td>Wks 19–22 / 31–34</td></tr>
+      <tr><td class="code">AI 570</td><td>LLM Systems for PMs — agents, tools, agentic evals, MLOps awareness</td><td class="cr">2</td><td>Wks 19–22 / 31–34</td></tr>
+      <tr><td class="code">GTH 580</td><td>Career Launch — portfolio, interviews, search, 30/60/90</td><td class="cr">2</td><td>Parallel w/ capstone</td></tr>
+    </table>
+    <p class="note" style="margin-top:8px">Case method: GitHub Copilot (AI 510) · Intercom Fin, Duolingo Max, Klarna (AIPM 520). Papers: Vaswani 2017 · Brown 2020 · Lewis 2020 · Liu 2023 · Chen 2021 · HBR 2018.</p>
+  </section>
+
+  <section>
+    <h2>Method &amp; assessment</h2>
+    <div class="cols">
+      <div>
+        <p><b>The pedagogy.</b> Reading-intensive, artifact-producing, case-driven. Every week produces a portfolio artifact — a prompt library, an eval suite, a cost model, a risk register — that doubles as the graduate's interview evidence. AI is allowed everywhere; every deliverable carries an AI-use declaration and must survive questioning. That supervision is the skill.</p>
+        <p><b>The rhythm.</b> 5–10 hours/week: ~2.5h pre-class preparation, ~2h problem set, ~2h deliverable, ~0.5–1h self-assessment. ~44 weeks total; compressible to ~6 months at 15+ hrs/week.</p>
+      </div>
+      <div>
+        <p><b>Grading.</b> Per course: problem sets 40% · case memos 20% · course project 30% · self-assessment 10%. Capstone: thesis 50% · defense 30% · portfolio 20%.</p>
+        <p><b>Honors.</b> Certificate at 3.3+ GPA; honors requires the external examiner — a working PM or hiring manager reviewing the portfolio — to pass. The grade that matters is given by the real world.</p>
+        <p><b>The capstone.</b> A real AI product, built in 15–20 hours, measured with a pre-registered eval suite, defended in a 15-minute recorded presentation.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Materials &amp; tuition</h2>
+    <p>Three used paperbacks — <i>The Mom Test</i> (~$10), <i>Cracking the PM Interview</i> (~$15), <i>Inspired</i> (~$15) — are the entire budget. Lectures are the field's canonical free talks (Karpathy, 3Blue1Brown, DeepLearning.AI); papers are on arXiv; tools run on free tiers and local models (Ollama, Colab, Kaggle). Tuition is time: ~280–310 hours of deliberate, artifact-producing work.</p>
+    <p class="note">Full syllabi, case packets, exam book, and the interactive schedule generator live with the program files. All resources verified August 2026; re-verify annually — the models will be replaced, the PM won't.</p>
+  </section>
+
+  <div class="foot">AI-PM Graduate Program · Catalog 2026 · Modeled on the HBS case method and the Stanford graduate seminar · Not affiliated with either institution</div>
+</div>
+</body>
+</html>

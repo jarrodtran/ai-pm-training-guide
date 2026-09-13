@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Schedule Generator — AI-PM Graduate Program</title>
+<style>
+  :root{
+    --paper:#fafaf9; --card:#ffffff; --ink:#1b1b1b; --muted:#6b6b66; --faint:#8f8f88;
+    --line:#e4e4e0; --line-strong:#d2d2cc;
+    --accent:#3d5a80; --accent-ink:#2c4259; --accent-soft:#edf1f6; --accent-line:#c9d5e4;
+    --amber:#9a7b2d; --amber-soft:#f6f2e6; --amber-line:#e2d5b0;
+    --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:"SF Mono",ui-monospace,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);color:var(--ink);background:var(--paper);line-height:1.6;font-size:15.5px}
+  .wrap{max-width:980px;margin:0 auto;padding:0 26px}
+  a{color:var(--accent-ink)}
+  header{padding:44px 0 30px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#f2f4f8,var(--paper))}
+  .back{font-size:13px;font-weight:600;color:var(--muted);text-decoration:none}
+  .kicker{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:700;margin:16px 0 8px}
+  h1{font-family:var(--serif);font-size:clamp(24px,3.4vw,32px);letter-spacing:-.01em}
+  .sub{color:var(--muted);max-width:66ch;margin-top:8px}
+  main{padding:30px 0}
+
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px 24px;box-shadow:0 1px 2px rgba(0,0,0,.04);margin-bottom:22px}
+  .panel h2{font-family:var(--serif);font-size:18px;margin-bottom:14px}
+  .form{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;align-items:end}
+  .field label{display:block;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:6px}
+  .field input[type=date],.field input[type=number]{width:100%;padding:9px 12px;border:1px solid var(--line-strong);border-radius:8px;font:600 14px var(--sans);color:var(--ink);background:#fff}
+  .field .hint{font-size:11.5px;color:var(--faint);margin-top:4px}
+  .checks{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+  .check{display:flex;gap:8px;align-items:center;font-size:13.5px;font-weight:600;background:var(--accent-soft);border:1px solid var(--accent-line);border-radius:8px;padding:7px 12px;cursor:pointer}
+  .check input{accent-color:var(--accent)}
+  .btn{font:600 14px var(--sans);color:#fff;background:var(--accent);border:none;border-radius:8px;padding:11px 20px;cursor:pointer;margin-top:16px}
+  .btn:hover{background:var(--accent-ink)}
+  .btn.ghost{background:var(--card);color:var(--accent-ink);border:1px solid var(--accent-line);margin-left:8px}
+
+  .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:20px}
+  .sum{background:#fff;padding:14px;text-align:center}
+  .sum b{display:block;font-family:var(--serif);font-size:20px;color:var(--accent-ink)}
+  .sum span{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+
+  table{width:100%;border-collapse:collapse;font-size:13.5px;background:#fff}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:var(--accent-soft);color:var(--accent-ink);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+  td.wk{font-family:var(--mono);font-size:12px;color:var(--muted);white-space:nowrap}
+  td.course{font-weight:700;white-space:nowrap}
+  td.course.gth{color:var(--amber)}
+  td.deliv{color:var(--muted);font-size:12.5px}
+  tr.term td{background:#f4f6f9;font-weight:700;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink)}
+  tr.break td{background:var(--amber-soft);border-color:var(--amber-line)}
+  .empty{color:var(--faint);font-style:italic;padding:20px;text-align:center}
+  footer{padding:20px 0 50px;color:var(--faint);font-size:12.5px}
+  @media(max-width:640px){header{padding:30px 0 22px}main{padding:20px 0}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<a class="back" href="index.html">← AI-PM Graduate Program</a>
+<div class="kicker">Planning Tool</div>
+<h1>Weekly Schedule Generator</h1>
+<p class="sub">Pick a start date and your weekly hours; the generator lays out the entire degree as dated weeks — course by course, module by module, deliverable by deliverable — and exports it as CSV for your calendar or tracker.</p>
+</div></header>
+<main class="wrap">
+
+<div class="panel">
+  <h2>Your terms</h2>
+  <div class="form">
+    <div class="field"><label>Start date</label><input type="date" id="start" value=""><div class="hint">Weeks run Monday–Sunday</div></div>
+    <div class="field"><label>Weekly hours</label><input type="number" id="hours" min="3" max="40" step="0.5" value="7.5"><div class="hint">Program assumes 5–10; 15+ compresses it</div></div>
+  </div>
+  <div class="checks">
+    <label class="check"><input type="checkbox" id="fde" checked> FDE 560 — Forward Deployed Engineering</label>
+    <label class="check"><input type="checkbox" id="ai570"> AI 570 — LLM Systems for PMs</label>
+    <label class="check"><input type="checkbox" id="gth" checked> GTH 580 — Career Launch (parallel with capstone)</label>
+  </div>
+  <button class="btn" id="gen">Generate schedule</button>
+  <button class="btn ghost" id="csv" disabled>Export CSV</button>
+</div>
+
+<div class="panel" id="out" style="display:none">
+  <div class="summary" id="summary"></div>
+  <div style="overflow-x:auto"><table id="tbl"></table></div>
+</div>
+
+<footer class="wrap">
+  <p>Hours per course are fixed budgets (AI 510: 40 · PM 501: 36 · AIPM 520: 42 · DATA 530: 26 · STRAT 540: 26 · RSK 550: 26 · CAP 600: 60 · electives: 26). Weeks per course = hours ÷ your weekly hours, rounded. Elective 1 (FDE 560 or AI 570) slots after AIPM 520; elective 2 after RSK 550. GTH 580 runs in parallel with the capstone's final weeks. Exact module spread per week is shown in the schedule.</p>
+</footer>
+
+<script>
+(function(){
+  var COURSES = {
+    ai510:{code:"AI 510",name:"AI & LLM Literacy",hours:40,cls:"core",modules:["The Transformer: how LLMs work","Tokens, context & inference","Prompting as an interface","Retrieval & no-code building (RAG)","Python & the API layer","Measurement: evals & metrics · Case A: GitHub Copilot"],deliv:["Skill map + 'AI 101' explainer","Glossary + explainer v1","Prompt library (15+)","RAG bot + architecture write-up","Scripts + API README","Eval suite + case memo 1"]},
+    pm501:{code:"PM 501",name:"Product Management Fundamentals",hours:36,cls:"core",modules:["The PM's instrument & the double diamond","Discovery & user research","Spec writing: PRDs, stories, acceptance criteria","Prioritization & roadmaps","Metrics, funnels & instrumentation","Delivery: working with engineers"],deliv:["Asset map","Discovery notes (3–5 interviews)","PRD v1","RICE + roadmap + won't-do","Metrics tree","Sprint plan"]},
+    aipm520:{code:"AIPM 520",name:"AI Product Craft",hours:42,cls:"core",modules:["Feasibility & system design · Case B: Intercom Fin","Architecture: retrieval, guardrails, tool use","Data: the fuel","Evals in production","Cost, latency & model selection · Case C: Duolingo Max","Risk, safety & go-to-market · Case D: Klarna"],deliv:["Feasibility drill + template","Architecture sketch","Data plan","Production eval plan","Cost & latency model","Risk register + GTM · memos 2–4"]},
+    data530:{code:"DATA 530",name:"Data, Metrics & Experimentation",hours:26,cls:"core",modules:["Measurement systems design","Instrumentation & analytics foundations","Experimentation for AI","Data governance & the flywheel"],deliv:["Measurement plan","Instrumentation spec","Experiment design","Data governance checklist"]},
+    strat540:{code:"STRAT 540",name:"AI Strategy, Economics & GTM",hours:26,cls:"core",modules:["Unit economics of AI","Pricing & packaging","Positioning & competitive strategy","Platforms, ecosystems & vendor risk"],deliv:["Unit economics model","Pricing recommendation memo","Positioning statement","Vendor-risk memo"]},
+    rsk550:{code:"RSK 550",name:"Responsible AI, Safety & Governance",hours:26,cls:"core",modules:["Risk taxonomy & registers","Security: injection, red-teaming, threat models","Fairness & bias","Policy & governance"],deliv:["Complete risk register","Red-team report","Bias assessment","Governance playbook"]},
+    cap600:{code:"CAP 600",name:"Capstone Studio",hours:60,cls:"core",modules:["Proposal","Build & measure","Packaging & external review","Defense & transition"],deliv:["Capstone brief + PRD v2 + golden set","Working product + eval report","Case study + demo + index","Thesis + defense + 30/60/90"]},
+    fde560:{code:"FDE 560",name:"Forward Deployed Engineering",hours:26,cls:"elec",modules:["The FDE operating model","Scoping client AI engagements","Delivery & evals in the field","From consultant to product"],deliv:["Engagement lifecycle map","Feasibility memo + SOW template","Field eval plan","Productization memo"]},
+    ai570:{code:"AI 570",name:"LLM Systems for PMs",hours:26,cls:"elec",modules:["Agents & orchestration","Tools, function calling & interfaces","Evals for agentic systems","MLOps awareness & staying current"],deliv:["Agent feasibility memo","Tool-set design + test report","Agentic eval plan","Model landscape brief"]},
+    gth580:{code:"GTH 580",name:"Career Launch",hours:24,cls:"gth",modules:["Portfolio packaging","The interview loops","Job search mechanics","The first 90 days"],deliv:["Portfolio index + case study","STAR story bank","Company scorecard + funnel","One-page 30/60/90"]}
+  };
+  var ORDER = ["ai510","pm501","aipm520"]; // electives inserted dynamically
+
+  function monday(d){
+    var x = new Date(d.getFullYear(),d.getMonth(),d.getDate());
+    var day = x.getDay(); var diff = (day===0? -6 : 1-day);
+    x.setDate(x.getDate()+diff); return x;
+  }
+  function fmt(d){ return d.toLocaleDateString("en-US",{month:"short",day:"numeric"}); }
+  function addWeeks(d,w){ var x=new Date(d); x.setDate(x.getDate()+7*w); return x; }
+
+  function build(){
+    var startEl = document.getElementById("start");
+    var start = startEl.value ? monday(new Date(startEl.value)) : monday(new Date());
+    startEl.value = start.toISOString().slice(0,10);
+    var weekly = parseFloat(document.getElementById("hours").value) || 7.5;
+    var fde = document.getElementById("fde").checked, a5 = document.getElementById("ai570").checked, gth = document.getElementById("gth").checked;
+
+    var order = ORDER.slice();
+    var elec1 = fde ? "fde560" : (a5 ? "ai570" : null);
+    var elec2 = (fde && a5) ? "ai570" : null;
+    if(elec1) order.splice(order.indexOf("aipm520")+1,0,elec1);
+    order.push("data530","strat540","rsk550");
+    if(elec2) order.splice(order.length-1,0,elec2);
+    order.push("cap600");
+
+    // weeks per course
+    var weeks = {}, totalH = 0;
+    order.forEach(function(k){ weeks[k] = Math.max(1, Math.round(COURSES[k].hours / weekly)); totalH += COURSES[k].hours; });
+
+    var rows = [], wnum = 0, date = new Date(start);
+    function weekRow(k, extra){
+      var c = COURSES[k], W = weeks[k];
+      for(var w=0; w<W; w++){
+        var mi = Math.min(c.modules.length-1, Math.floor(w * c.modules.length / W));
+        var wStart = addWeeks(date, w);
+        rows.push({wn:++wnum, s:wStart, course:c.code, cls:c.cls, mod:c.modules[mi], deliv:c.deliv[mi], hrs:weekly, extra:extra});
+      }
+    }
+    order.forEach(function(k){ weekRow(k); });
+    var totalWeeks = wnum;
+
+    // GTH 580 parallel with capstone's final 4 weeks
+    if(gth){
+      var capW = weeks.cap600, capStartIdx = wnum - capW;
+      var gW = Math.min(4, capW);
+      var g = COURSES.gth580;
+      for(var i=0;i<gW;i++){
+        var idx = capStartIdx + (capW - gW) + i;
+        if(rows[idx]){ rows[idx].gth = g.modules[i] + " · " + g.deliv[i]; }
+      }
+    }
+
+    var end = addWeeks(new Date(start), totalWeeks); end.setDate(end.getDate()+6);
+
+    var sum = document.getElementById("summary");
+    sum.innerHTML = [
+      "<div class='sum'><b>"+totalWeeks+"</b><span>Weeks</span></div>",
+      "<div class='sum'><b>"+fmt(new Date(start))+"</b><span>Start</span></div>",
+      "<div class='sum'><b>"+fmt(end)+"</b><span>End (Sunday)</span></div>",
+      "<div class='sum'><b>"+totalH+"h</b><span>Total hours</span></div>",
+      "<div class='sum'><b>"+weekly+"h</b><span>Per week</span></div>"
+    ].join("");
+
+    var tbl = document.getElementById("tbl");
+    var html = "<tr><th>Week</th><th>Dates</th><th>Course</th><th>Module</th><th>Deliverable</th><th>Hours</th></tr>";
+    var lastTerm = "", lastCourse = "";
+    rows.forEach(function(r){
+      var endD = new Date(r.s); endD.setDate(endD.getDate()+6);
+      var term = r.wn<=12?"TERM 1 · FOUNDATIONS": r.wn<=22?"TERM 2 · CRAFT": r.wn<=30?"TERM 3 · STRATEGY & RISK":"TERM 4 · INTEGRATION";
+      if(term!==lastTerm){ html += "<tr class='term'><td colspan='6'>"+term+"</td></tr>"; lastTerm=term; }
+      var courseCell = r.cls==="elec" ? r.course+" <span style='color:var(--faint);font-size:11px'>E</span>" : r.course;
+      var gthCell = r.gth ? "<div style='color:var(--amber);font-size:12px;margin-top:3px'>+ GTH 580: "+r.gth+"</div>" : "";
+      html += "<tr><td class='wk'>W"+r.wn+"</td><td class='wk'>"+fmt(r.s)+" – "+fmt(endD)+"</td><td class='course "+r.cls+"'>"+courseCell+"</td><td>"+r.mod+"</td><td class='deliv'>"+r.deliv+gthCell+"</td><td>"+r.hrs+"h</td></tr>";
+    });
+    tbl.innerHTML = html;
+    document.getElementById("out").style.display = "block";
+    document.getElementById("csv").disabled = false;
+    window._rows = rows;
+  }
+
+  document.getElementById("gen").addEventListener("click", build);
+
+  document.getElementById("csv").addEventListener("click", function(){
+    if(!window._rows) return;
+    var lines = ["Week,Dates,Course,Module,Deliverable,Hours,GTH 580"];
+    window._rows.forEach(function(r){
+      var endD = new Date(r.s); endD.setDate(endD.getDate()+6);
+      lines.push([r.wn, fmt(r.s)+" - "+fmt(endD), r.course, r.mod, '"'+r.deliv.replace(/"/g,'""')+'"', r.hrs, r.gth||""].join(","));
+    });
+    var blob = new Blob([lines.join("\n")], {type:"text/csv"});
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob); a.download = "ai-pm-schedule.csv"; a.click();
+  });
+
+  build();
+})();
+</script>
+</body>
+</html>

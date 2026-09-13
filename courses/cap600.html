@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CAP 600 — Capstone Studio · AI-PM Graduate Program</title>
+<link rel="stylesheet" href="course.css">
+</head><body>
+<header class="chead"><div class="wrap">
+<a class="back" href="../index.html">← AI-PM Graduate Program</a>
+<div class="kicker">Core · 6 credits · Term 4 · Weeks 31–38 · Prerequisites: all core courses</div>
+<h1>CAP 600 — Capstone Studio: Thesis &amp; Defense</h1>
+<p class="sub">The degree's final instrument: a real AI product, built, measured, packaged, and defended — the artifact that converts the entire program into a hiring signal. GTH 580 (Career Launch) runs in parallel during the final weeks.</p>
+</div></header>
+<main class="wrap">
+
+<section>
+<div class="overline">Course objectives</div>
+<div class="objs">
+<div class="obj"><b>Scope</b> a 15–20-hour build with a pre-registered evaluation design.</div>
+<div class="obj"><b>Ship</b> a working AI product and run the eval cycle with before/after numbers.</div>
+<div class="obj"><b>Write</b> a 10–12 page thesis traceable to every portfolio artifact.</div>
+<div class="obj"><b>Defend</b> it in a 15-minute recorded presentation, then produce the transition kit.</div>
+</div>
+</section>
+
+<section>
+<div class="overline">Modules</div>
+
+<div class="mod"><div class="mh"><span class="no">M1</span><span class="mt">Proposal</span></div>
+<div class="lec">
+<p>A capstone demonstrates judgment, not engineering. The scoping rule: <b>narrow enough to finish, deep enough to show</b>. A document-Q&amp;A assistant, a meeting-notes summarizer with action extraction, a support-triage bot — all sufficient. The one-page brief must cite earlier courses: problem (PM 501 evidence), users, scope in/out, success metrics (DATA 530), eval plan (AIPM 520), cost model (STRAT 540), risks (RSK 550). If a section cannot cite a prior course, that is a signal about the course — or about the idea.</p>
+<p>The load-bearing decision is <b>evaluation design before code</b>: pre-register the golden set (25+ cases) and the success bar before writing a line, so "done" means "measured," not "demoed." Pre-registration is what makes the final eval report honest — you cannot move the goalposts after seeing results if the goalposts were published first. The FDE twist stands: the strongest capstone is a real Forward-Deployed-shaped problem — a working prototype your team could show a client. That is not extra credit; it is the point.</p>
+</div>
+<div class="ideas"><span class="idea">brief cites every prior course</span><span class="idea">eval before code</span><span class="idea">client-ready counts double</span></div>
+<div class="ps"><div class="ph">Problem set</div><ol>
+<li>Write the capstone brief (one page): problem with evidence, users, scope in/out, success metrics, eval plan, cost model, risks — each citing the course it came from.</li>
+<li>Write PRD v2 — everything you know now that v1 didn't.</li>
+<li>Pre-register the golden set (25+ cases with expected behaviors) and the success bar — publish it to your portfolio before building.</li>
+</ol></div>
+<div class="sem"><div class="ph">Seminar</div><ul>
+<li>What makes a capstone show <i>judgment</i> rather than engineering? Where does the bar actually sit?</li>
+<li>What does pre-registration protect you from — specifically?</li>
+</ul></div>
+<div class="sc"><div class="ph">Self-check</div><ul>
+<li>☐ My capstone is scoped to 15–20 hours</li>
+<li>☐ Every brief section cites an earlier course</li>
+<li>☐ My golden set and success bar are published before code</li>
+</ul></div>
+<div class="rdgs"><b>Readings</b> · your own discovery notes, PRD v1, metrics tree, production eval plan (re-read)</div>
+</div>
+
+<div class="mod"><div class="mh"><span class="no">M2</span><span class="mt">Build &amp; measure</span></div>
+<div class="lec">
+<p>The build discipline: no-code + API scripts, or Python with heavy AI assistance — using an LLM to write code is what modern PMs do; <b>reading every line it writes</b> is what makes them PMs. You are the reviewer in the loop (RSK 550), not the passenger: every line the model produces is untrusted code until you understand it. Then the loop that is the entire point: run the golden set → score → fix the worst failure mode → re-run. Record everything: eval before/after, cost per interaction, latency, three user-visible examples of the improvement.</p>
+<p>The eval report is the capstone's center of gravity — a working product without measured results is a hobby. If your numbers embarrass you, good: the fix-and-re-run cycle is the evidence interviewers most want to hear about, because it demonstrates the operating discipline from AIPM 520 — quality as a loop, not a launch checkbox. Two extra disciplines: log cost and latency as first-class metrics (STRAT 540), and keep a failure log of the three worst failures and how each was diagnosed.</p>
+</div>
+<div class="ideas"><span class="idea">read every line the AI writes</span><span class="idea">before/after or it didn't happen</span><span class="idea">the fix-and-re-run cycle is the evidence</span></div>
+<div class="ps"><div class="ph">Problem set</div><ol>
+<li>Build the product (no-code + API, or Python with AI assistance — reading every line).</li>
+<li>Run the pre-registered golden set; score; fix the worst failure mode; re-run. Repeat until the success bar is met or the scope is honestly revised (recorded).</li>
+<li>Write the eval report: before/after table, cost per interaction, latency, three user-visible examples.</li>
+</ol></div>
+<div class="sem"><div class="ph">Seminar</div><ul>
+<li>What if your eval numbers are bad at week two of four — what's the PM's move?</li>
+<li>When is it right to revise the success bar, and what does that do to your credibility?</li>
+</ul></div>
+<div class="sc"><div class="ph">Self-check</div><ul>
+<li>☐ The product works end-to-end</li>
+<li>☐ My report shows a real before/after with numbers</li>
+<li>☐ I can demo in 2 minutes without a script failure</li>
+<li>☐ I know exactly what I'd improve next and why</li>
+</ul></div>
+<div class="rdgs"><b>Readings</b> · your eval suite (AI 510) · your production eval plan (AIPM 520)</div>
+</div>
+
+<div class="mod"><div class="mh"><span class="no">M3</span><span class="mt">Packaging &amp; external review</span></div>
+<div class="lec">
+<p>Hiring managers don't read résumés; they read evidence. The packaging stack: the <b>case study</b> (problem → process → solution → results → what you'd do differently, in STAR discipline, with real numbers), the <b>3-minute demo video</b> with no dead air (talking through your own product is a job interview in miniature), the <b>portfolio index</b> (one page: who you are, the asset map, five best artifacts with one-line pitches), and the <b>LinkedIn refresh</b> — a headline with PM intent and the case study posted.</p>
+<p>Then the program's external examiner: <b>send the index to a working PM or hiring manager</b> and get their read. Honors requires their pass — and regardless of honors, the review is the calibration this program cannot give you alone. The test of packaging: <i>a stranger understands the case study in three minutes.</i> If they can't, the problem is the packaging, not the work — revise until the stranger test passes.</p>
+</div>
+<div class="ideas"><span class="idea">evidence, not adjectives</span><span class="idea">the external examiner grades you</span><span class="idea">3-minute stranger test</span></div>
+<div class="ps"><div class="ph">Problem set</div><ol>
+<li>Write the case study (problem → process → solution → results → retrospective).</li>
+<li>Record the 3-minute demo video; re-record until there's no dead air.</li>
+<li>Build the portfolio index; send it to one experienced PM or hiring manager; incorporate their feedback.</li>
+</ol></div>
+<div class="sem"><div class="ph">Seminar</div><ul>
+<li>What does a stranger need in the first three minutes — what do they not care about?</li>
+<li>What's the difference between packaging and spin? Where's the line?</li>
+</ul></div>
+<div class="sc"><div class="ph">Self-check</div><ul>
+<li>☐ A stranger can understand my case study in 3 minutes</li>
+<li>☐ My demo has no dead air</li>
+<li>☐ External review requested — and its feedback incorporated</li>
+</ul></div>
+<div class="rdgs"><b>Readings</b> · GTH 580 packaging module (parallel)</div>
+</div>
+
+<div class="mod"><div class="mh"><span class="no">M4</span><span class="mt">Defense &amp; transition</span></div>
+<div class="lec">
+<p>The written thesis (10–12 pages) follows the arc of the program: problem &amp; evidence → design → feasibility &amp; architecture → evaluation with real numbers → economics → risk → retrospective. Every claim must be traceable to a portfolio artifact — the thesis is the synthesis, the artifacts are the proof. The <b>15-minute recorded defense</b> answers five questions, including the two that separate the prepared from the lucky: "what is the most likely way this fails in production, and how would you detect it?" and "if compute costs doubled, what would you do?"</p>
+<p>Then the transition kit: three <b>STAR stories</b> mined from your strategist/operator career and translated into PM vocabulary (the M1 asset map, turned into narrative), a <b>résumé</b> written in outcomes ("led X, defined success as Y, shipped Z"), and the one-page <b>30/60/90</b> — 30 days learning the business and users, 60 days owning a feature end-to-end, 90 days driving a measured outcome. The 30/60/90 gets you hired because it shows you arrive already doing the job — which, after this course, is true.</p>
+</div>
+<div class="ideas"><span class="idea">thesis · defense · transition kit</span><span class="idea">30/60/90 = arrival document</span></div>
+<div class="ps"><div class="ph">Problem set</div><ol>
+<li>Write the thesis (10–12 pages) with every claim linked to an artifact.</li>
+<li>Record the 15-minute defense; answer the five questions out loud on the recording.</li>
+<li>Produce the transition kit: STAR stories, résumé, one-page 30/60/90.</li>
+</ol></div>
+<div class="sem"><div class="ph">Seminar</div><ul>
+<li>Answer the killer question out loud: "walk me through how you'd decide whether a feature should use AI" — two minutes, framework, no filler.</li>
+<li>What does "owning a feature end-to-end" mean in your first 60 days — concretely?</li>
+</ul></div>
+<div class="sc"><div class="ph">Self-check</div><ul>
+<li>☐ My thesis is traceable claim-by-claim</li>
+<li>☐ My defense answers the failure question with a detection, not a hope</li>
+<li>☐ My 30/60/90 fits on one page with a named metric</li>
+</ul></div>
+<div class="rdgs"><b>Readings</b> · <i>Cracking the PM Interview</i> Part III · <a href="../exams.md">exams.md (final rubric + defense questions)</a></div>
+</div>
+</section>
+
+<section>
+<div class="overline">Deliverables &amp; assessment</div>
+<div class="deliv"><h2>Capstone portfolio</h2>
+<ul>
+<li>Capstone brief (1 page) + PRD v2 + pre-registered golden set</li>
+<li>Working product + eval report with before/after numbers</li>
+<li>Case study · demo video · portfolio index · external review</li>
+<li>Thesis (10–12 pp) · defense recording · STAR stories · résumé · 30/60/90</li>
+</ul></div>
+<p style="margin-top:14px;font-size:14px">Grading: thesis 50% · defense 30% · portfolio review 20%. Full rubric and defense questions in the <a href="../exams.md">exam book</a>. An "A" requires the external examiner's pass.</p>
+</section>
+
+<section>
+<div class="overline">Final · checklist · key terms</div>
+<h2>Course final — the thesis &amp; defense</h2>
+<p style="font-size:13.5px;color:var(--muted)">The capstone final is already fully specified in the <a href="../exams.md">exam book</a>: written thesis (10–12 pages), 15-minute recorded defense, portfolio review. This section is your pre-defense checklist.</p>
+<div class="ps"><div class="ph">Pre-defense checklist</div><ol>
+<li>Every thesis claim is traceable to a portfolio artifact — walk the links yourself before submitting.</li>
+<li>Your eval report has real before/after numbers, including cost per interaction and latency.</li>
+<li>You can answer "what is the most likely way this fails in production, and how would you detect it?" with a mechanism, not a hope.</li>
+<li>You can answer "if compute costs doubled, what would you do?" with the sensitivity from your cost model.</li>
+<li>The stranger test passed: someone unfamiliar with the project restated your case study correctly in three minutes.</li>
+<li>The external reviewer (Module 3) has seen the portfolio index; their feedback is incorporated.</li>
+</ol></div>
+<h2>Rubric summary</h2>
+<p style="font-size:13.5px">Thesis 50% · defense 30% · portfolio review 20%. Full rubric in <a href="../exams.md">exams.md</a>. An "A" requires the external examiner's pass — treat their read as the real grade.</p>
+<h2>Key terms · <a href="../glossary.html" style="font-size:12px;font-weight:600;letter-spacing:.04em">full glossary →</a></h2>
+<p style="font-size:13.5px">pre-registration · golden set · success bar · before/after · fix-and-re-run loop · stranger test · external examiner · STAR · case study · portfolio index · 30/60/90 · defense · failure question · traceability</p>
+</section>
+
+<footer><div class="wrap">
+<div class="next">Electives: FDE 560 · AI 570 · GTH 580 →</div>
+<a href="fde560.html">FDE 560</a> · <a href="ai570.html">AI 570</a> · <a href="gth580.html">GTH 580</a> · <a href="../index.html">Program home</a>
+</div></footer>
+</main>
+<script src="course.js"></script>
+</body></html>

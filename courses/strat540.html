@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>STRAT 540 — AI Strategy, Economics &amp; Go-to-Market · AI-PM Graduate Program</title>
+<link rel="stylesheet" href="course.css">
+</head><body>
+<header class="chead"><div class="wrap">
+<a class="back" href="../index.html">← AI-PM Graduate Program</a>
+<div class="kicker">Core · 2 credits · Term 3 · Weeks 23–26 · Prerequisites: AIPM 520</div>
+<h1>STRAT 540 — AI Strategy, Economics &amp; Go-to-Market</h1>
+<p class="sub">The business layer: unit economics of AI, pricing and packaging under usage-based cost, positioning, moats, and the platform risks of model dependence. Where product judgment becomes business judgment.</p>
+</div></header>
+<main class="wrap">
+
+<section>
+<div class="overline">Course objectives</div>
+<div class="objs">
+<div class="obj"><b>Build</b> a unit-economics model for an AI feature.</div>
+<div class="obj"><b>Recommend</b> a pricing structure that survives margin compression.</div>
+<div class="obj"><b>Write</b> a positioning statement with a defensible moat argument.</div>
+<div class="obj"><b>Assess</b> vendor and platform risk with a mitigation plan.</div>
+</div>
+</section>
+
+<section>
+<div class="overline">Modules</div>
+
+<div class="mod"><div class="mh"><span class="no">M1</span><span class="mt">Unit economics of AI</span></div>
+<div class="lec">
+<p>Software's founding assumption — marginal cost ≈ zero — breaks when every interaction burns tokens. The AI unit-economics model has three layers: <b>cost per interaction</b> (input tokens × input price + output tokens × output price, plus retrieval and storage), <b>cost per customer</b> (interactions per customer per month × cost per interaction), and <b>the bill</b> (customers × cost per customer — which scales with success). The strategic consequences: cost is now a <b>design variable</b>, not an afterthought. Prompt length, context strategy, caching, and model tiering are product decisions with price tags — the same feature can cost 10× depending on how it's built.</p>
+<p>The discipline is the <b>sensitivity analysis</b>: "if usage doubles, the bill does X; if we switch to model Y, we save Z but accept W; if average conversation length grows, here's the curve." The executive who understands the model understands the strategy — and the PM who shows up with the sensitivity table owns the conversation. You built the working version in AIPM 520 M5; this module makes it a strategic instrument: what the numbers say about where the business can afford to grow.</p>
+</div>
+<div class="ideas"><span class="idea">cost = tokens × price</span><span class="idea">cost is a design variable</span><span class="idea">sensitivity before launch</span></div>
+<div class="ps"><div class="ph">Problem set</div><ol>
+<li>Build the full unit-economics model for your capstone: per interaction, per customer, per month, at 3 usage scenarios.</li>
+<li>Run the sensitivity: usage ×2, output tokens ×1.5, model switch — show each effect.</li>
+<li>Identify the two biggest cost levers in your own design and what each would trade away.</li>
+</ol></div>
+<div class="sem"><div class="ph">Seminar</div><ul>
+<li>Which pricing structures survive "success scales the bill" — and which break?</li>
+<li>Where does cost-as-design-variable change a product decision you've already made in this program?</li>
+</ul></div>
+<div class="sc"><div class="ph">Self-check</div><ul>
+<li>☐ I can build the three-layer model from memory</li>
+<li>☐ My sensitivity analysis names the biggest levers</li>
+<li>☐ I can explain cost as a design variable to an executive</li>
+</ul></div>
+<div class="rdgs"><b>Readings</b> · current model pricing pages · token-cost optimization guides (caching, tiering)</div>
+</div>
+
+<div class="mod"><div class="mh"><span class="no">M2</span><span class="mt">Pricing &amp; packaging</span></div>
+<div class="lec">
+<p>Pricing aligns revenue with cost and value — and AI breaks the old templates. <b>Subscription</b> pricing is simple and predictable but exposes you to heavy users: your cost is uncapped, your price isn't. <b>Usage pricing</b> matches cost but taxes adoption and surprises customers ("why did my bill triple?"). <b>Hybrid</b> — a base tier plus usage — is the common answer, but it pushes complexity into billing. <b>Outcome pricing</b> ("pay per resolution" — Fin's model) aligns vendor and customer perfectly and concentrates risk on your quality: if you can't resolve, you don't get paid, which is a beautiful forcing function and a scary balance sheet.</p>
+<p>The Duolingo lesson from AIPM 520 stands: AI features succeeded and margins compressed; a premium AI tier at ~$30/month saw thin penetration (~5% of paid subs). The craft is matching price to the <i>cost profile</i> of the feature (M1) and the <i>value</i> it creates — and then testing the price like any product decision. Pricing is a feature: it has users (customers and sales), a UX (the bill), and bugs (bill shock, churn). This module's memo — a pricing recommendation with structure, rationale, and risks — is the document that gets you invited to the revenue conversation.</p>
+</div>
+<div class="ideas"><span class="idea">subscription vs. usage vs. hybrid vs. outcome</span><span class="idea">price follows cost AND value</span><span class="idea">pricing is a feature</span></div>
+<div class="ps"><div class="ph">Problem set</div><ol>
+<li>Write the pricing recommendation memo for your capstone: chosen structure, the math behind it, what it would take to move to outcome pricing.</li>
+<li>Model the bill-shock scenario: which customer segment gets surprised, and what's the mitigation?</li>
+<li>Define how you'd test the price (the experiment design, per DATA 530).</li>
+</ol></div>
+<div class="sem"><div class="ph">Seminar</div><ul>
+<li>What does outcome pricing do to your incentives — and what does it do to your margins when the model underperforms?</li>
+<li>When is subscription-only the right call despite usage costs?</li>
+</ul></div>
+<div class="sc"><div class="ph">Self-check</div><ul>
+<li>☐ I can compare the four structures with their failure modes</li>
+<li>☐ My memo has math, structure, and risks</li>
+<li>☐ I can explain the Duolingo margin dynamic as a pricing lesson</li>
+</ul></div>
+<div class="rdgs"><b>Readings</b> · pricing model explainers · <a href="../case-packets.md">Case C (Duolingo Max) — re-read as a pricing case</a></div>
+</div>
+
+<div class="mod"><div class="mh"><span class="no">M3</span><span class="mt">Positioning &amp; competitive strategy</span></div>
+<div class="lec">
+<p>Positioning answers "why you, why now, why this product" in one line a customer repeats to someone else. The test of a positioning statement is not whether it's true — it's whether a customer would repeat it unprompted. The AI-specific distinction that organizes strategy: <b>AI-native</b> products are built around the model's capabilities — the model is the core of the product's value — while <b>AI-wrapped</b> products bolt AI onto a conventional product. Most AI "strategy" is wrapping, and wrapping is fragile: the feature is a prompt away from your competitor's version.</p>
+<p>The durable moats in AI: the <b>data flywheel</b> (usage → feedback → better evals and products → more usage — from DATA 530), proprietary data and integrations, workflow lock-in, and distribution. <b>Model capability is not a moat</b> — everyone can rent the same model; what compounds is what you do around it. The deliverable this module: a positioning statement that passes the repeat-test, plus a moat argument that names which of the four moats you're actually building and how the flywheel feeds it. If the moat argument is "we use the best model," rewrite it.</p>
+</div>
+<div class="ideas"><span class="idea">AI-native vs. AI-wrapped</span><span class="idea">the flywheel is the moat</span><span class="idea">rented models ≠ moat</span></div>
+<div class="ps"><div class="ph">Problem set</div><ol>
+<li>Write the positioning statement for your capstone: one line a customer would repeat.</li>
+<li>Build the moat argument: which of the four moats (flywheel, data/integrations, workflow, distribution) are you building, and how does usage feed it?</li>
+<li>Build a 3-competitor matrix: positioning, moat, weakness.</li>
+</ol></div>
+<div class="sem"><div class="ph">Seminar</div><ul>
+<li>Is model capability ever a moat? Construct the case where it is — and the case where it isn't.</li>
+<li>What does "AI-wrapped" look like from the inside? How do you know you're doing it?</li>
+</ul></div>
+<div class="sc"><div class="ph">Self-check</div><ul>
+<li>☐ My positioning passes the repeat-test</li>
+<li>☐ My moat argument names a compounding asset, not a model</li>
+<li>☐ I can classify a product as AI-native or AI-wrapped and say why it matters</li>
+</ul></div>
+<div class="rdgs"><b>Readings</b> · positioning primers · a16z AI strategy essays · data flywheel explainer</div>
+</div>
+
+<div class="mod"><div class="mh"><span class="no">M4</span><span class="mt">Platforms, ecosystems &amp; vendor risk</span></div>
+<div class="lec">
+<p>Build on someone else's model and you inherit their roadmap, their pricing, and their outages. Vendor risk is a strategy problem with three dimensions. <b>Dependence</b>: your product's quality is their model's quality — when they ship a worse version, your users feel it, and you can't ship a fix. <b>Switching costs</b>: your prompt libraries and evals are portable, but your retrieval stack, tooling, and integrations may not be — and every fine-tune is an anchor. <b>Competitive exposure</b>: your feature set is "a prompt away" from your vendor shipping it themselves — the platform that hosts your product can become your competitor with a press release.</p>
+<p>The mitigations are structural: <b>multi-model strategy</b> (evaluate and keep the option — your eval suite from AIPM 520 is the instrument that prices every model), <b>abstraction layers</b> (isolate model calls behind an interface your team owns), and <b>value capture outside the model</b> — data, workflows, integrations, distribution, trust. The vendor-risk memo you write this module is the document you'll need at every company that builds on frontier models — and the questions it asks are the ones that reveal whether the business is a product or a feature of someone else's platform.</p>
+</div>
+<div class="ideas"><span class="idea">dependence · switching · competitive exposure</span><span class="idea">multi-model = optionality</span><span class="idea">value outside the model</span></div>
+<div class="ps"><div class="ph">Problem set</div><ol>
+<li>Write the vendor-risk memo for your capstone: dependence, switching costs, competitive exposure — each with likelihood, impact, mitigation.</li>
+<li>Design the multi-model option: which two models could serve, and what would your eval suite have to show before you'd switch?</li>
+<li>Name the value your product captures outside the model.</li>
+</ol></div>
+<div class="sem"><div class="ph">Seminar</div><ul>
+<li>When does a company rationally build its own model despite the cost?</li>
+<li>What does "your product is a prompt away from a competitor" mean for what you build next?</li>
+</ul></div>
+<div class="sc"><div class="ph">Self-check</div><ul>
+<li>☐ I can name the three vendor risks and a mitigation for each</li>
+<li>☐ My memo includes the switching test (what would it take?)</li>
+<li>☐ I can argue the multi-model default</li>
+</ul></div>
+<div class="rdgs"><b>Readings</b> · platform-risk essays · model landscape overviews (current year)</div>
+</div>
+</section>
+
+<section>
+<div class="overline">Deliverables</div>
+<div class="deliv"><h2>Course portfolio</h2>
+<ul>
+<li>Unit economics model — per-interaction, monthly, with sensitivity</li>
+<li>Pricing recommendation memo — structure, rationale, risks</li>
+<li>Positioning statement — one line + moat argument</li>
+<li>Vendor-risk memo — dependence, switching, exposure, mitigations</li>
+</ul></div>
+</section>
+
+<section>
+<div class="overline">Assessment</div>
+<table class="assess">
+<tr><th>Component</th><th>Weight</th><th>Note</th></tr>
+<tr><td>Problem sets</td><td>40%</td><td>Four exercises</td></tr>
+<tr><td>Course project (economics + pricing memos)</td><td>40%</td><td>Numbers must be traceable to current pricing</td></tr>
+<tr><td>Self-assessment</td><td>20%</td><td>Weekly</td></tr>
+</table>
+</section>
+
+<section>
+<div class="overline">Final · rubric · key terms</div>
+<h2>Course final</h2>
+<p style="font-size:13.5px;color:var(--muted)">Take-home, ~2 hours, after Module 4. Open-book: this syllabus, your portfolio, current pricing pages. Graded within the Course project component.</p>
+<div class="ps"><div class="ph">Final examination</div><ol>
+<li>Build the unit economics for an AI feature given: 2,000 tokens in / 400 out per interaction, 5 interactions per user per month, 100k users, and current pricing for a cheap and a frontier model. Show the math, the monthly bill at both tiers, and the sensitivity to doubling usage. Then recommend a pricing structure with the bill-shock mitigation.</li>
+<li>Is your capstone product AI-native or AI-wrapped? Argue it — then argue its moat, or its absence. If the moat argument is "we use the best model," rewrite it.</li>
+<li>Your model vendor raises prices 3×, effective next quarter. What do you do this quarter, next quarter, and this year? (Reference your vendor-risk memo.)</li>
+</ol></div>
+<h2>Deliverable rubric — pricing memo (course project)</h2>
+<table class="assess">
+<tr><th>Level</th><th>What it looks like</th></tr>
+<tr><td><b>A</b></td><td>Math traceable to current pricing; structure chosen with rationale and failure modes; bill-shock scenario modeled; test plan for the price; sensitivity stated</td></tr>
+<tr><td><b>B</b></td><td>Structure recommended; math or risks thin</td></tr>
+<tr><td><b>C</b></td><td>Opinion without math</td></tr>
+</table>
+<h2>Key terms · <a href="../glossary.html" style="font-size:12px;font-weight:600;letter-spacing:.04em">full glossary →</a></h2>
+<p style="font-size:13.5px">unit economics · cost per interaction · sensitivity analysis · cost as design variable · subscription · usage pricing · hybrid · outcome pricing · bill shock · AI-native vs. AI-wrapped · moat · data flywheel · positioning · repeat-test · vendor dependence · switching costs · competitive exposure · multi-model strategy · abstraction layer</p>
+</section>
+
+<footer><div class="wrap">
+<div class="next">Next: RSK 550 — Responsible AI, Safety &amp; Governance →</div>
+<a href="rsk550.html">RSK 550 syllabus</a> · <a href="../index.html">Program home</a> · <a href="../ai-pm-training-guide.md">Master syllabus</a>
+</div></footer>
+</main>
+<script src="course.js"></script>
+</body></html>
