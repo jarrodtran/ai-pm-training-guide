@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FDE-PM Reference — Module 1</title>
+<title>FDE-PM Reference — Module 1 (Textbook)</title>
 <style>
   :root {
     --bg: #f7f5f0;
@@ -19,11 +19,11 @@
   html { scroll-behavior: smooth; }
   body {
     margin: 0;
-    font: 17px/1.65 "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    font: 17.5px/1.68 "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
     color: var(--ink);
     background: var(--bg);
   }
-  .wrap { max-width: 46rem; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+  .wrap { max-width: 48rem; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
   .banner {
     font: 0.88rem/1.45 system-ui, -apple-system, sans-serif;
     background: var(--banner);
@@ -34,7 +34,7 @@
   }
   .banner strong { font-weight: 700; }
   header h1 {
-    font-size: 1.7rem;
+    font-size: 1.75rem;
     letter-spacing: -0.03em;
     margin: 0 0 0.4rem;
     line-height: 1.2;
@@ -43,6 +43,13 @@
     margin: 0 0 1.25rem;
     color: var(--muted);
     font: 0.95rem/1.45 system-ui, -apple-system, sans-serif;
+  }
+  .edition {
+    font: 0.75rem/1 system-ui, -apple-system, sans-serif;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 0.5rem;
   }
   nav.toc {
     background: var(--card);
@@ -66,34 +73,40 @@
     background: var(--card);
     border: 1px solid var(--line);
     border-radius: 12px;
-    padding: 1.4rem 1.45rem 1.55rem;
-    margin-bottom: 1.25rem;
+    padding: 1.5rem 1.5rem 1.65rem;
+    margin-bottom: 1.35rem;
   }
   section h2 {
-    margin: 0 0 0.85rem;
-    font-size: 1.2rem;
+    margin: 0 0 0.9rem;
+    font-size: 1.22rem;
     color: var(--accent);
     letter-spacing: -0.02em;
     line-height: 1.3;
   }
   section h3 {
-    margin: 1.35rem 0 0.55rem;
-    font-size: 1.02rem;
+    margin: 1.4rem 0 0.55rem;
+    font-size: 1.05rem;
     letter-spacing: -0.01em;
   }
-  p { margin: 0 0 0.85rem; }
-  ul, ol { margin: 0 0 0.95rem; padding-left: 1.25rem; }
-  li { margin-bottom: 0.35rem; }
+  p { margin: 0 0 0.9rem; }
+  ul, ol { margin: 0 0 1rem; padding-left: 1.25rem; }
+  li { margin-bottom: 0.4rem; }
   strong { font-weight: 700; }
+  code {
+    font: 0.86em/1.3 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    background: #f0ebe3;
+    padding: 0.1em 0.35em;
+    border-radius: 4px;
+  }
   table {
     width: 100%;
     border-collapse: collapse;
-    margin: 0.75rem 0 1.1rem;
-    font: 0.86rem/1.4 system-ui, -apple-system, sans-serif;
+    margin: 0.85rem 0 1.15rem;
+    font: 0.86rem/1.45 system-ui, -apple-system, sans-serif;
   }
   th, td {
     border: 1px solid var(--line);
-    padding: 0.55rem 0.65rem;
+    padding: 0.6rem 0.7rem;
     text-align: left;
     vertical-align: top;
   }
@@ -101,7 +114,7 @@
   .sources {
     font: 0.8rem/1.45 system-ui, -apple-system, sans-serif;
     color: var(--muted);
-    margin-top: 0.75rem;
+    margin-top: 0.85rem;
   }
   .sources summary { cursor: pointer; list-style: none; }
   .sources summary::-webkit-details-marker { display: none; }
@@ -113,176 +126,276 @@
     font: 0.8rem/1.4 system-ui, -apple-system, sans-serif;
     color: var(--muted);
   }
-  @media print {
-    body { background: #fff; }
-    section { break-inside: avoid; }
-  }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="banner" role="note"><strong>Audience:</strong> Non-SWE Product Manager who runs FDEs. You decide, price, and shield — FDEs build. Dense reference — no quizzes, no code tutorials.</div>
+  <div class="banner" role="note"><strong>Audience:</strong> Non-SWE Product Manager who runs FDEs. You decide, price, and shield — FDEs build. Textbook edition — dense reference, no quizzes, no code tutorials.</div>
   <header>
+    <p class="edition">Textbook edition · v2</p>
     <h1>Module 1 — Enterprise &amp; Technical Product Management Fundamentals</h1>
-    <p class="sub">Outcomes → scope · PRD/spec/SOW · discovery · customization vs platform</p>
+    <p class="sub">Outcomes → scope · four big risks · discovery · PRD/spec/SOW · customization vs platform</p>
   </header>
-  <nav class="toc" aria-label="Contents"><h2>In this chapter</h2><ol><li><a href="#s1-1">1.1 The core PM mandate (outcomes → scope, not “how”)</a></li><li><a href="#s1-2">1.2 PRD vs technical spec vs SOW (ownership map)</a></li><li><a href="#s1-3">1.3 Enterprise discovery &amp; scoping (constraints before commit)</a></li><li><a href="#s1-4">1.4 Backlog health: customization vs platform</a></li></ol></nav>
+  <nav class="toc" aria-label="Contents"><h2>In this chapter</h2><ol><li><a href="#s1-1">1.0 How to read this chapter</a></li><li><a href="#s1-2">1.1 The core PM mandate: outcomes into scope without dictating “how”</a></li><li><a href="#s1-3">1.2 PRD vs technical spec vs SOW</a></li><li><a href="#s1-4">1.3 Enterprise discovery &amp; scoping (constraints before commit)</a></li><li><a href="#s1-5">1.4 Backlog health: customization vs platform generalization</a></li></ol></nav>
   
-  <section id="s1-1"><h2>1.1 The core PM mandate (outcomes → scope, not “how”)</h2>
-<p>Your job is to turn a <strong>customer business outcome</strong> into an <strong>engineering scope</strong> with clear constraints, acceptance, and owners — without dictating implementation.</p>
+  <section id="s1-1"><h2>1.0 How to read this chapter</h2>
+<p>Enterprise FDE work fails less often from “wrong architecture” than from <strong>wrong problem</strong>, <strong>wrong instrument</strong>, or <strong>wrong contract</strong>. This chapter is the operating system for those three decisions. Everything later (SWE lexicon, FDE model, GitHub cockpit) is vocabulary and mechanism in service of this.</p>
+<p>---</p>
+</section><section id="s1-2"><h2>1.1 The core PM mandate: outcomes into scope without dictating “how”</h2>
+<h3>What “good” looks like</h3>
+<p>A strong FDE-PM turns a customer <strong>business outcome</strong> into an <strong>engineering scope</strong> that has:</p>
+<ol>
+<li>1. A measurable definition of success (baseline → target → <strong>measurement source</strong>)</li>
+<li>2. Explicit constraints (data, identity, residency, latency, compliance)</li>
+<li>3. Explicit non-goals (what you will *not* build this engagement)</li>
+<li>4. Clear ownership boundaries (you / FDE / client / security)</li>
+<li>5. Acceptance criteria agreed <strong>before</strong> build (folded <strong>M4</strong>)</li>
+</ol>
+<p>You do <strong>not</strong> specify algorithms, schemas, or frameworks unless they are true one-way doors the business is buying (e.g., “must run air-gapped,” “must use customer IdP”).</p>
+<h3>Ownership map</h3>
 <table>
 <thead><tr>
-<th>You own</th>
-<th>FDE / Tech Lead owns</th>
-<th>Client owns</th>
+<th>Decision</th>
+<th>You (PM)</th>
+<th>FDE / Tech Lead</th>
+<th>Client</th>
 </tr></thead><tbody>
 <tr>
-<td>Problem statement with a <strong>number</strong> and a <strong>named owner</strong></td>
-<td>Technical approach inside constraints</td>
-<td>Business outcome definition, data access, process change</td>
+<td>Problem statement with a <strong>number</strong> + named owner</td>
+<td>Owns</td>
+<td>Challenges feasibility</td>
+<td>Validates reality of the number</td>
 </tr>
 <tr>
 <td>Instrument choice (AI vs deterministic pipeline vs change-mgmt)</td>
-<td>Architecture, estimates, build</td>
-<td>Baseline metrics, golden-set authorship for acceptance</td>
+<td>Owns</td>
+<td>Advises</td>
+<td>Accepts trade-offs</td>
 </tr>
 <tr>
-<td>Acceptance criteria &amp; “done” before build</td>
-<td>Eval harness / implementation</td>
-<td>Sign-off, security review, production entitlements</td>
+<td>One-way doors (tenancy, residency, identity, schema ownership)</td>
+<td>Owns decision</td>
+<td>Drafts <strong>ADR</strong> body</td>
+<td>Constrains / signs</td>
 </tr>
 <tr>
-<td>Shield / triage / price of scope creep</td>
-<td>Execution of priced work</td>
-<td>Prioritization among their stakeholders</td>
+<td>Technical approach inside constraints</td>
+<td>Challenges</td>
+<td>Owns</td>
+<td>Informed</td>
 </tr>
 <tr>
-<td>Harvest / productization decision</td>
-<td>Pattern extraction into core</td>
-<td>Consent if their bespoke becomes a product</td>
+<td>Acceptance / “done”</td>
+<td>Owns in <strong>SOW</strong></td>
+<td>Implements harness</td>
+<td>Authors golden set; signs</td>
+</tr>
+<tr>
+<td>Scope creep</td>
+<td><strong>Prices</strong> / sequences</td>
+<td>Executes priced work</td>
+<td>Chooses among priced options</td>
+</tr>
+<tr>
+<td>Harvest / productization</td>
+<td>Owns memo + deprecation</td>
+<td>Extracts pattern to core</td>
+<td>Consents if their bespoke becomes product</td>
 </tr>
 </tbody></table>
-<p><strong>Mental models (from M0 / SVPG spine):</strong></p>
+<h3>SVPG frame: four big risks (discovery, not delivery theater)</h3>
+<p>Before you fund a solution, force the work through four risks (<strong>SVPG — four big risks</strong>):</p>
+<table>
+<thead><tr>
+<th>Risk</th>
+<th>Question</th>
+<th>FDE-field tell</th>
+</tr></thead><tbody>
+<tr>
+<td><strong>Value</strong></td>
+<td>Will customers/users choose to use this?</td>
+<td>Shadow shows workarounds; “AI” is status, not job-to-be-done</td>
+</tr>
+<tr>
+<td><strong>Usability</strong></td>
+<td>Can they figure it out in their workflow?</td>
+<td>Ticket UI / spreadsheet is the real UI</td>
+</tr>
+<tr>
+<td><strong>Feasibility</strong></td>
+<td>Can we build it with the people/tech we have?</td>
+<td>Air-gap, dirty data, no API, no SSO</td>
+</tr>
+<tr>
+<td><strong>Viability</strong></td>
+<td>Does it work for the business (margin, risk, support)?</td>
+<td>Bespoke forever destroys margin (S-1-shaped risk)</td>
+</tr>
+</tbody></table>
+<p><strong>Continuous discovery</strong> (SVPG product discovery) is not a workshop you run once before a SOW. It is a habit: every engagement produces evidence that updates the opportunity, not just tickets that update a board. If your calendar is 100% delivery coordination, you are in <strong>delivery theater</strong> — related to <strong>product-management theater</strong> (title says PM; job is backlog/coordination).</p>
+<p><strong>Opportunity assessment</strong> before solutions: write the opportunity as who struggles, what they do today, what “better” means in a number, and why now — *then* entertain instruments. Solution-first discovery is how you buy a model for a SQL join problem.</p>
+<p><strong>Empowered vs feature/delivery teams:</strong> When you lead FDEs, the gravitational pull is “build what the client asked.” Empowered product work means your team owns outcomes and says no (with a price). Feature/delivery mode means your team is a high-cost implementation arm.</p>
+<h3>Working Backwards / PR·FAQ (enterprise cousin of the PRD)</h3>
+<p>Amazon’s <strong>Working Backwards</strong> discipline (<strong>About Amazon</strong> culture/process; <strong>Vogels — Working Backwards</strong>) is useful even outside Amazon: start from the customer-facing narrative of the finished capability, then force the hard questions early.</p>
+<p>A practical <strong>PR/FAQ</strong> (or equivalent brief) for FDE engagements:</p>
 <ul>
-<li><strong>Product vs feature teams:</strong> Lead for outcomes. Feature-factory mode is the default failure when you lead deployers.</li>
-<li><strong>PM ≠ project management:</strong> Sequencing delivery is not the same as choosing what creates product value.</li>
-<li><strong>Product-management theater:</strong> Title says PM; job is backlog and coordination. Name it and exit it.</li>
-<li><strong>Dev vs Delta:</strong> Deployment context defines the FDE. You own the *missing product decisions*, not their craft.</li>
+<li><strong>Press release:</strong> What did the client’s operator gain, in plain language?</li>
+<li><strong>FAQ — customer:</strong> Who uses it? What replaces what? What happens when it’s wrong?</li>
+<li><strong>FAQ — internal:</strong> What data do we need? What is out of scope? What is the run-rate cost? What is the acceptance bar?</li>
 </ul>
-<p><strong>Translate outcomes without dictating how:</strong></p>
-<ol>
-<li>Write the outcome as a sentence with a metric, baseline, target, and measurement source.</li>
-<li>Name constraints (data residency, air-gap, latency budget, compliance) as <strong>one-way doors</strong> where needed.</li>
-<li>Require an <strong>ADR</strong> for those doors; let FDE draft body; you own decision + consequences.</li>
-<li>Put <strong>acceptance</strong> in the SOW before build (M4 spine). Contested acceptance later is a PM miss.</li>
-</ol>
-<p><strong>Example:</strong> “Cut median policy-ticket handle time from 11 to ≤7 minutes by date X, measured from ticket timestamps, n≥300.” You do not specify chunk size or vector DB. You specify entitlements on retrieval, citation requirement, and human review on high-stakes slice.</p>
-<details class="sources"><summary>5 citations</summary><ul>
-<li>** svpg.com/product-vs-feature-teams</li>
+<p>This does not replace a <strong>SOW</strong>. It prevents a SOW that is only a feature list.</p>
+<h3>Folded M0 — your seat</h3>
+<ul>
+<li><strong>Dev vs Delta:</strong> Deployment context defines the FDE. You own missing *product* decisions.</li>
+<li><strong>PM ≠ project management:</strong> Sequencing is not strategy.</li>
+<li>Exit <strong>PM-theater</strong>.</li>
+<li>Instruments: numbered problem, ADR expectations, acceptance, priced triage, pattern ledger / productization memo.</li>
+</ul>
+<p><strong>Worked example:</strong> Stakeholder wants to “fine-tune so the bot remembers our 200-page policy.” You reframe the *decision*: retrieval + faithfulness acceptance, not memorize-via-train. FDE builds retrieval. You own the bar and the “no” to fine-tune-as-memory.</p>
+<details class="sources"><summary>11 citations</summary><ul>
+<li>** svpg.com/four-big-risks</li>
+<li>product-discovery</li>
+<li>opportunity-assessment</li>
+<li>empowered-product-teams</li>
+<li>product-vs-feature-teams</li>
 <li>product-management-vs-project-management</li>
 <li>product-management-theater</li>
-<li>blog.palantir.com/…dev-versus-delta…</li>
-<li>local <code>prd.md</code>, <code>sow.md</code>, <code>fde-pilot-acceptance-criteria.md</code>, <code>adr.md</code></li>
+<li>aboutamazon.com Working Backwards</li>
+<li>allthingsdistributed.com Working Backwards</li>
+<li>Palantir Dev vs Delta</li>
+<li>local <code>prd.md</code>, <code>sow.md</code>, <code>adr.md</code>, <code>fde-pilot-acceptance-criteria.md</code></li>
 </ul></details>
 <p>---</p>
-</section><section id="s1-2"><h2>1.2 PRD vs technical spec vs SOW (ownership map)</h2>
-<p>These are different instruments. Collapsing them creates disputes at the fragile moment.</p>
+</section><section id="s1-3"><h2>1.2 PRD vs technical spec vs SOW</h2>
+<p>These artifacts answer different questions. Collapsing them is how disputes appear at the fragile moment (pilot acceptance, change orders, “but the demo worked”).</p>
 <table>
 <thead><tr>
 <th>Artifact</th>
 <th>Primary author</th>
-<th>Answers</th>
-<th>Delivery guarantee?</th>
+<th>Core question</th>
+<th>External guarantee?</th>
 </tr></thead><tbody>
 <tr>
-<td><strong>PRD</strong> (or product brief)</td>
+<td><strong>PRD</strong> / product brief / PR·FAQ</td>
 <td>PM</td>
-<td>Why / who / success metrics / non-goals / UX intent</td>
-<td>No — intent, not a contract</td>
+<td>Why, who, success metrics, non-goals, UX intent</td>
+<td>No — intent</td>
 </tr>
 <tr>
-<td><strong>Technical spec</strong> / design</td>
+<td><strong>Technical spec</strong> / design doc</td>
 <td>FDE / Tech Lead</td>
-<td>How / components / interfaces / failure modes</td>
-<td>Internal agreement among builders</td>
+<td>How, components, interfaces, failure modes</td>
+<td>Internal builder agreement</td>
 </tr>
 <tr>
 <td><strong>SOW</strong></td>
-<td>PM (with legal/sales as needed)</td>
-<td>What is in/out, access, acceptance, change control, commercial terms</td>
-<td>Yes — external commitment</td>
+<td>PM (+ legal/sales)</td>
+<td>In/out, access, acceptance, change control, commercial terms</td>
+<td><strong>Yes</strong> — external commitment</td>
 </tr>
 <tr>
 <td><strong>Discovery RFC</strong></td>
 <td>PM + FDE lead</td>
-<td>What we learned, instrument choice, risks, proposed SOW shape</td>
+<td>What we learned; instrument choice; risks; proposed SOW shape</td>
 <td>Pre-commit alignment</td>
 </tr>
 <tr>
 <td><strong>ADR</strong></td>
-<td>FDE drafts; PM owns decision</td>
-<td>One durable choice + consequences</td>
+<td>FDE drafts; <strong>PM owns decision</strong></td>
+<td>One durable choice + <strong>consequences</strong></td>
 <td>Decision record, not a schedule</td>
 </tr>
 </tbody></table>
-<p><strong>Rules:</strong></p>
-<ul>
-<li>Ambiguity in a SOW is not “flexibility”; it is dispute inventory.</li>
-<li>Demo illusion: a demo can look excellent. Pre-agreed thresholds on a <strong>client-authored</strong> golden set are the defense.</li>
-<li>Fifth-stakeholder discipline: procurement, legal, security, data governance, IT ops — bring them into discovery as informed participants, not late vetoes.</li>
-</ul>
+<h3>Analytical rules</h3>
+<ol>
+<li>1. <strong>Ambiguity in a SOW is not flexibility.</strong> It is dispute inventory timed for when trust is thinnest.</li>
+<li>2. <strong>Demo illusion.</strong> Demos are arranged to look excellent. Defense: pre-agreed thresholds on a <strong>client-authored golden set</strong>.</li>
+<li>3. <strong>Expectation math.</strong> If acceptance is undefined, every stakeholder will invent a different “done.”</li>
+<li>4. <strong>C4 altitude.</strong> In reviews, demand the right diagram level (context / container / component) so you are not arguing UI while they mean network.</li>
+<li>5. <strong>API house style.</strong> When negotiating interfaces, <strong>Google API Design Guide</strong> is a shared reference for resource naming, errors, and versioning intent — you are negotiating a long-lived contract (see also Stripe versioning in Module 3).</li>
+<li>6. <strong>Fifth-stakeholder discipline.</strong> Procurement, legal, security, data governance, IT ops: bring them into discovery as informed participants, not late vetoes.</li>
+</ol>
 <details class="sources"><summary>5 citations</summary><ul>
 <li>** local <code>prd.md</code>, <code>sow.md</code>, <code>fde-discovery-rfc.md</code>, <code>adr.md</code></li>
 <li>adr.github.io</li>
-<li>martinfowler.com/…ArchitectureDecisionRecord</li>
+<li>Fowler ADR</li>
 <li>c4model.com</li>
 <li>cloud.google.com/apis/design</li>
 </ul></details>
 <p>---</p>
-</section><section id="s1-3"><h2>1.3 Enterprise discovery &amp; scoping (constraints before commit)</h2>
-<p><strong>Ask ≠ problem.</strong> “We want an AI assistant” is a request. Behind it is a process, a queue, a cost, a person’s week.</p>
-<p><strong>Three diagnoses (first meeting):</strong></p>
+</section><section id="s1-4"><h2>1.3 Enterprise discovery &amp; scoping (constraints before commit)</h2>
+<h3>Ask ≠ problem</h3>
+<p>“We want an AI assistant” is a <strong>request</strong>. Behind it is a process, a queue, a cost, a person’s week. Practice: never leave discovery without a sentence containing a <strong>number</strong> and a <strong>name</strong> (“claims intake spends 14 hours/week re-keying faxes; Maria owns that queue”).</p>
+<h3>Three diagnoses (first meeting) — folded M6</h3>
 <table>
 <thead><tr>
 <th>Diagnosis</th>
 <th>Signals</th>
-<th>Correct PM response</th>
+<th>Correct response</th>
 </tr></thead><tbody>
 <tr>
 <td><strong>AI problem</strong></td>
 <td>Unstructured input; fuzzy judgment; high volume + ambiguity</td>
-<td>Retrieval + model + eval suite; scope eval before build</td>
+<td>Retrieval + model + <strong>eval before build</strong></td>
 </tr>
 <tr>
 <td><strong>Deterministic pipeline</strong></td>
-<td>Structured rules; exactness required (money, eligibility)</td>
-<td>Connectors, CDC, transforms — do <strong>not</strong> put a model in the exact decision path</td>
+<td>Structured rules; exactness required (money, eligibility, safety)</td>
+<td>Connectors, CDC, transforms — <strong>no model in the exact decision path</strong></td>
 </tr>
 <tr>
 <td><strong>Change-management failure</strong></td>
 <td>Tool exists; adoption is the issue</td>
-<td>No new system — sponsorship, process, incentives</td>
+<td>No new system — sponsorship, process, incentives (<strong>Kotter</strong> anatomy)</td>
 </tr>
 </tbody></table>
-<p>Most “AI projects” are two of three stacked. Name and <strong>price each layer separately</strong>.</p>
-<p><strong>JTBD / shadowing:</strong> Official process is fiction. Watch the spreadsheet, chat thread, printer. The gap is where integration complexity and adoption risk live (HBR JTBD; Kotter for change anatomy).</p>
-<p><strong>Constraint hunt (before commit):</strong></p>
-<ul>
-<li>Legacy: what systems are source of truth; batch vs real-time; undocumented APIs</li>
-<li>Compliance / residency / air-gap: what may leave the estate</li>
-<li>Throughput / latency budgets: what “fast enough” means in their SLA language</li>
-<li>Identity: SSO/SAML/OIDC; entitlements on retrieval (permission-aware)</li>
-<li>Data quality: dirty data is a scope item, not a surprise in week six</li>
-</ul>
-<p><strong>Artifacts:</strong> Discovery RFC → feasibility → SOW. Instrument triage on the whiteboard. Climb <strong>buy → adapt → build</strong>.</p>
+<p>Most enterprise “AI projects” are two of three stacked. <strong>Name and price each layer separately.</strong></p>
+<h3>JTBD and shadowing</h3>
+<p><strong>Jobs to be Done:</strong> the real job is often a spreadsheet or chat workaround, not the official SOP. Shadow the work. The gap between documented process and real process is where integration complexity *and* adoption risk live.</p>
+<h3>Constraint hunt (commit-blockers)</h3>
+<table>
+<thead><tr>
+<th>Domain</th>
+<th>What to uncover before commit</th>
+<th>Why it kills pilots late</th>
+</tr></thead><tbody>
+<tr>
+<td>Legacy / integration</td>
+<td>Source of truth; batch vs real-time; undocumented APIs</td>
+<td>Scope explodes in week three</td>
+</tr>
+<tr>
+<td>Compliance / residency / air-gap</td>
+<td>What may leave the estate</td>
+<td>Security veto after demo</td>
+</tr>
+<tr>
+<td>Latency / throughput</td>
+<td>SLA language; peak load</td>
+<td>“Too slow” with no budget</td>
+</tr>
+<tr>
+<td>Identity</td>
+<td>SSO/SAML/OIDC; entitlement model</td>
+<td>Retrieval without ACL = non-starter</td>
+</tr>
+<tr>
+<td>Data quality</td>
+<td>Completeness, duplication, label noise</td>
+<td>Model blamed for data sins</td>
+</tr>
+</tbody></table>
+<h3>Climb buy → adapt → build</h3>
+<p>Configure an existing product; extend; integrate; only then build. Building is justified when the pattern is core differentiation, nothing credible exists, or integration cost dominates — not because it is more fun.</p>
+<p><strong>Artifacts path:</strong> Discovery workshop → <strong>Discovery RFC</strong> → feasibility → <strong>SOW</strong>. Instrument triage on the whiteboard.</p>
 <details class="sources"><summary>4 citations</summary><ul>
-<li>** hbr.org/2016/09/know-your-customers-jobs-to-be-done</li>
-<li>hbr.org/1995/03/leading-change…</li>
+<li>** HBR JTBD</li>
+<li>HBR Kotter</li>
+<li>SVPG discovery/opportunity</li>
 <li>local <code>fde-discovery-rfc.md</code>, <code>sow.md</code></li>
-<li>prior M6 spine</li>
 </ul></details>
 <p>---</p>
-</section><section id="s1-4"><h2>1.4 Backlog health: customization vs platform</h2>
+</section><section id="s1-5"><h2>1.4 Backlog health: customization vs platform generalization</h2>
 <table>
 <thead><tr>
 <th>Pressure</th>
@@ -292,33 +405,33 @@
 <tr>
 <td>Client one-offs</td>
 <td>Permanent forks; margin death</td>
-<td>Price: config / bespoke displacing X / product candidate</td>
+<td>Price: <strong>config</strong> / <strong>bespoke displacing X</strong> / <strong>product candidate</strong></td>
 </tr>
 <tr>
-<td>Utilization north star</td>
+<td>Utilization as north star</td>
 <td>Harvest starved</td>
-<td>Publish dual clocks: client dates vs product quarters</td>
+<td>Dual clocks: client dates vs product quarters</td>
 </tr>
 <tr>
 <td>“Just this once”</td>
 <td>Scope-creep tax</td>
-<td>3-day triage ritual; change control in SOW</td>
+<td>3-day triage; SOW change control</td>
 </tr>
 <tr>
-<td>Third same ask</td>
+<td>Third identical ask</td>
 <td>Still bespoke</td>
-<td>Three-client rule → pattern ledger + productization memo</td>
+<td><strong>Three-client rule</strong> → pattern ledger + productization memo</td>
 </tr>
 </tbody></table>
-<p><strong>Reuse rate</strong> (with quality/satisfaction guardrails) beats utilization as the team KPI. Bespoke is <strong>inventory with carrying cost</strong>, not pure waste — and not free.</p>
+<p><strong>Reuse rate</strong> (with quality and satisfaction guardrails) beats utilization as the team KPI. Bespoke is <strong>inventory with carrying cost</strong> — legitimate for logos and learning, expensive if never harvested (folded <strong>M9–M11</strong>).</p>
 <details class="sources"><summary>3 citations</summary><ul>
-<li>** svpg.com/product-vs-feature-teams</li>
-<li>prior M9–M11</li>
+<li>** SVPG product-vs-feature</li>
+<li>empowered teams</li>
 <li>local <code>pattern-ledger.md</code>, <code>productization-memo.md</code></li>
 </ul></details>
 <p>---</p>
 </section>
-  <footer>FDE-PM Reference Study Guide · Module 1 of 4 · Sources from Topic Scout · Prior M0–M11 spine folded in</footer>
+  <footer>FDE-PM Reference Study Guide · Textbook Module 1 of 4 · Topic Scout sources · M0–M11 spine folded in</footer>
 </div>
 </body>
 </html>
