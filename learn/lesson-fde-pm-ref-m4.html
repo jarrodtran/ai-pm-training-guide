@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FDE-PM Reference — Module 4</title>
+<style>
+  :root {
+    --bg: #f7f5f0;
+    --ink: #141414;
+    --muted: #5c5c5c;
+    --line: #ddd6c8;
+    --card: #fff;
+    --accent: #0b3d2e;
+    --banner: #0b3d2e;
+    --th: #eef4f1;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font: 17px/1.65 "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    color: var(--ink);
+    background: var(--bg);
+  }
+  .wrap { max-width: 46rem; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+  .banner {
+    font: 0.88rem/1.45 system-ui, -apple-system, sans-serif;
+    background: var(--banner);
+    color: #f2f8f5;
+    border-radius: 10px;
+    padding: 0.9rem 1.15rem;
+    margin: 0 0 1.75rem;
+  }
+  .banner strong { font-weight: 700; }
+  header h1 {
+    font-size: 1.7rem;
+    letter-spacing: -0.03em;
+    margin: 0 0 0.4rem;
+    line-height: 1.2;
+  }
+  header .sub {
+    margin: 0 0 1.25rem;
+    color: var(--muted);
+    font: 0.95rem/1.45 system-ui, -apple-system, sans-serif;
+  }
+  nav.toc {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    margin-bottom: 2rem;
+    font: 0.9rem/1.45 system-ui, -apple-system, sans-serif;
+  }
+  nav.toc h2 {
+    margin: 0 0 0.5rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  nav.toc ol { margin: 0; padding-left: 1.2rem; }
+  nav.toc a { color: var(--accent); text-decoration: none; }
+  nav.toc a:hover { text-decoration: underline; }
+  section {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 1.4rem 1.45rem 1.55rem;
+    margin-bottom: 1.25rem;
+  }
+  section h2 {
+    margin: 0 0 0.85rem;
+    font-size: 1.2rem;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+  }
+  section h3 {
+    margin: 1.35rem 0 0.55rem;
+    font-size: 1.02rem;
+    letter-spacing: -0.01em;
+  }
+  p { margin: 0 0 0.85rem; }
+  ul, ol { margin: 0 0 0.95rem; padding-left: 1.25rem; }
+  li { margin-bottom: 0.35rem; }
+  strong { font-weight: 700; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.75rem 0 1.1rem;
+    font: 0.86rem/1.4 system-ui, -apple-system, sans-serif;
+  }
+  th, td {
+    border: 1px solid var(--line);
+    padding: 0.55rem 0.65rem;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: var(--th); font-weight: 650; color: var(--accent); }
+  .sources {
+    font: 0.8rem/1.45 system-ui, -apple-system, sans-serif;
+    color: var(--muted);
+    margin-top: 0.75rem;
+  }
+  .sources summary { cursor: pointer; list-style: none; }
+  .sources summary::-webkit-details-marker { display: none; }
+  .sources summary::before { content: "Sources · "; font-weight: 650; }
+  .sources ul { margin: 0.4rem 0 0; padding-left: 1.1rem; }
+  .sources a { color: var(--accent); word-break: break-all; }
+  footer {
+    margin-top: 1.5rem;
+    font: 0.8rem/1.4 system-ui, -apple-system, sans-serif;
+    color: var(--muted);
+  }
+  @media print {
+    body { background: #fff; }
+    section { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="banner" role="note"><strong>Audience:</strong> Non-SWE Product Manager who runs FDEs. You decide, price, and shield — FDEs build. Dense reference — no quizzes, no code tutorials.</div>
+  <header>
+    <h1>Module 4 — Git, GitHub &amp; the Engineering Workflow (PM cockpit)</h1>
+    <p class="sub">Git mental model · GitHub · PM cockpit (no CLI)</p>
+  </header>
+  <nav class="toc" aria-label="Contents"><h2>In this chapter</h2><ol><li><a href="#s4-1">4.1 Version control mental model</a></li><li><a href="#s4-2">4.2 GitHub in practice</a></li><li><a href="#s4-3">4.3 The PM’s GitHub cockpit</a></li></ol></nav>
+  <p>*Conceptual only — no CLI tutorials.*</p>
+  <section id="s4-1"><h2>4.1 Version control mental model</h2>
+<ul>
+<li><strong>Repository:</strong> The project’s history and files as a database of snapshots.</li>
+<li><strong>Commit:</strong> An immutable snapshot with parent(s) — a node in a <strong>DAG</strong> (directed acyclic graph) of history.</li>
+<li><strong>Branch:</strong> A movable pointer to a commit — a line of work, not a copy of the world.</li>
+<li><strong>Why PMs care:</strong> Parallel work, auditability, release identity, and rollback all come from this model — not from “files on a shared drive.”</li>
+</ul>
+<h3>Branching strategies</h3>
+<table>
+<thead><tr>
+<th>Strategy</th>
+<th>Shape</th>
+<th>PM implications</th>
+</tr></thead><tbody>
+<tr>
+<td><strong>Trunk-based</strong></td>
+<td>Short-lived branches; integrate to main often</td>
+<td>Faster feedback; needs solid CI and feature flags</td>
+</tr>
+<tr>
+<td><strong>GitFlow</strong></td>
+<td>Long-lived develop/release/hotfix</td>
+<td>Heavier ceremony; longer merge risk; still widely referenced</td>
+</tr>
+<tr>
+<td>Env branches (dev/stage/prod)</td>
+<td>Branch ≈ environment</td>
+<td>Easy to misuse as permanent forks; prefer promote artifacts, not long-lived env branches</td>
+</tr>
+</tbody></table>
+<details class="sources"><summary>3 citations</summary><ul>
+<li>** git-scm.com/book</li>
+<li>trunkbaseddevelopment.com</li>
+<li>nvie.com GitFlow (contrast)</li>
+</ul></details>
+<p>---</p>
+</section><section id="s4-2"><h2>4.2 GitHub in practice</h2>
+<h3>Pull requests</h3>
+<p>A <strong>PR</strong> is simultaneously: peer review surface, audit trail, and <strong>quality gate</strong>. CI checks (lint, tests, build) are automated votes — red means “not ready,” not “engineers being difficult.”</p>
+<p>Google eng-practices: small changes, clear *why* in description — your unblock lever is clarifying requirements/acceptance, not reviewing diffs as a coder.</p>
+<h3>Issues, epics, boards</h3>
+<ul>
+<li><strong>Issue:</strong> Unit of tracked work; labels encode type/risk/client.</li>
+<li><strong>Epic:</strong> Theme spanning issues — map to outcomes, not a junk drawer.</li>
+<li><strong>DoD (Definition of Done):</strong> Must include tests/docs/observability *and* your acceptance criteria for client-facing work.</li>
+<li>Boards show state; they do not create priority — you do.</li>
+</ul>
+<h3>Conflicts, rebase, cherry-pick, rollback (what they *mean*)</h3>
+<table>
+<thead><tr>
+<th>Phrase</th>
+<th>Mechanical meaning</th>
+<th>What you do</th>
+</tr></thead><tbody>
+<tr>
+<td><strong>Merge conflict</strong></td>
+<td>Two histories edited the same region; human must choose</td>
+<td>Don’t panic-schedule; ask which intent wins; unblock with product priority</td>
+</tr>
+<tr>
+<td><strong>Rebase</strong></td>
+<td>Replay commits onto a new base for linear history</td>
+<td>Coordination cost; freeze conflicting work if needed</td>
+</tr>
+<tr>
+<td><strong>Cherry-pick</strong></td>
+<td>Copy one commit onto another branch</td>
+<td>Hotfix path — confirm it doesn’t skip needed dependencies</td>
+</tr>
+<tr>
+<td><strong>Rollback / revert</strong></td>
+<td>Undo a release or commit in history-preserving way</td>
+<td>Product decision on user impact; communicate</td>
+</tr>
+</tbody></table>
+<details class="sources"><summary>5 citations</summary><ul>
+<li>** docs.github.com repos</li>
+<li>PRs</li>
+<li>Actions</li>
+<li>Issues</li>
+<li>google.github.io/eng-practices/review</li>
+</ul></details>
+<p>---</p>
+</section><section id="s4-3"><h2>4.3 The PM’s GitHub cockpit</h2>
+<table>
+<thead><tr>
+<th>Look at</th>
+<th>Why</th>
+<th>Do not</th>
+</tr></thead><tbody>
+<tr>
+<td>PR list aging / review latency</td>
+<td>Unblock reviews; spot stuck work</td>
+<td>Nitpick code style</td>
+</tr>
+<tr>
+<td>CI red on release candidates</td>
+<td>Release readiness</td>
+<td>Re-run blindly without asking what’s failing</td>
+</tr>
+<tr>
+<td>Issue labels + burndown vs acceptance</td>
+<td>Outcome progress</td>
+<td>Equate ticket count with value</td>
+</tr>
+<tr>
+<td>Linked ADR / SOW / acceptance in PR description</td>
+<td>Traceability</td>
+<td>Require yourself as code approver</td>
+</tr>
+<tr>
+<td>Release notes / tags</td>
+<td>What actually shipped</td>
+<td>Micromanage commit messages</td>
+</tr>
+</tbody></table>
+<p><strong>Velocity without micromanagement:</strong> Time-to-first-deploy, reuse rate, lead time for changes (DORA), open PR age, escaped defects — not lines of code.</p>
+<p><strong>Folded AI-PM note:</strong> Model/prompt/retrieval changes need the same regression gates as code — your eval suite is part of DoD (M4).</p>
+<p>---</p>
+</section>
+  <footer>FDE-PM Reference Study Guide · Module 4 of 4 · Sources from Topic Scout · Prior M0–M11 spine folded in</footer>
+</div>
+</body>
+</html>
